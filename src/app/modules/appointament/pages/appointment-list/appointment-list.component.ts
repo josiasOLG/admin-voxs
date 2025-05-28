@@ -6,7 +6,6 @@ import { CardModule } from 'primeng/card';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
-import { extractData } from '../../../../core';
 import {
   BaseResourceComponent,
   SharedHeaderComponent,
@@ -71,6 +70,7 @@ export class AppointmentListComponent
     }
   );
   public dataSource: IAppointment[] = [];
+  public isDataLoading = true;
 
   ngOnInit(): void {
     this.setBreadcrumb([
@@ -79,11 +79,14 @@ export class AppointmentListComponent
     ]);
     this.appointmentService.getAll().subscribe({
       next: (response: any) => {
-        this.dataSource = extractData(response);
-        console.log(response);
+        this.dataSource = response;
+
+        this.isDataLoading = false;
+        console.log('response >', this.dataSource);
       },
       error: (error: any) => {
         console.error('Error fetching appointments:', error);
+        this.isDataLoading = false;
       },
     });
   }

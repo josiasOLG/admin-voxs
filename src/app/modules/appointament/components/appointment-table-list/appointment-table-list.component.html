@@ -1,5 +1,7 @@
 <div class="col-12">
-  <ng-container *ngIf="dataSource?.length; else loadingState">
+  <ng-container
+    *ngIf="!isDataLoading && dataSource?.length; else loadingOrEmptyState"
+  >
     <p-table
       [value]="dataSource"
       [paginator]="true"
@@ -8,33 +10,43 @@
       currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
       [rowsPerPageOptions]="[10, 25, 50]"
       styleClass="p-datatable-striped"
-      [globalFilterFields]="['userId', 'barberId', 'service', 'status', 'userNumber']"
+      [globalFilterFields]="[
+        'userName',
+        'barberName',
+        'service',
+        'status',
+        'userNumber'
+      ]"
     >
       <ng-template pTemplate="header">
         <tr>
-          <th pSortableColumn="userId">
-            Usuário 
-            <p-sortIcon field="userId"></p-sortIcon>
+          <th pSortableColumn="userName">
+            Usuário
+            <p-sortIcon field="userName"></p-sortIcon>
           </th>
-          <th pSortableColumn="barberId">
-            Barbeiro 
-            <p-sortIcon field="barberId"></p-sortIcon>
+          <th pSortableColumn="barberName">
+            Barbeiro
+            <p-sortIcon field="barberName"></p-sortIcon>
           </th>
           <th pSortableColumn="date">
-            Data 
+            Data
             <p-sortIcon field="date"></p-sortIcon>
           </th>
           <th pSortableColumn="time">
-            Horário 
+            Horário
             <p-sortIcon field="time"></p-sortIcon>
           </th>
           <th pSortableColumn="status">
-            Status 
+            Status
             <p-sortIcon field="status"></p-sortIcon>
           </th>
           <th pSortableColumn="service">
-            Serviços 
+            Serviços
             <p-sortIcon field="service"></p-sortIcon>
+          </th>
+          <th pSortableColumn="modality">
+            Modalidade
+            <p-sortIcon field="modality"></p-sortIcon>
           </th>
           <th>Ações</th>
         </tr>
@@ -42,17 +54,18 @@
 
       <ng-template pTemplate="body" let-appointment>
         <tr>
-          <td>{{ appointment.userId }}</td>
-          <td>{{ appointment.barberId }}</td>
-          <td>{{ appointment.date | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ appointment.userName || "Usuário não informado" }}</td>
+          <td>{{ appointment.barberName || "Barbeiro não informado" }}</td>
+          <td>{{ appointment.date | date : "dd/MM/yyyy" }}</td>
           <td>{{ appointment.time }}</td>
           <td>
-            <span 
+            <span
               class="p-tag"
               [ngClass]="{
-                'p-tag-success': appointment.status === 'confirmed',
+                'p-tag-success': appointment.status === 'aprovado',
                 'p-tag-warning': appointment.status === 'pending',
-                'p-tag-danger': appointment.status === 'cancelled'
+                'p-tag-danger': appointment.status === 'rejeitado',
+                'p-tag-info': appointment.status === 'cancelled'
               }"
             >
               {{ appointment.status }}
@@ -63,6 +76,7 @@
               {{ service }}<span *ngIf="!last">, </span>
             </span>
           </td>
+          <td>{{ appointment.modality }}</td>
           <td>
             <div class="flex gap-2">
               <p-button
@@ -74,7 +88,7 @@
                 pTooltip="Editar agendamento"
                 tooltipPosition="top"
               ></p-button>
-              
+
               <p-button
                 icon="pi pi-trash"
                 severity="danger"
@@ -92,7 +106,7 @@
 
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td colspan="7" class="text-center p-4">
+          <td colspan="8" class="text-center p-4">
             Nenhum agendamento encontrado
           </td>
         </tr>
@@ -100,14 +114,95 @@
     </p-table>
   </ng-container>
 
-  <ng-template #loadingState>
-    <app-shared-skeleton
-      height="48px"
-      radius="6px"
-      [count]="5"
-    ></app-shared-skeleton>
+  <ng-template #loadingOrEmptyState>
+    <ng-container *ngIf="isDataLoading; else emptyState">
+      <!-- Skeleton loading for table -->
+      <div class="p-datatable p-component p-datatable-striped">
+        <div class="p-datatable-wrapper">
+          <table class="p-datatable-table">
+            <thead class="p-datatable-thead">
+              <tr>
+                <th>Usuário</th>
+                <th>Barbeiro</th>
+                <th>Data</th>
+                <th>Horário</th>
+                <th>Status</th>
+                <th>Serviços</th>
+                <th>Modalidade</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody class="p-datatable-tbody">
+              <tr *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+                <td><p-skeleton height="1.5rem" width="100%"></p-skeleton></td>
+                <td><p-skeleton height="1.5rem" width="100%"></p-skeleton></td>
+                <td><p-skeleton height="1.5rem" width="80px"></p-skeleton></td>
+                <td><p-skeleton height="1.5rem" width="60px"></p-skeleton></td>
+                <td>
+                  <p-skeleton
+                    height="1.5rem"
+                    width="70px"
+                    borderRadius="16px"
+                  ></p-skeleton>
+                </td>
+                <td><p-skeleton height="1.5rem" width="100%"></p-skeleton></td>
+                <td><p-skeleton height="1.5rem" width="80px"></p-skeleton></td>
+                <td>
+                  <div class="flex gap-2">
+                    <p-skeleton
+                      height="2rem"
+                      width="2rem"
+                      borderRadius="50%"
+                    ></p-skeleton>
+                    <p-skeleton
+                      height="2rem"
+                      width="2rem"
+                      borderRadius="50%"
+                    ></p-skeleton>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Skeleton for paginator -->
+        <div class="p-paginator p-component p-paginator-bottom">
+          <div class="p-paginator-left-content"></div>
+          <div class="p-paginator-right-content">
+            <p-skeleton height="2rem" width="200px"></p-skeleton>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #emptyState>
+      <div class="p-datatable p-component p-datatable-striped">
+        <div class="p-datatable-wrapper">
+          <table class="p-datatable-table">
+            <thead class="p-datatable-thead">
+              <tr>
+                <th>Usuário</th>
+                <th>Barbeiro</th>
+                <th>Data</th>
+                <th>Horário</th>
+                <th>Status</th>
+                <th>Serviços</th>
+                <th>Modalidade</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody class="p-datatable-tbody">
+              <tr>
+                <td colspan="8" class="text-center p-4">
+                  Nenhum agendamento encontrado
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </ng-template>
   </ng-template>
 
   <p-confirmDialog></p-confirmDialog>
 </div>
-

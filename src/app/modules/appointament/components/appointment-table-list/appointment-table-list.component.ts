@@ -6,13 +6,11 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
+import { SkeletonModule } from 'primeng/skeleton';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { AppRoutes } from '../../../../shared';
-import {
-  BaseResourceComponent,
-  SharedSkeletonComponent,
-} from '../../../../shared/components';
+import { BaseResourceComponent } from '../../../../shared/components';
 import { IAppointment } from '../../schema';
 import { AppointmentService } from '../../services';
 
@@ -26,7 +24,7 @@ import { AppointmentService } from '../../services';
     InputTextModule,
     ConfirmDialogModule,
     TooltipModule,
-    SharedSkeletonComponent,
+    SkeletonModule,
   ],
   standalone: true,
   selector: 'app-appointment-table-list',
@@ -37,6 +35,7 @@ import { AppointmentService } from '../../services';
 export class AppointmentTableListComponent extends BaseResourceComponent {
   @Input() public dataSource: IAppointment[] = [];
   @Input() public displayedColumns: string[] = [];
+  @Input() public isDataLoading = false;
   @Output() public deleteItem = new EventEmitter<string>();
 
   private appointmentService = inject(AppointmentService);
