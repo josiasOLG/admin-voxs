@@ -12,6 +12,7 @@ import {
   throwError,
 } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { UserRoles } from '../../../shared/enums/user-roles.enum';
 import { CustomHttpClient } from '../../../shared/http/custom-http-client.service';
 import { ToastService } from '../../../shared/services/toast.service';
 import {
@@ -417,5 +418,59 @@ export class AuthService {
 
   public get isLoading(): boolean {
     return this.loadingSubject.value;
+  }
+
+  /**
+   * Método para obter o usuário atual (necessário para o RoleGuard)
+   */
+  public getCurrentUser(): User | null {
+    return this.currentUser;
+  }
+
+  /**
+   * Verifica se o usuário tem pelo menos uma das roles especificadas
+   */
+  public hasAnyRole(requiredRoles: (UserRoles | string)[]): boolean {
+    const user = this.getCurrentUser();
+    if (!user || !user.type) {
+      return false;
+    }
+
+    // Converte strings para enum se necessário
+    const normalizedRoles = requiredRoles.map((role) =>
+      typeof role === 'string' ? (role as UserRoles) : role
+    );
+
+    return normalizedRoles.includes(user.type as UserRoles);
+  }
+
+  /**
+   * Verifica se o usuário tem uma role específica
+   */
+  public hasRole(role: UserRoles): boolean {
+    const user = this.getCurrentUser();
+    return user?.type === role;
+  }
+
+  /**
+   * Verifica se o usuário tem todas as roles especificadas
+   */
+  public hasAllRoles(requiredRoles: (UserRoles | string)[]): boolean {
+    const user = this.getCurrentUser();
+    if (!user || !user.type) {
+      return false;
+    }
+
+    // Converte strings para enum se necessário
+    const normalizedRoles = requiredRoles.map((role) =>
+      typeof role === 'string' ? (role as UserRoles) : role
+    );
+
+    // Como o sistema tem apenas um tipo/role por usuário,
+    // só retorna true se há apenas uma role requerida e o usuário a possui
+    return (
+      normalizedRoles.length === 1 &&
+      normalizedRoles.includes(user.type as UserRoles)
+    );
   }
 }

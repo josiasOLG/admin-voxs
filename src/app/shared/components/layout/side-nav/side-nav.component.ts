@@ -1,55 +1,108 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { MenuItem } from 'primeng/api';
-import { AvatarModule } from 'primeng/avatar';
-import { ButtonModule } from 'primeng/button';
-import { PanelMenuModule } from 'primeng/panelmenu';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../../../modules/auth/services/auth.service';
 import { IMenuItem, MENU_ITEMS } from './menu-itens';
 
 @Component({
   selector: 'app-side-nav',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    PanelMenuModule,
-    AvatarModule,
-    ButtonModule,
-  ],
+  imports: [CommonModule, RouterModule],
   templateUrl: './side-nav.component.html',
   styleUrls: ['./side-nav.component.scss'],
 })
-export class SideNavComponent {
-  public menuItems: MenuItem[] = [];
+export class SideNavComponent implements OnInit, OnDestroy {
+  public menuItems: IMenuItem[] = [];
+  private openDropdowns = new Set<IMenuItem>();
+  private authService = inject(AuthService);
+  private subscription = new Subscription();
 
-  constructor(private router: Router) {
-    this.buildMenuItems();
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    this.loadMenuItems();
+
+    // Subscribe to user changes to update menu dynamically
+    this.subscription.add(
+      this.authService.currentUser$.subscribe(() => {
+        this.loadMenuItems();
+      })
+    );
   }
 
-  private buildMenuItems(): void {
-    this.menuItems = MENU_ITEMS.filter((item) => !item.section).map((item) => ({
-      label: item.label,
-      icon: `pi pi-${this.mapIcon(item.icon)}`,
-      command: () => this.handleClick(item),
-      routerLink: item.link,
-    }));
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
-  private mapIcon(materialIcon?: string): string {
-    const iconMap: { [key: string]: string } = {
-      dashboard: 'chart-line',
-      directions_car: 'car',
-      home: 'home',
-    };
-    return iconMap[materialIcon || ''] || 'circle';
+  /**
+   * Carrega e filtra os itens do menu baseado nas roles do usuário
+   */
+  private loadMenuItems(): void {
+    this.menuItems = this.filterMenuItemsByRole(MENU_ITEMS);
   }
 
-  public handleClick(item: IMenuItem): void {
-    if (item.action) {
-      item.action();
-    } else if (item.link) {
-      this.router.navigateByUrl(item.link);
+  /**
+   * Filtra os itens do menu baseado nas roles do usuário atual
+   */
+  private filterMenuItemsByRole(items: IMenuItem[]): IMenuItem[] {
+    const currentUser = this.authService.getCurrentUser();
+
+    return items.filter((item) => {
+      // Se o item não tem roles definidas, sempre exibe (ex: seções)
+      if (!item.roles || item.roles.length === 0) {
+        return true;
+      }
+
+      // Se não há usuário logado, não exibe itens com roles
+      if (!currentUser) {
+        return false;
+      }
+
+      // Verifica se o usuário tem pelo menos uma das roles necessárias
+      const hasRequiredRole = this.authService.hasAnyRole(item.roles);
+
+      // Se tem filhos, filtra os filhos recursivamente
+      if (item.children && item.children.length > 0) {
+        item.children = this.filterMenuItemsByRole(item.children);
+        // Se após filtrar não sobrou nenhum filho, não exibe o item pai
+        return hasRequiredRole && item.children.length > 0;
+      }
+
+      return hasRequiredRole;
+    });
+  }
+
+  /**
+   * Verifica se o usuário tem permissão para ver um item específico
+   */
+  public canViewMenuItem(item: IMenuItem): boolean {
+    if (!item.roles || item.roles.length === 0) {
+      return true;
     }
+
+    return this.authService.hasAnyRole(item.roles);
+  }
+
+  handleClick(item: IMenuItem): void {
+    if (item.link) {
+      this.router.navigateByUrl(item.link);
+    } else if (item.action) {
+      item.action();
+    } else if (item.children) {
+      this.toggleDropdown(item);
+    }
+  }
+
+  toggleDropdown(item: IMenuItem): void {
+    if (this.openDropdowns.has(item)) {
+      this.openDropdowns.delete(item);
+    } else {
+      this.openDropdowns.add(item);
+    }
+  }
+
+  isDropdownOpen(item: IMenuItem): boolean {
+    return this.openDropdowns.has(item);
   }
 }

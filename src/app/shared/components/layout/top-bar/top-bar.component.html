@@ -10,7 +10,33 @@
 
   <ng-template pTemplate="end">
     <div class="flex align-items-center">
-      <app-breadcrumb />
+      <div class="user-info">
+        <div
+          class="flex align-items-center gap-2 cursor-pointer"
+          #userButton
+          (click)="userMenu.toggle($event)"
+        >
+          <p-avatar
+            [image]="
+              currentUser?.image ||
+              'https://randomuser.me/api/portraits/men/32.jpg'
+            "
+            size="normal"
+            shape="circle"
+          ></p-avatar>
+          <div class="flex-1">
+            <div class="font-medium text-900">
+              {{ currentUser?.username || "Usuário" }}
+            </div>
+            <small class="text-500">{{
+              currentUser?.email || "email@exemplo.com"
+            }}</small>
+          </div>
+          <i class="pi pi-chevron-down text-500"></i>
+        </div>
+
+        <p-menu #userMenu [model]="userMenuItems" [popup]="true"></p-menu>
+      </div>
     </div>
   </ng-template>
 </p-toolbar>

@@ -5,7 +5,6 @@ import { AuthLayoutComponent } from './shared/components/layout/auth-layout/auth
 import { MainLayoutComponent } from './shared/components/layout/main-layout/main-layout.component';
 
 export const appRoutes: Routes = [
-  // Rotas de autenticação com layout próprio
   {
     path: 'auth',
     component: AuthLayoutComponent,

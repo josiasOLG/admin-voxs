@@ -1,3 +1,31 @@
 .spacer {
   flex: 1 1 auto;
 }
+
+.user-info {
+  .cursor-pointer {
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+    min-width: 200px;
+
+    &:hover {
+      background-color: var(--surface-hover);
+    }
+  }
+
+  .font-medium {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  small {
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+
+  .pi-chevron-down {
+    font-size: 0.75rem;
+    transition: transform 0.2s ease;
+  }
+}

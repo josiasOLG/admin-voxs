@@ -2,101 +2,135 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  color: #2a2e5b;
+  background-color: var(--surface-ground);
+  border-right: 1px solid var(--surface-border);
+}
 
-  .logo {
-    font-family: "Pacifico", cursive;
-    font-size: 1.5rem;
-    color: var(--mat-sys-on-secondary);
-    margin-bottom: 1rem;
-  }
-
-  .user-info {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin: 1rem 0;
-    color: var(--mat-sys-on-secondary);
-
-    .user-avatar {
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
+.sidenav {
+  .__logo {
+    padding-top: 10px;
+    padding-left: 0;
+    h2 {
+      font-size: 16px;
+      font-weight: 900;
+      color: #333;
     }
 
-    .user-meta {
+    .logo-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      background: linear-gradient(
+        135deg,
+        var(--primary-color) 0%,
+        var(--primary-600) 100%
+      );
+      border-radius: 8px;
       display: flex;
-      flex-direction: column;
-      font-size: 0.85rem;
-
-      span {
-        color: var(--mat-sys-on-secondary);
-      }
-
-      .price {
-        font-weight: 500;
-        color: #22c55e;
-      }
-    }
-  }
-
-  .nav-link {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.5rem;
-    border-radius: 8px;
-    font-weight: 500;
-    color: var(--mat-sys-on-secondary);
-    transition: background 0.2s ease;
-    .__label {
-      font-weight: 300;
-      font-size: 0.9rem;
-    }
-    mat-icon {
-      font-size: 20px;
-      line-height: 1;
-      vertical-align: middle;
-      display: inline-flex;
       align-items: center;
       justify-content: center;
-      margin-right: 10px;
-    }
 
-    span {
-      line-height: 1;
-      display: inline-flex;
-      align-items: center;
+      i {
+        color: #333;
+        font-size: 1.25rem;
+      }
     }
+  }
+}
 
-    &:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
+.no-border .p-panelmenu .p-panelmenu-header {
+  border: none !important;
+}
 
-    &.active-link {
-      background: rgba(255, 255, 255, 0.25);
+.dot-green .pi {
+  color: #22c55e !important; // Tailwind emerald-500
+}
+
+.dot-blue .pi {
+  color: #3b82f6 !important; // Tailwind blue-500
+}
+
+.dot-purple .pi {
+  color: #8b5cf6 !important; // Tailwind purple-500
+}
+
+.menu-nav {
+  .menu-section-header {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-color-secondary);
+    text-transform: capitalize;
+    margin: 1rem 0 0.5rem 0;
+    padding: 0 0.5rem;
+
+    &:first-child {
+      margin-top: 0;
     }
   }
 
-  .section-title {
-    margin-top: 10px;
-    font-size: 1rem;
-    color: var(--mat-sys-on-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-weight: bold;
-  }
-
-  .sign-out {
-    margin-top: 0.5rem;
-    color: #22c55e;
-    font-weight: 600;
+  .menu-item {
     cursor: pointer;
-    transition: color 0.2s ease;
+    border-radius: 6px;
+    margin-bottom: 2px;
+    transition: background-color 0.2s;
 
     &:hover {
-      text-decoration: underline;
-      color: #16a34a;
+      background-color: var(--surface-hover);
+    }
+
+    .menu-item-content {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem;
+      gap: 1rem;
+
+      .menu-icon {
+        font-size: 1rem;
+        color: var(--text-color-secondary);
+        width: 1.25rem;
+        text-align: center;
+      }
+
+      .menu-label {
+        flex: 1;
+        font-size: 0.8rem;
+        font-weight: 400;
+      }
+
+      .menu-arrow {
+        font-size: 0.875rem;
+        color: var(--text-color-secondary);
+        transition: transform 0.2s;
+
+        &.rotated {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    .submenu {
+      padding-left: 1rem;
+
+      .submenu-item {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 0.75rem;
+        gap: 0.75rem;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-bottom: 1px;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: var(--surface-hover);
+        }
+
+        .submenu-icon {
+          font-size: 0.875rem;
+          color: var(--text-color-secondary);
+          width: 1rem;
+          text-align: center;
+        }
+      }
     }
   }
 }

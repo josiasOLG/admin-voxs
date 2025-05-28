@@ -1,27 +1,47 @@
-<div class="flex flex-column h-full p-3">
-  <div class="text-center mb-4">
-    <h2 class="text-primary m-0 font-bold">Admin</h2>
-    <small class="text-500">Painel Administrativo</small>
-  </div>
-
-  <div
-    class="flex flex-column align-items-center mb-4 p-3 border-round surface-100"
-  >
-    <p-avatar
-      image="https://randomuser.me/api/portraits/women/44.jpg"
-      size="large"
-      shape="circle"
-      styleClass="mb-2"
-    >
-    </p-avatar>
-    <div class="text-center">
-      <div class="font-medium text-900">Usuário Admin</div>
-      <small class="text-500">Administrador</small>
+<div class="flex flex-column h-full p-1 sidenav">
+  <div class="text-left mb-4 __logo">
+    <div class="flex align-items-center gap-2">
+      <div class="logo-icon">
+        <i class="pi pi-chart-line"></i>
+      </div>
+      <h2 class="m-0">Dashboard</h2>
     </div>
   </div>
 
-  <div class="navigation-section">
-    <h4 class="text-700 font-medium mb-3 uppercase text-sm">Sistema</h4>
-    <p-panelMenu [model]="menuItems" styleClass="w-full"> </p-panelMenu>
+  <div class="navigation-section flex-1 overflow-auto">
+    <nav class="menu-nav">
+      <ng-container *ngFor="let item of menuItems">
+        <div *ngIf="item.section" class="menu-section-header">
+          {{ item.section }}
+        </div>
+
+        <div
+          *ngIf="!item.section"
+          class="menu-item"
+          [class.has-children]="item.children"
+          (click)="handleClick(item)"
+        >
+          <div class="menu-item-content">
+            <i *ngIf="item.icon" [class]="item.icon + ' menu-icon'"></i>
+            <span class="menu-label">{{ item.label }}</span>
+            <i
+              *ngIf="item.children"
+              class="pi pi-chevron-down menu-arrow"
+              [class.rotated]="isDropdownOpen(item)"
+            ></i>
+          </div>
+          <div *ngIf="item.children && isDropdownOpen(item)" class="submenu">
+            <div
+              *ngFor="let child of item.children"
+              class="submenu-item"
+              (click)="$event.stopPropagation(); handleClick(child)"
+            >
+              <i *ngIf="child.icon" [class]="child.icon + ' submenu-icon'"></i>
+              <span>{{ child.label }}</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </nav>
   </div>
 </div>

@@ -1,4 +1,5 @@
 import { AppRoutes } from '../../../constants';
+import { UserRoles } from '../../../enums/user-roles.enum';
 
 export interface IMenuItem {
   label?: string;
@@ -7,20 +8,23 @@ export interface IMenuItem {
   action?: () => void;
   section?: string;
   children?: IMenuItem[];
+  roles?: UserRoles[]; // Roles necessárias para exibir o item
 }
 
 export const MENU_ITEMS: IMenuItem[] = [
   {
-    section: 'Sistema',
+    section: 'Navegação',
   },
   {
-    label: 'Dashboard',
-    icon: 'dashboard',
-    link: `${AppRoutes.DASHBOARD}/${AppRoutes.LIST}`,
+    label: 'Home',
+    icon: 'pi pi-home',
+    link: `${AppRoutes.Home}/${AppRoutes.LIST}`,
+    roles: [UserRoles.USER, UserRoles.BARBER, UserRoles.ADMIN], // Todos podem acessar home
   },
   {
     label: 'Agendamentos',
-    icon: 'event',
+    icon: 'pi pi-calendar',
     link: `${AppRoutes.APPOINTMENTS}/${AppRoutes.LIST}`,
+    roles: [UserRoles.BARBER, UserRoles.ADMIN], // Apenas barbeiros e admins podem ver agendamentos
   },
 ];

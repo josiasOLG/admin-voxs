@@ -3,6 +3,7 @@ export enum AppRoutes {
   VEHICLES = '/vehicle',
   APPOINTMENTS = '/appointment',
   DASHBOARD = '/dashboard',
+  Home = '/home',
 
   CREATE = 'create',
   EDIT = 'edit',
