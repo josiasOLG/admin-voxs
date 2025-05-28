@@ -1,0 +1,45 @@
+<app-shared-header></app-shared-header>
+
+<p-card styleClass="mt-3">
+  <div class="grid">
+    <div class="col-12 md:col-8">
+      <div class="field">
+        <label for="search" class="block text-900 font-medium mb-2"
+          >Buscar</label
+        >
+        <p-iconField iconPosition="left" class="w-full">
+          <p-inputIcon styleClass="pi pi-search"></p-inputIcon>
+          <input
+            pInputText
+            id="search"
+            placeholder="Digite para buscar..."
+            class="w-full"
+            (input)="applyFilter($event)"
+            [value]="searchValue"
+          />
+        </p-iconField>
+      </div>
+    </div>
+    <div class="col-12 md:col-4">
+      <div class="flex justify-content-end align-items-end h-full">
+        <p-button
+          label="Novo Veículo"
+          icon="pi pi-plus"
+          (onClick)="goToCreate()"
+          styleClass="w-full md:w-auto"
+        >
+        </p-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <app-dashboard-table-list
+      [dataSource]="filteredData"
+      [displayedColumns]="displayedColumns"
+      (deleteItem)="excluir($event)"
+    >
+    </app-dashboard-table-list>
+  </div>
+</p-card>
+

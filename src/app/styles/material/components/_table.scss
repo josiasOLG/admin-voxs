@@ -1,0 +1,25 @@
+.mat-mdc-table {
+  background-color: var(--color-bg-surface);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.mat-header-row {
+  background-color: var(--color-primary);
+  color: white;
+  font-weight: 600;
+}
+
+mat-row:nth-child(even) {
+  background-color: #f0f0f0;
+}
+
+mat-cell,
+mat-header-cell {
+  padding: 16px;
+}
+
+mat-row:hover {
+  background-color: #ececec;
+}

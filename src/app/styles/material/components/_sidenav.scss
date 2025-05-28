@@ -1,0 +1,23 @@
+.mat-drawer {
+  background-color: var(--mat-sys-surface) !important;
+  padding: 1rem;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.05);
+  border-radius: 0 !important;
+}
+
+mat-nav-list a.mat-list-item {
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  color: var(--color-text);
+  font-weight: 500;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--color-bg-hover);
+  }
+
+  &.active-link {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary-dark);
+  }
+}

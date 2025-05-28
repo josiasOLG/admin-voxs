@@ -1,0 +1,10 @@
+<ng-container *ngIf="error || showErrors">
+  <div *ngIf="error" class="p-error text-sm mt-1">
+    {{ error }}
+  </div>
+  <div *ngIf="!error && showErrors" class="p-error text-sm mt-1">
+    <div *ngFor="let message of errorMessages">
+      {{ message }}
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,13 @@
+mat-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--mat-sys-surface) !important;
+  border-radius: 0 !important;
+  padding: 1.5rem;
+}
+
+mat-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}

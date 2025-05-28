@@ -1,0 +1,138 @@
+<app-shared-header [viewLink]="back"></app-shared-header>
+
+<p-card styleClass="mt-3">
+  <ng-template pTemplate="header">
+    <div
+      class="flex align-items-center gap-2 p-3 border-bottom-1 surface-border"
+    >
+      <i class="pi pi-plus text-2xl text-primary"></i>
+      <h3 class="m-0 text-900">Adicionar Novo Veículo</h3>
+    </div>
+  </ng-template>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="grid p-3">
+    <div class="col-12 md:col-6">
+      <div class="field">
+        <p-floatLabel>
+          <input
+            pInputText
+            id="placa"
+            formControlName="placa"
+            class="w-full"
+            [class.ng-invalid]="
+              form.get('placa')?.invalid && form.get('placa')?.touched
+            "
+            [class.ng-dirty]="form.get('placa')?.dirty"
+          />
+          <label for="placa">Placa *</label>
+        </p-floatLabel>
+        <app-validate-input [control]="form.get('placa')">
+        </app-validate-input>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-6">
+      <div class="field">
+        <p-floatLabel>
+          <input
+            pInputText
+            id="modelo"
+            formControlName="modelo"
+            class="w-full"
+            [class.ng-invalid]="
+              form.get('modelo')?.invalid && form.get('modelo')?.touched
+            "
+            [class.ng-dirty]="form.get('modelo')?.dirty"
+          />
+          <label for="modelo">Modelo *</label>
+        </p-floatLabel>
+        <app-validate-input [control]="form.get('modelo')">
+        </app-validate-input>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-6">
+      <div class="field">
+        <p-floatLabel>
+          <input
+            pInputText
+            id="chassi"
+            formControlName="chassi"
+            class="w-full"
+            [class.ng-invalid]="
+              form.get('chassi')?.invalid && form.get('chassi')?.touched
+            "
+            [class.ng-dirty]="form.get('chassi')?.dirty"
+          />
+          <label for="chassi">Chassi *</label>
+        </p-floatLabel>
+        <app-validate-input [control]="form.get('chassi')">
+        </app-validate-input>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-6">
+      <div class="field">
+        <p-floatLabel>
+          <input
+            pInputText
+            id="renavam"
+            formControlName="renavam"
+            class="w-full"
+            [class.ng-invalid]="
+              form.get('renavam')?.invalid && form.get('renavam')?.touched
+            "
+            [class.ng-dirty]="form.get('renavam')?.dirty"
+          />
+          <label for="renavam">Renavam *</label>
+        </p-floatLabel>
+        <app-validate-input [control]="form.get('renavam')">
+        </app-validate-input>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-6">
+      <div class="field">
+        <p-floatLabel>
+          <input
+            pInputText
+            id="ano"
+            type="text"
+            formControlName="ano"
+            class="w-full"
+            [class.ng-invalid]="
+              form.get('ano')?.invalid && form.get('ano')?.touched
+            "
+            [class.ng-dirty]="form.get('ano')?.dirty"
+          />
+          <label for="ano">Ano *</label>
+        </p-floatLabel>
+        <app-validate-input [control]="form.get('ano')">
+        </app-validate-input>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="flex gap-2 justify-content-end mt-3">
+        <p-button
+          label="Cancelar"
+          icon="pi pi-times"
+          severity="secondary"
+          [outlined]="true"
+          type="button"
+          (onClick)="back()"
+        >
+        </p-button>
+        <p-button
+          label="Adicionar Veículo"
+          icon="pi pi-plus"
+          type="submit"
+          [disabled]="!form.valid"
+          [loading]="isLoading"
+        >
+        </p-button>
+      </div>
+    </div>
+  </form>
+</p-card>
+

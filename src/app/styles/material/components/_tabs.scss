@@ -1,0 +1,15 @@
+mat-tab-group {
+  background: var(--color-bg-surface);
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+mat-tab-label {
+  font-weight: 500;
+  color: var(--color-text);
+
+  &mat-tab-label-active {
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-primary);
+  }
+}

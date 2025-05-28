@@ -1,0 +1,38 @@
+<app-shared-header></app-shared-header>
+
+<p-card>
+  <div class="flex">
+    <div class="col-5">
+      <div class="field">
+        <p-iconField iconPosition="left">
+          <p-inputIcon styleClass="pi pi-search"></p-inputIcon>
+          <input
+            type="text"
+            pInputText
+            placeholder="Buscar agendamentos..."
+            (input)="applyFilter($event)"
+            class="w-full"
+          />
+        </p-iconField>
+      </div>
+    </div>
+    <div class="col-7">
+      <div class="flex justify-content-end">
+        <p-button
+          label="Novo Agendamento"
+          icon="pi pi-plus"
+          (onClick)="goToCreate()"
+          severity="primary"
+        >
+        </p-button>
+      </div>
+    </div>
+  </div>
+
+  <app-appointment-table-list
+    [dataSource]="dataSource"
+    [displayedColumns]="displayedColumns"
+    (deleteItem)="onDeleteItem($event)"
+  ></app-appointment-table-list>
+</p-card>
+

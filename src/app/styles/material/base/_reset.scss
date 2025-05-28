@@ -1,0 +1,94 @@
+/* ====================================
+   🔄 RESET SCSS – moderno e enxuto
+   ==================================== */
+
+/* Box sizing border-box por padrão */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove margens/paddings padrão */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove decoração e estilo de listas */
+ul[role="list"],
+ol[role="list"],
+ul,
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Garantir altura 100% */
+html,
+body {
+  height: 100%;
+}
+
+/* Fonte e anti-aliasing */
+body {
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  background-color: #121212;
+  color: #f1f1f1;
+}
+
+/* Remover sublinhado e herança */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Tornar imagens e vídeos responsivos */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Remove borda de formulários */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  border: none;
+  outline: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Cursor pointer para botão */
+button {
+  cursor: pointer;
+}
+
+/* Remove tap highlight no mobile */
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}

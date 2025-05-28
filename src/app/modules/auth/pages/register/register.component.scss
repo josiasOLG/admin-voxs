@@ -1,0 +1,270 @@
+.register-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1rem;
+}
+
+.register-wrapper {
+  width: 100%;
+  max-width: 500px;
+}
+
+.register-card {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  border: none;
+  overflow: hidden;
+
+  ::ng-deep .p-card-header {
+    padding: 2rem 2rem 1rem 2rem;
+    border-bottom: none;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  }
+
+  ::ng-deep .p-card-body {
+    padding: 2rem;
+  }
+
+  ::ng-deep .p-card-content {
+    padding: 0;
+  }
+}
+
+.register-header {
+  text-align: center;
+
+  .logo-container {
+    margin-bottom: 1.5rem;
+
+    .logo {
+      height: 60px;
+      width: auto;
+    }
+  }
+
+  .register-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+
+  .register-subtitle {
+    margin: 0;
+    color: #6c757d;
+    font-size: 0.95rem;
+    font-weight: 400;
+  }
+}
+
+.register-form {
+  .form-group {
+    margin-bottom: 1.5rem;
+
+    ::ng-deep .p-float-label {
+      width: 100%;
+
+      input,
+      .p-password,
+      .p-dropdown {
+        width: 100%;
+        border-radius: 8px;
+        border: 2px solid #e9ecef;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+
+        &:focus,
+        &:focus-within {
+          border-color: #667eea;
+          box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        &.ng-invalid.ng-touched {
+          border-color: #dc3545;
+
+          &:focus,
+          &:focus-within {
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+          }
+        }
+      }
+
+      input {
+        padding: 0.75rem 1rem;
+      }
+
+      .p-dropdown {
+        .p-dropdown-label {
+          padding: 0.75rem 1rem;
+        }
+
+        .p-dropdown-trigger {
+          width: 2.5rem;
+          color: #6c757d;
+        }
+      }
+
+      label {
+        color: #6c757d;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      &.p-float-label-active label {
+        color: #667eea;
+      }
+    }
+
+    ::ng-deep .p-password {
+      .p-password-input {
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+      }
+
+      .p-password-toggle {
+        color: #6c757d;
+
+        &:hover {
+          color: #667eea;
+        }
+      }
+    }
+  }
+}
+
+.form-actions {
+  margin-bottom: 1.5rem;
+
+  ::ng-deep .register-button {
+    .p-button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+
+      &:enabled:hover {
+        background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+      }
+
+      &:enabled:active {
+        transform: translateY(0);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+      }
+
+      &:disabled {
+        background: #e9ecef;
+        color: #6c757d;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+::ng-deep .p-divider {
+  margin: 1.5rem 0;
+
+  &.p-divider-horizontal:before {
+    border-top-color: #e9ecef;
+  }
+
+  .p-divider-content {
+    background: white;
+    padding: 0 1rem;
+  }
+
+  .divider-text {
+    color: #6c757d;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+}
+
+.login-section {
+  text-align: center;
+
+  .login-text {
+    margin: 0;
+    color: #6c757d;
+    font-size: 0.95rem;
+
+    .login-link {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #5a6fd8;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+// Responsividade
+@media (max-width: 576px) {
+  .register-container {
+    padding: 0.5rem;
+  }
+
+  .register-card {
+    ::ng-deep .p-card-header {
+      padding: 1.5rem 1.5rem 1rem 1.5rem;
+    }
+
+    ::ng-deep .p-card-body {
+      padding: 1.5rem;
+    }
+  }
+
+  .register-header {
+    .register-title {
+      font-size: 1.5rem;
+    }
+
+    .logo {
+      height: 50px !important;
+    }
+  }
+
+  .register-form {
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+  }
+}
+
+// Animações
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.register-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+// Estados de erro para validação
+::ng-deep app-validate-input {
+  .error-message {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.85rem;
+    color: #dc3545;
+    font-weight: 500;
+  }
+}

@@ -1,0 +1,22 @@
+:host {
+  ::ng-deep {
+    .mat-snack-bar-container.toast-warn {
+      background-color: #fbc02d;
+      color: #000;
+      font-weight: 500;
+      white-space: pre-line;
+    }
+    .mat-snack-bar-container.toast-error {
+      background-color: #e53935;
+      color: #fff;
+      font-weight: 500;
+      white-space: pre-line;
+    }
+    .mat-snack-bar-container.toast-success {
+      background-color: #43a047;
+      color: #fff;
+      font-weight: 500;
+      white-space: pre-line;
+    }
+  }
+}

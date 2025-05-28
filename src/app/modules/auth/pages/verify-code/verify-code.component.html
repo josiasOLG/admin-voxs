@@ -1,0 +1,83 @@
+<div class="verify-code-container">
+  <div class="verify-code-wrapper">
+    <p-card class="verify-code-card">
+      <ng-template pTemplate="header">
+        <div class="verify-code-header">
+          <div class="logo-container">
+            <img src="assets/logo.png" alt="Logo" class="logo" />
+          </div>
+          <h2 class="verify-code-title">Verificar Código</h2>
+          <p class="verify-code-subtitle">
+            Digite o código de 6 dígitos enviado para<br />
+            <strong>{{ email }}</strong>
+          </p>
+        </div>
+      </ng-template>
+
+      <form
+        [formGroup]="verifyCodeForm"
+        (ngSubmit)="onSubmit()"
+        class="verify-code-form"
+      >
+        <input type="hidden" formControlName="email" />
+
+        <div class="form-group">
+          <p-floatlabel>
+            <input
+              pInputText
+              id="code"
+              formControlName="code"
+              type="text"
+              maxlength="6"
+              [class.ng-invalid]="hasFieldError('code')"
+              class="w-full code-input"
+              placeholder="000000"
+              autocomplete="one-time-code"
+            />
+            <label for="code">Código de Verificação</label>
+          </p-floatlabel>
+          <app-validate-input
+            [control]="verifyCodeForm.get('code')!"
+            [error]="getFieldError('code')"
+          ></app-validate-input>
+        </div>
+
+        <div class="form-actions">
+          <p-button
+            type="submit"
+            label="Verificar Código"
+            styleClass="w-full primary-button"
+            [loading]="loading$ | async"
+            [disabled]="loading$ | async"
+          ></p-button>
+        </div>
+
+        <div class="resend-section">
+          <p class="resend-text">Não recebeu o código?</p>
+          <p-button
+            type="button"
+            label="Reenviar Código"
+            styleClass="w-full secondary-button"
+            (onClick)="resendCode()"
+            [loading]="loading$ | async"
+            [disabled]="loading$ | async"
+          ></p-button>
+        </div>
+
+        <p-divider align="center">
+          <span class="divider-text">ou</span>
+        </p-divider>
+
+        <div class="back-section">
+          <p-button
+            type="button"
+            label="Voltar"
+            styleClass="w-full tertiary-button"
+            (onClick)="backToForgotPassword()"
+          ></p-button>
+        </div>
+      </form>
+    </p-card>
+  </div>
+</div>
+

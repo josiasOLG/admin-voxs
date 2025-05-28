@@ -1,0 +1,86 @@
+:root {
+  --mat-sys-background: #f9f9f9;
+  --mat-sys-surface: #ffffff;
+  --mat-sys-surface-bright: #fdfdfd;
+  --mat-sys-surface-container: #f5f5f5;
+  --mat-sys-surface-container-low: #f3f3f3;
+  --mat-sys-surface-container-lowest: #ffffff;
+  --mat-sys-surface-container-high: #ededed;
+  --mat-sys-surface-container-highest: #e6e6e6;
+  --mat-sys-surface-dim: #eeeeee;
+
+  --mat-sys-primary: #1db954;
+  --mat-sys-on-primary: #ffffff;
+  --mat-sys-primary-container: #e7f9ef;
+  --mat-sys-on-primary-container: #104d2c;
+  --mat-sys-primary-fixed: #1db954;
+  --mat-sys-primary-fixed-dim: #168d44;
+  --mat-sys-inverse-primary: #1db954;
+
+  --mat-sys-secondary: #cccccc;
+  --mat-sys-on-secondary: #212121;
+  --mat-sys-secondary-container: #eaeaea;
+  --mat-sys-on-secondary-container: #141414;
+
+  --mat-sys-tertiary: #bdbdbd;
+  --mat-sys-on-tertiary: #1f1f1f;
+  --mat-sys-tertiary-container: #f0f0f0;
+  --mat-sys-on-tertiary-container: #101010;
+
+  --mat-sys-error: #ef4444;
+  --mat-sys-on-error: #ffffff;
+  --mat-sys-error-container: #fee2e2;
+  --mat-sys-on-error-container: #7f1d1d;
+
+  --mat-sys-outline: #bdbdbd;
+  --mat-sys-outline-variant: #dcdcdc;
+
+  --mat-sys-inverse-surface: #1a1a1a;
+  --mat-sys-inverse-on-surface: #ffffff;
+
+  --mat-sys-shadow: rgba(0, 0, 0, 0.12);
+  --mat-sys-scrim: rgba(0, 0, 0, 0.2);
+
+  --mat-sys-on-background: #1a1a1a;
+  --mat-sys-on-surface: #1a1a1a;
+  --mat-sys-on-surface-variant: #3d3d3d;
+
+  --mat-sys-surface-tint: #1db954;
+
+  --mdc-filled-text-field-container-color: #f7f7f7;
+  --mat-sys-surface-variant: #f7f7f7;
+
+  --size-0: 0rem;
+  --size-1: 0.25rem; /* 4px */
+  --size-2: 0.5rem; /* 8px */
+  --size-3: 0.75rem; /* 12px */
+  --size-4: 1rem; /* 16px */
+  --size-5: 1.25rem; /* 20px */
+  --size-6: 1.5rem; /* 24px */
+  --size-7: 1.75rem; /* 28px */
+  --size-8: 2rem; /* 32px */
+  --size-9: 2.5rem; /* 40px */
+  --size-10: 3rem; /* 48px */
+  --size-12: 4rem; /* 64px */
+  --size-16: 6rem; /* 96px */
+  --size-20: 8rem; /* 128px */
+  --size-24: 10rem; /* 160px */
+  --size-32: 12rem; /* 192px */
+
+  /* Common alias sizes */
+  --size-xs: var(--size-1);
+  --size-sm: var(--size-2);
+  --size-md: var(--size-4);
+  --size-lg: var(--size-6);
+  --size-xl: var(--size-8);
+  --size-2xl: var(--size-10);
+  --size-3xl: var(--size-16);
+}
+
+h2 {
+  font-size: var(--size-4);
+}
+
+p {
+  font-size: var(--size-3);
+}
