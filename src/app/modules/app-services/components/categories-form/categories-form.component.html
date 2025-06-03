@@ -1,0 +1,21 @@
+<div class="categories-section">
+  <app-category-table
+    [categories]="categoriesData()"
+    (add)="addCategory()"
+    (edit)="editCategory($event)"
+    (remove)="removeCategory($event)"
+    (toggleActive)="toggleCategoryActive($event)"
+  >
+  </app-category-table>
+
+  <!-- Dialog Components -->
+  <app-category-dialog
+    [visible]="showCategoryDialog()"
+    (visibleChange)="showCategoryDialog.set($event)"
+    [category]="currentCategory()"
+    [isEdit]="editingCategoryIndex() !== null"
+    (save)="onCategorySave($event)"
+    (cancel)="onCategoryCancel()"
+  >
+  </app-category-dialog>
+</div>

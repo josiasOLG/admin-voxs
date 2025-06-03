@@ -1,4 +1,7 @@
-<app-shared-header [viewLink]="back"></app-shared-header>
+<app-shared-header
+  [showBackButton]="true"
+  [backAction]="back"
+></app-shared-header>
 
 <p-card>
   <form [formGroup]="form" (ngSubmit)="submit()" class="grid">
@@ -8,9 +11,7 @@
         <input pInputText id="userId" formControlName="userId" class="w-full" />
         <label for="userId">ID do Usuário</label>
       </p-floatLabel>
-      <app-validate-input
-        [control]="form.get('userId')"
-      ></app-validate-input>
+      <app-validate-input [control]="form.get('userId')"></app-validate-input>
     </div>
 
     <!-- Barber ID -->
@@ -24,9 +25,7 @@
         />
         <label for="barberId">ID do Barbeiro</label>
       </p-floatLabel>
-      <app-validate-input
-        [control]="form.get('barberId')"
-      ></app-validate-input>
+      <app-validate-input [control]="form.get('barberId')"></app-validate-input>
     </div>
 
     <!-- Date -->
@@ -42,9 +41,7 @@
         </p-calendar>
         <label for="date">Data</label>
       </p-floatLabel>
-      <app-validate-input
-        [control]="form.get('date')"
-      ></app-validate-input>
+      <app-validate-input [control]="form.get('date')"></app-validate-input>
     </div>
 
     <!-- Time -->
@@ -59,9 +56,7 @@
         />
         <label for="time">Horário</label>
       </p-floatLabel>
-      <app-validate-input
-        [control]="form.get('time')"
-      ></app-validate-input>
+      <app-validate-input [control]="form.get('time')"></app-validate-input>
     </div>
 
     <!-- Status -->
@@ -74,13 +69,12 @@
           optionLabel="label"
           optionValue="value"
           class="w-full"
+          appendTo="body"
         >
         </p-dropdown>
         <label for="status">Status</label>
       </p-floatLabel>
-      <app-validate-input
-        [control]="form.get('status')"
-      ></app-validate-input>
+      <app-validate-input [control]="form.get('status')"></app-validate-input>
     </div>
 
     <!-- Services -->
@@ -93,13 +87,12 @@
           optionLabel="label"
           optionValue="value"
           class="w-full"
+          appendTo="body"
         >
         </p-multiSelect>
         <label for="service">Serviços</label>
       </p-floatLabel>
-      <app-validate-input
-        [control]="form.get('service')"
-      ></app-validate-input>
+      <app-validate-input [control]="form.get('service')"></app-validate-input>
     </div>
 
     <!-- Modality -->
@@ -112,13 +105,12 @@
           optionLabel="label"
           optionValue="value"
           class="w-full"
+          appendTo="body"
         >
         </p-dropdown>
         <label for="modality">Modalidade</label>
       </p-floatLabel>
-      <app-validate-input
-        [control]="form.get('modality')"
-      ></app-validate-input>
+      <app-validate-input [control]="form.get('modality')"></app-validate-input>
     </div>
 
     <!-- User Number -->
@@ -150,9 +142,7 @@
         </textarea>
         <label for="notes">Observações</label>
       </p-floatLabel>
-      <app-validate-input
-        [control]="form.get('notes')"
-      ></app-validate-input>
+      <app-validate-input [control]="form.get('notes')"></app-validate-input>
     </div>
 
     <!-- Status Point Checkbox -->
@@ -189,9 +179,7 @@
         />
         <label for="color">Cor</label>
       </p-floatLabel>
-      <app-validate-input
-        [control]="form.get('color')"
-      ></app-validate-input>
+      <app-validate-input [control]="form.get('color')"></app-validate-input>
     </div>
 
     <!-- Repeat -->
@@ -200,9 +188,7 @@
         <input pInputText id="repete" formControlName="repete" class="w-full" />
         <label for="repete">Repetir</label>
       </p-floatLabel>
-      <app-validate-input
-        [control]="form.get('repete')"
-      ></app-validate-input>
+      <app-validate-input [control]="form.get('repete')"></app-validate-input>
     </div>
 
     <!-- End Repeat -->
@@ -235,4 +221,3 @@
     </div>
   </form>
 </p-card>
-

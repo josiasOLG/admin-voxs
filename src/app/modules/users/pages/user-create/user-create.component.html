@@ -1,0 +1,58 @@
+<app-shared-header
+  [iconInput]="'pi pi-user-plus'"
+  [showBackButton]="true"
+  [backAction]="back"
+>
+</app-shared-header>
+
+<div class="grid">
+  <div class="col-12">
+    <div class="mb-3 flex justify-content-end">
+      <div class="flex gap-2">
+        <p-button
+          label="Cancelar"
+          severity="secondary"
+          [outlined]="true"
+          (onClick)="goBack()"
+        >
+        </p-button>
+        <p-button
+          label="Salvar"
+          icon="pi pi-save"
+          [loading]="isLoading()"
+          [disabled]="userForm.invalid"
+          (onClick)="onSubmit()"
+        >
+        </p-button>
+      </div>
+    </div>
+
+    <form [formGroup]="userForm" class="grid">
+      <div class="col-12 md:col-3">
+        <p-panelMenu
+          [model]="menuItems"
+          [style]="{ width: '100%' }"
+        ></p-panelMenu>
+      </div>
+
+      <div class="col-12 md:col-9">
+        <p-card>
+          <p-tabView [(activeIndex)]="activeTabIndex">
+            <p-tabPanel header="Perfil" leftIcon="pi pi-user">
+              <app-user-profile-form
+                [formGroup]="userForm"
+                [showPasswordField]="true"
+              >
+              </app-user-profile-form>
+            </p-tabPanel>
+
+            <p-tabPanel header="Endereço" leftIcon="pi pi-map-marker">
+              <app-user-address-form [formGroup]="addressForm">
+              </app-user-address-form>
+            </p-tabPanel>
+          </p-tabView>
+        </p-card>
+      </div>
+    </form>
+  </div>
+</div>

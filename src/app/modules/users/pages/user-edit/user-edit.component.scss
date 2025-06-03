@@ -1,0 +1,33 @@
+:host {
+  display: block;
+}
+
+.p-toolbar {
+  border: none;
+  background: transparent;
+  padding: 0 0 1rem 0;
+}
+
+.p-panelmenu {
+  border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius);
+}
+
+.p-tabview {
+  .p-tabview-nav {
+    background: transparent;
+    border-bottom: 1px solid var(--surface-border);
+  }
+
+  .p-tabview-panel {
+    padding: 1.5rem 0;
+  }
+}
+
+.p-togglebutton {
+  min-width: 80px;
+}
+
+.grid {
+  margin: 0;
+}

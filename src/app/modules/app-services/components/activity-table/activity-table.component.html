@@ -1,0 +1,78 @@
+<div class="mb-4">
+  <div
+    class="flex justify-content-between align-items-center mb-3"
+    *ngIf="showAddButton"
+  >
+    <h5 class="m-0">Atividades</h5>
+    <p-button
+      label="Nova Atividade"
+      icon="pi pi-plus"
+      styleClass="p-button-success p-button-sm"
+      (click)="onAdd()"
+    >
+    </p-button>
+  </div>
+
+  <p-table
+    [value]="activities"
+    styleClass="p-datatable-striped"
+    responsiveLayout="scroll"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Nome</th>
+        <th>Pontos</th>
+        <th>Status</th>
+        <th style="width: 8rem">Ações</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-activity let-i="rowIndex">
+      <tr>
+        <td>{{ activity.name }}</td>
+        <td>{{ activity.point }}</td>
+        <td>
+          <p-tag
+            [value]="activity.active ? 'Ativo' : 'Inativo'"
+            [severity]="activity.active ? 'success' : 'danger'"
+          >
+          </p-tag>
+        </td>
+        <td>
+          <div class="flex gap-2">
+            <p-button
+              [icon]="activity.active ? 'pi pi-eye-slash' : 'pi pi-eye'"
+              styleClass="p-button-text p-button-sm"
+              [class]="
+                activity.active ? 'p-button-warning' : 'p-button-success'
+              "
+              (click)="onToggleActive(i)"
+              [pTooltip]="activity.active ? 'Desativar' : 'Ativar'"
+            >
+            </p-button>
+            <p-button
+              icon="pi pi-pencil"
+              styleClass="p-button-text p-button-sm"
+              (click)="onEdit(i)"
+              pTooltip="Editar"
+            >
+            </p-button>
+            <p-button
+              icon="pi pi-trash"
+              styleClass="p-button-text p-button-danger p-button-sm"
+              (click)="onRemove(i)"
+              pTooltip="Remover"
+            >
+            </p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="4" class="text-center py-4">
+          <span class="text-500">Nenhuma atividade adicionada</span>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

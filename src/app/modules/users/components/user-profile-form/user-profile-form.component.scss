@@ -1,0 +1,22 @@
+:host {
+  display: block;
+}
+
+.p-inputtext,
+.p-dropdown,
+.p-password {
+  width: 100%;
+}
+
+.p-error {
+  font-size: 0.875rem;
+}
+
+label {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.text-red-500 {
+  color: var(--red-500);
+}

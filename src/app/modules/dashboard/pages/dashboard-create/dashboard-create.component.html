@@ -1,4 +1,7 @@
-<app-shared-header [viewLink]="back"></app-shared-header>
+<app-shared-header
+  [showBackButton]="true"
+  [backAction]="back"
+></app-shared-header>
 
 <p-card styleClass="mt-3">
   <ng-template pTemplate="header">
@@ -26,8 +29,7 @@
           />
           <label for="placa">Placa *</label>
         </p-floatLabel>
-        <app-validate-input [control]="form.get('placa')">
-        </app-validate-input>
+        <app-validate-input [control]="form.get('placa')"> </app-validate-input>
       </div>
     </div>
 
@@ -107,8 +109,7 @@
           />
           <label for="ano">Ano *</label>
         </p-floatLabel>
-        <app-validate-input [control]="form.get('ano')">
-        </app-validate-input>
+        <app-validate-input [control]="form.get('ano')"> </app-validate-input>
       </div>
     </div>
 
@@ -135,4 +136,3 @@
     </div>
   </form>
 </p-card>
-

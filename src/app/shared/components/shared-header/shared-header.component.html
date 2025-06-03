@@ -1,26 +1,25 @@
-<p-card class="shared-header mb-3 display-block">
-  <div class="grid align-items-center">
-    <div class="col-12">
-      <div class="flex align-items-center justify-content-between __titles">
-        <div class="flex align-items-center gap-5">
-          <p-button
-            *ngIf="viewLink"
-            icon="pi pi-arrow-left"
-            severity="secondary"
-            [text]="true"
-            (onClick)="viewLink()"
-            aria-label="viewlink"
-          ></p-button>
-          <div>
-            <h2 class="mb-2 font-bold">{{ title() }}</h2>
-            <p class="mt-1 text-color-secondary">{{ subtitle() }}</p>
-          </div>
-        </div>
-
-        <div class="flex align-items-center">
-          <app-breadcrumb />
+<p-card class="mb-3 display-block">
+  <p-toolbar>
+    <ng-template pTemplate="left">
+      <div class="flex align-items-center gap-2">
+        <p-button
+          *ngIf="showBackButton"
+          icon="pi pi-arrow-left"
+          severity="secondary"
+          [text]="true"
+          (onClick)="backAction ? backAction() : goBack()"
+          [pTooltip]="'Voltar'"
+        >
+        </p-button>
+        <i [class]="iconInput || 'pi pi-home'" class="text-2xl"></i>
+        <div>
+          <h5 class="m-0">{{ title() }}</h5>
+          <small class="text-color-secondary">{{ subtitle() }}</small>
         </div>
       </div>
-    </div>
-  </div>
+    </ng-template>
+    <ng-template pTemplate="right">
+      <app-breadcrumb />
+    </ng-template>
+  </p-toolbar>
 </p-card>

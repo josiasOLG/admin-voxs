@@ -1,0 +1,30 @@
+:host {
+  display: block;
+}
+
+.p-toolbar {
+  border: none;
+  background: transparent;
+  padding: 0 0 1rem 0;
+}
+
+.p-datatable {
+  .p-datatable-header {
+    border: none;
+    background: transparent;
+  }
+
+  .p-datatable-thead > tr > th {
+    border-bottom: 1px solid var(--surface-border);
+    background: var(--surface-50);
+    font-weight: 600;
+  }
+
+  .p-datatable-tbody > tr > td {
+    border-bottom: 1px solid var(--surface-border);
+  }
+
+  .p-datatable-tbody > tr:hover {
+    background: var(--surface-50);
+  }
+}

@@ -1,0 +1,15 @@
+// Estilos para a tabela de atividades
+.activity-table {
+  .p-datatable-striped .p-datatable-tbody > tr:nth-child(odd) {
+    background: var(--surface-50);
+  }
+
+  .p-button-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .p-tag {
+    font-size: 0.75rem;
+  }
+}

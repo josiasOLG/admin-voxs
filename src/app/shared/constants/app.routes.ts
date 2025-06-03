@@ -1,9 +1,10 @@
 export enum AppRoutes {
-  HOME = '/',
+  HOME = '/home',
   VEHICLES = '/vehicle',
   APPOINTMENTS = '/appointment',
   DASHBOARD = '/dashboard',
-  Home = '/home',
+  USERS = '/users',
+  APP_SERVICES = '/app-services',
 
   CREATE = 'create',
   EDIT = 'edit',

@@ -1,0 +1,124 @@
+<app-shared-header></app-shared-header>
+
+<p-card>
+  <p-toolbar styleClass="mb-4">
+    <div class="p-toolbar-group-start">
+      <h5 class="m-0">Lista de App Services</h5>
+    </div>
+    <div class="p-toolbar-group-end">
+      <p-button
+        label="Novo App Service"
+        icon="pi pi-plus"
+        styleClass="p-button-success"
+        (onClick)="goToCreate()"
+        pTooltip="Criar novo app service"
+      >
+      </p-button>
+    </div>
+  </p-toolbar>
+
+  <p-table
+    [value]="appServices()"
+    styleClass="p-datatable-striped"
+    [loading]="isLoading()"
+    responsiveLayout="scroll"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th>Preço</th>
+        <th>Duração</th>
+        <th>Atividades</th>
+        <th>Categorias</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-appService>
+      <tr>
+        <td>
+          <strong>{{ appService.name }}</strong>
+        </td>
+        <td>
+          <span class="text-600">
+            {{ appService.description || "Sem descrição" }}
+          </span>
+        </td>
+        <td>
+          <span
+            [class]="
+              appService.price ? 'text-green-600 font-medium' : 'text-500'
+            "
+          >
+            {{ formatPrice(appService.price) }}
+          </span>
+        </td>
+        <td>
+          <span
+            [class]="
+              appService.duration ? 'text-blue-600 font-medium' : 'text-500'
+            "
+          >
+            {{ formatDuration(appService.duration) }}
+          </span>
+        </td>
+        <td>
+          <p-tag
+            [value]="appService.activities?.length || 0"
+            severity="info"
+            icon="pi pi-list"
+          >
+          </p-tag>
+        </td>
+        <td>
+          <p-tag
+            [value]="appService.categories?.length || 0"
+            severity="warning"
+            icon="pi pi-tags"
+          >
+          </p-tag>
+        </td>
+        <td>
+          <p-tag
+            [value]="getStatusLabel(appService.active)"
+            [severity]="getStatusSeverity(appService.active)"
+          >
+          </p-tag>
+        </td>
+        <td>
+          <div class="flex gap-2">
+            <p-button
+              icon="pi pi-pencil"
+              styleClass="p-button-text p-button-rounded"
+              (onClick)="goToEdit(appService.id || appService._id)"
+              pTooltip="Editar app service"
+            >
+            </p-button>
+            <p-button
+              icon="pi pi-eye"
+              styleClass="p-button-text p-button-rounded p-button-secondary"
+              pTooltip="Visualizar detalhes"
+            >
+            </p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="8" class="text-center py-6">
+          <div class="text-500">
+            <i class="pi pi-info-circle text-3xl mb-3"></i>
+            <p class="text-xl">Nenhum app service encontrado</p>
+            <p>
+              Crie o primeiro app service clicando no botão "Novo App Service"
+            </p>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>

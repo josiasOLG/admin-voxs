@@ -16,3 +16,64 @@ body {
   margin: 0;
   color: var(--text-color);
 }
+
+.p-overlay {
+  top: 35px !important;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+}
+
+/**
+ * Correção para overlays do PrimeNG
+ * Garante que dropdowns, selects e outros overlays sejam exibidos corretamente
+ */
+::ng-deep {
+  .p-overlay {
+    top: 40px;
+    left: 0;
+  }
+  // Overlay principal do PrimeNG
+  .p-overlaypanel,
+  .p-dropdown-panel,
+  .p-multiselect-panel,
+  .p-calendar-panel,
+  .p-autocomplete-panel,
+  .p-menu-overlay,
+  .p-select-overlay {
+    z-index: 10000 !important;
+    position: fixed !important;
+  }
+
+  // Garantir que o overlay container tenha z-index alto
+  .p-component-overlay {
+    z-index: 9999 !important;
+  }
+
+  // Correção específica para p-select (novo componente PrimeNG)
+  .p-select-panel {
+    z-index: 10001 !important;
+  }
+
+  // Overlay backdrop
+  .p-component-overlay-enter {
+    z-index: 9998 !important;
+  }
+
+  // Correção específica para problema de backdrop do Dialog
+  .p-dialog-mask {
+    z-index: 1100 !important;
+    transition: background-color 0.3s ease;
+  }
+
+  .p-dialog {
+    z-index: 1101 !important;
+  }
+
+  // Garante que o backdrop seja removido corretamente
+
+  // Remove qualquer backdrop órfão
+  // .p-dialog-mask:not(.p-component-overlay) {
+  //   display: none !important;
+  // }
+}

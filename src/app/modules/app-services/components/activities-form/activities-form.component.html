@@ -1,0 +1,21 @@
+<div class="activities-section">
+  <app-activity-table
+    [activities]="activitiesData()"
+    (add)="addActivity()"
+    (edit)="editActivity($event)"
+    (remove)="removeActivity($event)"
+    (toggleActive)="toggleActivityActive($event)"
+  >
+  </app-activity-table>
+
+  <!-- Dialog Components -->
+  <app-activity-dialog
+    [visible]="showActivityDialog()"
+    (visibleChange)="showActivityDialog.set($event)"
+    [activity]="currentActivity()"
+    [isEdit]="editingActivityIndex() !== null"
+    (save)="onActivitySave($event)"
+    (cancel)="onActivityCancel()"
+  >
+  </app-activity-dialog>
+</div>

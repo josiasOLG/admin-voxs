@@ -1,0 +1,127 @@
+<app-shared-header></app-shared-header>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <!-- Informações Básicas -->
+  <p-panel header="Informações Básicas" [toggleable]="false">
+    <div class="grid">
+      <div class="col-12 md:col-6">
+        <label for="name" class="block text-900 font-medium mb-2">
+          Nome *
+        </label>
+        <input
+          id="name"
+          type="text"
+          pInputText
+          formControlName="name"
+          placeholder="Digite o nome do serviço"
+          class="w-full"
+          [class.ng-invalid]="
+            form.get('name')?.invalid && form.get('name')?.touched
+          "
+        />
+        <small
+          class="p-error"
+          *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
+        >
+          Nome é obrigatório e deve ter pelo menos 3 caracteres
+        </small>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <label for="active" class="block text-900 font-medium mb-2">
+          Status
+        </label>
+        <div class="flex align-items-center gap-2">
+          <p-inputSwitch id="active" formControlName="active"></p-inputSwitch>
+          <span class="text-sm text-600">
+            {{ form.get("active")?.value ? "Ativo" : "Inativo" }}
+          </span>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <label for="description" class="block text-900 font-medium mb-2">
+          Descrição
+        </label>
+        <textarea
+          id="description"
+          pTextarea
+          formControlName="description"
+          placeholder="Digite a descrição do serviço"
+          rows="3"
+          class="w-full"
+        >
+        </textarea>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <label for="price" class="block text-900 font-medium mb-2">
+          Preço (R$)
+        </label>
+        <p-inputNumber
+          id="price"
+          formControlName="price"
+          mode="currency"
+          currency="BRL"
+          locale="pt-BR"
+          placeholder="0,00"
+          class="w-full"
+          [min]="0"
+        >
+        </p-inputNumber>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <label for="duration" class="block text-900 font-medium mb-2">
+          Duração (minutos)
+        </label>
+        <p-inputNumber
+          id="duration"
+          formControlName="duration"
+          placeholder="Ex: 60"
+          class="w-full"
+          [min]="1"
+        >
+        </p-inputNumber>
+      </div>
+    </div>
+  </p-panel>
+
+  <!-- Tabs para Atividades e Categorias -->
+  <p-tabView class="mb-4">
+    <p-tabPanel header="Atividades">
+      <app-activities-form
+        [activitiesData]="activitiesData"
+        [serviceId]="serviceIdSignal"
+      >
+      </app-activities-form>
+    </p-tabPanel>
+
+    <p-tabPanel header="Categorias">
+      <app-categories-form
+        [categoriesData]="categoriesData"
+        [serviceId]="serviceIdSignal"
+      >
+      </app-categories-form>
+    </p-tabPanel>
+  </p-tabView>
+
+  <!-- Botões de Ação -->
+  <div class="flex justify-content-end gap-2">
+    <p-button
+      label="Cancelar"
+      icon="pi pi-times"
+      styleClass="p-button-outlined"
+      (click)="onCancel()"
+    >
+    </p-button>
+    <p-button
+      label="Atualizar App Service"
+      icon="pi pi-check"
+      type="submit"
+      [loading]="isSubmitting()"
+      [disabled]="form.invalid"
+    >
+    </p-button>
+  </div>
+</form>

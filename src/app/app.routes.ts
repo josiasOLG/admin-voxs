@@ -3,6 +3,7 @@ import { AuthGuard } from './modules/auth/guards/auth.guard';
 import { NoAuthGuard } from './modules/auth/guards/no-auth.guard';
 import { AuthLayoutComponent } from './shared/components/layout/auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './shared/components/layout/main-layout/main-layout.component';
+import { AppRoutes } from './shared/constants/app.routes';
 
 export const appRoutes: Routes = [
   {
@@ -29,7 +30,7 @@ export const appRoutes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'dashboard',
+        path: AppRoutes.DASHBOARD.slice(1), // Remove a barra inicial
         loadChildren: () =>
           import('./modules/dashboard/dashboard-routing.module').then(
             (m) => m.DashboardRoutes
@@ -39,7 +40,7 @@ export const appRoutes: Routes = [
         },
       },
       {
-        path: 'appointment',
+        path: AppRoutes.APPOINTMENTS.slice(1), // Remove a barra inicial
         loadChildren: () =>
           import('./modules/appointament/appointment-routing.module').then(
             (m) => m.AppointmentRoutes
@@ -49,8 +50,28 @@ export const appRoutes: Routes = [
         },
       },
       {
+        path: AppRoutes.USERS.slice(1), // Remove a barra inicial
+        loadChildren: () =>
+          import('./modules/users/user-routing.module').then(
+            (m) => m.UserRoutes
+          ),
+        data: {
+          title: 'Usuários',
+        },
+      },
+      {
+        path: AppRoutes.APP_SERVICES.slice(1), // Remove a barra inicial
+        loadChildren: () =>
+          import('./modules/app-services/app-service-routing.module').then(
+            (m) => m.AppServiceRoutes
+          ),
+        data: {
+          title: 'App Services',
+        },
+      },
+      {
         path: '',
-        redirectTo: '/dashboard',
+        redirectTo: AppRoutes.DASHBOARD,
         pathMatch: 'full',
       },
     ],

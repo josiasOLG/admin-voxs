@@ -1,0 +1,17 @@
+:host {
+  display: block;
+}
+
+.p-inputtext,
+.p-inputmask {
+  width: 100%;
+}
+
+.p-error {
+  font-size: 0.875rem;
+}
+
+label {
+  font-weight: 500;
+  color: var(--text-color);
+}

@@ -1,0 +1,22 @@
+// Estilos específicos para o dialog de categoria
+.category-dialog {
+  .p-dialog-content {
+    padding: 1.5rem;
+  }
+
+  .p-error {
+    display: block;
+    margin-top: 0.25rem;
+  }
+}
+
+// Corrige problema de backdrop
+:host ::ng-deep {
+  .p-dialog-mask {
+    z-index: 1100 !important;
+  }
+
+  .p-dialog {
+    z-index: 1101 !important;
+  }
+}

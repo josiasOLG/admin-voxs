@@ -1,11 +1,11 @@
-import { Directive, inject, signal } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { ToastService } from '../services/toast.service';
-import { LoadingService } from '../services/loading.service';
+import { computed, Directive, inject, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
-  BreadcrumbService,
   BreadcrumbItem,
+  BreadcrumbService,
 } from '../services/breadcrumb.service'; // ajuste o caminho se necessário
+import { LoadingService } from '../services/loading.service';
+import { ToastService } from '../services/toast.service';
 
 @Directive()
 export abstract class BaseResourceComponent {
@@ -24,6 +24,26 @@ export abstract class BaseResourceComponent {
 
   readonly routeParams = signal(this.route.snapshot.params);
   readonly queryParams = signal(this.route.snapshot.queryParams);
+
+  /**
+   * Pega um parâmetro específico da rota.
+   *
+   * @param paramName Nome do parâmetro.
+   * @returns Computed signal com o valor do parâmetro.
+   */
+  protected getRouteParam(paramName: string) {
+    return computed(() => this.routeParams()[paramName] || null);
+  }
+
+  /**
+   * Pega um query param específico.
+   *
+   * @param paramName Nome do query param.
+   * @returns Computed signal com o valor do query param.
+   */
+  protected getQueryParam(paramName: string) {
+    return computed(() => this.queryParams()[paramName] || null);
+  }
 
   protected setTitle(newTitle: string, newSubtitle?: string) {
     this.title.set(newTitle);

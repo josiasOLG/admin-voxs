@@ -1,0 +1,95 @@
+<app-shared-header [iconInput]="'pi pi-users'"></app-shared-header>
+
+<div class="grid">
+  <div class="col-12">
+    <p-card>
+      <div class="user-list-content">
+        <p-table
+          [value]="users()"
+          [loading]="isLoading()"
+          [paginator]="true"
+          [rows]="10"
+          [showCurrentPageReport]="true"
+          currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} usuários"
+          [rowsPerPageOptions]="[10, 25, 50]"
+          responsiveLayout="scroll"
+          styleClass="p-datatable-striped"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Telefone</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th class="text-center">Ações</th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-user>
+            <tr>
+              <td>{{ user.name }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.phone }}</td>
+              <td>
+                <p-tag
+                  [value]="getRoleLabel(user.role, user.typeService)"
+                  [severity]="getRoleSeverity(user.role)"
+                >
+                </p-tag>
+              </td>
+              <td>
+                <p-tag
+                  [value]="user.isActive ? 'Ativo' : 'Inativo'"
+                  [severity]="user.isActive ? 'success' : 'danger'"
+                >
+                </p-tag>
+              </td>
+              <td class="text-center">
+                <div class="flex gap-2 justify-content-center">
+                  <p-button
+                    icon="pi pi-eye"
+                    size="small"
+                    severity="info"
+                    [outlined]="true"
+                    [pTooltip]="'Visualizar'"
+                    [routerLink]="['../edit', user.id]"
+                  >
+                  </p-button>
+                  <p-button
+                    icon="pi pi-pencil"
+                    size="small"
+                    severity="secondary"
+                    [pTooltip]="'Editar'"
+                    [routerLink]="['../edit', user.id]"
+                  >
+                  </p-button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="6" class="text-center p-4">
+                <div class="flex flex-column align-items-center gap-3">
+                  <i class="pi pi-users text-4xl text-color-secondary"></i>
+                  <span class="text-color-secondary"
+                    >Nenhum usuário encontrado</span
+                  >
+                  <p-button
+                    label="Criar Primeiro Usuário"
+                    icon="pi pi-plus"
+                    [routerLink]="['../create']"
+                    size="small"
+                  >
+                  </p-button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </p-card>
+  </div>
+</div>
