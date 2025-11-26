@@ -1,0 +1,86 @@
+<section class="cta">
+  <div class="cta__background">
+    <div class="cta__shape cta__shape--1"></div>
+    <div class="cta__shape cta__shape--2"></div>
+    <div class="cta__shape cta__shape--3"></div>
+    <div class="cta__shape cta__shape--4"></div>
+  </div>
+
+  <div class="cta__container">
+    <!-- Lado Esquerdo: Conteúdo Principal -->
+    <div class="cta__left">
+      <div class="cta__badge">
+        <i class="pi pi-bolt cta__badge-icon"></i>
+        <span class="cta__badge-text">Comece Gratuitamente</span>
+      </div>
+
+      <h2 class="cta__title">
+        Pronto para
+        <span class="cta__title--highlight">Revolucionar</span>
+        seu Negócio?
+      </h2>
+
+      <p class="cta__description">
+        Junte-se a milhares de profissionais que já transformaram seus negócios
+        com nossa plataforma inteligente
+      </p>
+
+      <div class="cta__benefits">
+        @for (benefit of benefits; track benefit.text) {
+        <div class="cta__benefit">
+          <i [class]="benefit.icon + ' cta__benefit-icon'"></i>
+          <span class="cta__benefit-text">{{ benefit.text }}</span>
+        </div>
+        }
+      </div>
+
+      <div class="cta__actions">
+        <button
+          pButton
+          label="Criar Conta Grátis"
+          icon="pi pi-arrow-right"
+          iconPos="right"
+          class="p-button-lg cta__button cta__button--primary"
+          (click)="handleRegisterClick()"
+        ></button>
+
+        <button
+          pButton
+          label="Ver Demonstração"
+          icon="pi pi-play"
+          class="p-button-lg p-button-outlined cta__button cta__button--secondary"
+          (click)="handleDemoClick()"
+        ></button>
+      </div>
+    </div>
+
+    <!-- Lado Direito: Trust Badges e Informações -->
+    <div class="cta__right">
+      <div class="cta__info-card">
+        <i class="pi pi-verified cta__info-icon"></i>
+        <h3 class="cta__info-title">Plataforma Confiável</h3>
+        <p class="cta__info-text">
+          Utilizada por mais de 10.000 profissionais em todo o Brasil
+        </p>
+      </div>
+
+      <div class="cta__info-card">
+        <i class="pi pi-shield cta__info-icon"></i>
+        <h3 class="cta__info-title">Segurança Total</h3>
+        <p class="cta__info-text">
+          Seus dados protegidos com as melhores práticas de segurança
+        </p>
+      </div>
+
+      <div class="cta__info-card">
+        <i class="pi pi-headphones cta__info-icon"></i>
+        <h3 class="cta__info-title">Suporte 24/7</h3>
+        <p class="cta__info-text">
+          Nossa equipe sempre pronta para ajudar você
+        </p>
+      </div>
+
+      <app-trust-badges />
+    </div>
+  </div>
+</section>

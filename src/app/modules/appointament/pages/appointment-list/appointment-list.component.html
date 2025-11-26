@@ -1,38 +1,88 @@
 <app-shared-header></app-shared-header>
 
 <p-card>
-  <div class="flex">
-    <div class="col-5">
-      <div class="field">
-        <p-iconField iconPosition="left">
-          <p-inputIcon styleClass="pi pi-search"></p-inputIcon>
-          <input
-            type="text"
-            pInputText
-            placeholder="Buscar agendamentos..."
-            (input)="applyFilter($event)"
-            class="w-full"
-          />
-        </p-iconField>
-      </div>
+  <div class="flex flex-wrap gap-3 align-items-center mb-3">
+    <div class="flex-1">
+      <p-iconField iconPosition="left">
+        <p-inputIcon styleClass="pi pi-search"></p-inputIcon>
+        <input
+          type="text"
+          pInputText
+          placeholder="Buscar agendamentos..."
+          (input)="applyFilter($event)"
+          class="w-full"
+        />
+      </p-iconField>
     </div>
-    <div class="col-7">
-      <div class="flex justify-content-end">
-        <p-button
-          label="Novo Agendamento"
-          icon="pi pi-plus"
-          (onClick)="goToCreate()"
-          severity="primary"
-        >
-        </p-button>
-      </div>
+
+    <div class="flex gap-2">
+      <p-button
+        label="Calendário"
+        icon="pi pi-calendar"
+        [outlined]="true"
+        severity="info"
+        (onClick)="goToCalendar()"
+      />
+
+      <p-button
+        label="Filtros"
+        icon="pi pi-filter"
+        [outlined]="true"
+        severity="secondary"
+        (onClick)="openFilters()"
+        [badge]="filterCount() > 0 ? filterCount().toString() : undefined"
+      />
+
+      <p-button
+        label="Novo Agendamento"
+        icon="pi pi-plus"
+        (onClick)="goToCreate()"
+        severity="primary"
+      />
     </div>
   </div>
 
-  <app-appointment-table-list
-    [dataSource]="dataSource"
-    [displayedColumns]="displayedColumns"
-    [isDataLoading]="isDataLoading"
-    (deleteItem)="onDeleteItem($event)"
-  ></app-appointment-table-list>
+  @if (isDataLoading) {
+    <div class="flex justify-content-center align-items-center py-8">
+      <p-progressSpinner />
+    </div>
+  } @else if (dataSource.length === 0) {
+    <div class="text-center text-600 py-8">
+      <i class="pi pi-inbox text-6xl mb-3"></i>
+      <p class="text-xl">Nenhum agendamento encontrado</p>
+      <p-button
+        label="Criar Primeiro Agendamento"
+        icon="pi pi-plus"
+        [outlined]="true"
+        (onClick)="goToCreate()"
+        styleClass="mt-3"
+      />
+    </div>
+  } @else {
+    <app-appointment-table-list
+      [dataSource]="dataSource"
+      [displayedColumns]="displayedColumns"
+      [isDataLoading]="isDataLoading"
+      (deleteItem)="onDeleteItem($event)"
+      (approveItem)="onApproveItem($event)"
+      (rejectItem)="onRejectItem($event)"
+    ></app-appointment-table-list>
+  }
 </p-card>
+
+<!-- Componente de Filtros -->
+<app-appointment-filters
+  (filtersApplied)="onFiltersApplied($event)"
+  (filtersCleared)="onFiltersCleared()"
+/>
+
+<!-- Diálogo de Aprovação -->
+<app-appointment-approval-dialog
+  [appointment]="selectedAppointment()"
+  [visible]="approvalDialogVisible()"
+  [mode]="approvalMode()"
+  [loading]="approvalLoading()"
+  (approved)="confirmApprove($event)"
+  (rejected)="confirmReject($event)"
+  (closed)="closeApprovalDialog()"
+/>

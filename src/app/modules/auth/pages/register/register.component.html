@@ -1,141 +1,187 @@
-<div class="register-container">
-  <div class="register-wrapper">
-    <p-card class="register-card">
-      <ng-template pTemplate="header">
-        <div class="register-header">
-          <div class="logo-container">
-            <img src="assets/logo.png" alt="Logo" class="logo" />
-          </div>
-          <h2 class="register-title">Criar Conta</h2>
-          <p class="register-subtitle">
-            Preencha os dados para criar sua conta
-          </p>
+<div class="auth-container">
+  <!-- Left Side - Visual -->
+  <div class="auth-visual">
+    <div class="auth-visual__overlay"></div>
+    <div class="auth-visual__content">
+      <div class="auth-visual__logo">
+        <img
+          src="assets/logo.png"
+          alt="Logo"
+          class="logo"
+          onerror="this.style.display='none'"
+        />
+      </div>
+      <h1 class="auth-visual__title">
+        Comece sua jornada
+        <span class="gradient-text">conosco hoje</span>
+      </h1>
+      <p class="auth-visual__description">
+        Crie sua conta em poucos minutos e tenha acesso a todas as
+        funcionalidades do sistema. É rápido, fácil e totalmente seguro.
+      </p>
+
+      <!-- Benefits List -->
+      <div class="benefits-list">
+        <div class="benefit-item">
+          <i class="pi pi-check-circle"></i>
+          <span>Gestão completa de agendamentos</span>
         </div>
-      </ng-template>
+        <div class="benefit-item">
+          <i class="pi pi-check-circle"></i>
+          <span>Dashboard com métricas em tempo real</span>
+        </div>
+        <div class="benefit-item">
+          <i class="pi pi-check-circle"></i>
+          <span>Controle de usuários e permissões</span>
+        </div>
+        <div class="benefit-item">
+          <i class="pi pi-check-circle"></i>
+          <span>Suporte técnico dedicado</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side - Form -->
+  <div class="auth-form-wrapper">
+    <div class="auth-form-container">
+      <div class="auth-form-header">
+        <h2 class="auth-form-title">Criar nova conta</h2>
+        <p class="auth-form-subtitle">Preencha os dados para começar</p>
+      </div>
 
       <form
         [formGroup]="registerForm"
         (ngSubmit)="onSubmit()"
-        class="register-form"
+        class="auth-form"
       >
-        <div class="form-group">
-          <p-floatlabel>
-            <input
-              pInputText
-              id="name"
-              formControlName="name"
-              type="text"
-              [class.ng-invalid]="hasFieldError('name')"
-              class="w-full"
-              autocomplete="name"
-            />
-            <label for="name">Nome Completo</label>
-          </p-floatlabel>
+        <div class="form-field">
+          <label for="name" class="form-label">
+            <i class="pi pi-user"></i>
+            Nome Completo
+          </label>
+          <input
+            pInputText
+            id="name"
+            formControlName="name"
+            type="text"
+            [class.error]="hasFieldError('name')"
+            placeholder="Digite seu nome completo"
+            autocomplete="name"
+          />
           <app-validate-input
             [control]="registerForm.get('name')!"
             [error]="getFieldError('name')"
           ></app-validate-input>
         </div>
 
-        <div class="form-group">
-          <p-floatlabel>
-            <input
-              pInputText
-              id="email"
-              formControlName="email"
-              type="email"
-              [class.ng-invalid]="hasFieldError('email')"
-              class="w-full"
-              autocomplete="email"
-            />
-            <label for="email">Email</label>
-          </p-floatlabel>
+        <div class="form-field">
+          <label for="email" class="form-label">
+            <i class="pi pi-envelope"></i>
+            Email
+          </label>
+          <input
+            pInputText
+            id="email"
+            formControlName="email"
+            type="email"
+            [class.error]="hasFieldError('email')"
+            placeholder="seu@email.com"
+            autocomplete="email"
+          />
           <app-validate-input
             [control]="registerForm.get('email')!"
             [error]="getFieldError('email')"
           ></app-validate-input>
         </div>
 
-        <div class="form-group">
-          <p-floatlabel>
-            <p-dropdown
-              formControlName="role"
-              [options]="roleOptions"
-              optionLabel="label"
-              optionValue="value"
-              placeholder="Selecione um tipo"
-              styleClass="w-full"
-            ></p-dropdown>
-            <label for="role">Tipo de Usuário</label>
-          </p-floatlabel>
+        <div class="form-field">
+          <label for="role" class="form-label">
+            <i class="pi pi-briefcase"></i>
+            Tipo de Usuário
+          </label>
+          <p-dropdown
+            formControlName="role"
+            [options]="roleOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Selecione seu perfil"
+            styleClass="w-full"
+            [class.error]="hasFieldError('role')"
+          ></p-dropdown>
           <app-validate-input
             [control]="registerForm.get('role')!"
             [error]="getFieldError('role')"
           ></app-validate-input>
         </div>
 
-        <div class="form-group">
-          <p-floatlabel>
-            <p-password
-              formControlName="password"
-              inputId="password"
-              [feedback]="true"
-              [toggleMask]="true"
-              [class.ng-invalid]="hasFieldError('password')"
-              styleClass="w-full"
-              inputStyleClass="w-full"
-              autocomplete="new-password"
-            ></p-password>
-            <label for="password">Senha</label>
-          </p-floatlabel>
+        <div class="form-field">
+          <label for="password" class="form-label">
+            <i class="pi pi-lock"></i>
+            Senha
+          </label>
+          <p-password
+            formControlName="password"
+            inputId="password"
+            [feedback]="true"
+            [toggleMask]="true"
+            [class.error]="hasFieldError('password')"
+            styleClass="w-full"
+            inputStyleClass="w-full"
+            placeholder="Digite uma senha forte"
+            autocomplete="new-password"
+          ></p-password>
           <app-validate-input
             [control]="registerForm.get('password')!"
             [error]="getFieldError('password')"
           ></app-validate-input>
         </div>
 
-        <div class="form-group">
-          <p-floatlabel>
-            <p-password
-              formControlName="confirmPassword"
-              inputId="confirmPassword"
-              [feedback]="false"
-              [toggleMask]="true"
-              [class.ng-invalid]="hasFieldError('confirmPassword')"
-              styleClass="w-full"
-              inputStyleClass="w-full"
-              autocomplete="new-password"
-            ></p-password>
-            <label for="confirmPassword">Confirmar Senha</label>
-          </p-floatlabel>
+        <div class="form-field">
+          <label for="confirmPassword" class="form-label">
+            <i class="pi pi-lock"></i>
+            Confirmar Senha
+          </label>
+          <p-password
+            formControlName="confirmPassword"
+            inputId="confirmPassword"
+            [feedback]="false"
+            [toggleMask]="true"
+            [class.error]="hasFieldError('confirmPassword')"
+            styleClass="w-full"
+            inputStyleClass="w-full"
+            placeholder="Repita a senha"
+            autocomplete="new-password"
+          ></p-password>
           <app-validate-input
             [control]="registerForm.get('confirmPassword')!"
             [error]="getFieldError('confirmPassword')"
           ></app-validate-input>
         </div>
 
-        <div class="form-actions">
-          <p-button
-            type="submit"
-            label="Criar Conta"
-            styleClass="w-full register-button"
-            [loading]="loading$ | async"
-            [disabled]="loading$ | async"
-          ></p-button>
+        <p-button
+          type="submit"
+          label="Criar Conta"
+          icon="pi pi-user-plus"
+          styleClass="w-full auth-submit-btn"
+          [loading]="loading$ | async"
+          [disabled]="loading$ | async"
+        ></p-button>
+
+        <div class="auth-divider">
+          <span>ou</span>
         </div>
 
-        <p-divider align="center">
-          <span class="divider-text">ou</span>
-        </p-divider>
-
-        <div class="login-section">
-          <p class="login-text">
+        <div class="auth-redirect">
+          <p>
             Já tem uma conta?
-            <a routerLink="/auth/login" class="login-link"> Fazer login </a>
+            <a routerLink="/auth/login" class="redirect-link">
+              Fazer login
+              <i class="pi pi-arrow-right"></i>
+            </a>
           </p>
         </div>
       </form>
-    </p-card>
+    </div>
   </div>
 </div>
-

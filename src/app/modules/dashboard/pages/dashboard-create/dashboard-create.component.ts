@@ -13,7 +13,7 @@ import {
   ValidateInputComponent,
 } from '../../../../shared/components';
 import { initVeiculoForm } from '../../schema';
-import { DashboardService } from '../../services';
+import { VeiculoService } from '../../services/veiculo.service';
 
 @Component({
   imports: [
@@ -37,7 +37,7 @@ export class DashboardCreateComponent
   implements OnInit
 {
   public form = initVeiculoForm();
-  private readonly dashboardService = inject(DashboardService);
+  private readonly veiculoService = inject(VeiculoService);
 
   ngOnInit(): void {
     this.setBreadcrumb([
@@ -60,7 +60,7 @@ export class DashboardCreateComponent
       modelo: raw.modelo ?? '',
       ano: raw.ano ?? '',
     };
-    this.dashboardService.create(payload).subscribe({
+    this.veiculoService.create(payload).subscribe({
       next: (createdVehicle: any) => {
         this.showSuccess('Veículo criado com sucesso');
         this.goTo([AppRoutes.DASHBOARD]);

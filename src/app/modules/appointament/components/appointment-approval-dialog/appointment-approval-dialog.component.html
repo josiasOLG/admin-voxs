@@ -1,0 +1,128 @@
+<p-dialog
+  [header]="mode() === 'approve' ? 'Aprovar ' + (terminology()?.appointment?.singular || 'Agendamento') : 'Rejeitar ' + (terminology()?.appointment?.singular || 'Agendamento')"
+  [visible]="visible()"
+  [modal]="true"
+  [closable]="!loading()"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '500px' }"
+  (onHide)="close()"
+  styleClass="appointment-approval-dialog"
+>
+  @if (appointment(); as app) {
+    <div class="flex flex-column gap-3">
+      <!-- Informações do agendamento -->
+      <div class="surface-100 border-round p-3">
+        <div class="flex flex-column gap-2">
+          <div class="flex justify-content-between">
+            <span class="text-600 font-medium">Cliente:</span>
+            <span class="font-semibold">{{ app.userName || 'Não informado' }}</span>
+          </div>
+
+          <div class="flex justify-content-between">
+            <span class="text-600 font-medium">Data:</span>
+            <span class="font-semibold">{{ formatDate(app.date) }}</span>
+          </div>
+
+          <div class="flex justify-content-between">
+            <span class="text-600 font-medium">Horário:</span>
+            <span class="font-semibold">{{ app.time }}</span>
+          </div>
+
+          @if (app.serviceNames && app.serviceNames.length > 0) {
+            <div class="flex justify-content-between">
+              <span class="text-600 font-medium">Serviços:</span>
+              <span class="font-semibold">{{ formatServices(app.serviceNames) }}</span>
+            </div>
+          }
+
+          @if (app.modality) {
+            <div class="flex justify-content-between">
+              <span class="text-600 font-medium">Modalidade:</span>
+              <span class="font-semibold">{{ app.modality }}</span>
+            </div>
+          }
+
+          @if (app.notes) {
+            <div class="flex flex-column gap-1">
+              <span class="text-600 font-medium">Observações:</span>
+              <span class="text-sm">{{ app.notes }}</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Modo: Aprovação -->
+      @if (mode() === 'approve') {
+        <p-message
+          severity="info"
+          text="Ao aprovar, o cliente será notificado via WhatsApp."
+          styleClass="w-full"
+        />
+      }
+
+      <!-- Modo: Rejeição -->
+      @if (mode() === 'reject') {
+        <form [formGroup]="rejectForm" class="flex flex-column gap-3">
+          <div class="field mb-0">
+            <label for="reason" class="block mb-2 font-medium">
+              Motivo da Rejeição *
+            </label>
+            <textarea
+              pInputTextarea
+              id="reason"
+              formControlName="reason"
+              rows="4"
+              placeholder="Descreva o motivo da rejeição (mínimo 10 caracteres)"
+              class="w-full"
+              [class.ng-invalid]="rejectForm.controls.reason.invalid && rejectForm.controls.reason.touched"
+              [class.ng-dirty]="rejectForm.controls.reason.touched"
+            ></textarea>
+            @if (rejectForm.controls.reason.invalid && rejectForm.controls.reason.touched) {
+              <small class="p-error">
+                {{ rejectForm.controls.reason.errors?.['required'] ? 'Motivo é obrigatório' : 'Mínimo de 10 caracteres' }}
+              </small>
+            }
+          </div>
+
+          <p-message
+            severity="warn"
+            text="O cliente será notificado sobre a rejeição."
+            styleClass="w-full"
+          />
+        </form>
+      }
+    </div>
+  }
+
+  <ng-template pTemplate="footer">
+    <div class="flex gap-2 justify-content-end">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        [outlined]="true"
+        icon="pi pi-times"
+        [disabled]="loading()"
+        (onClick)="close()"
+      />
+      @if (mode() === 'approve') {
+        <p-button
+          label="Aprovar"
+          severity="success"
+          icon="pi pi-check"
+          [loading]="loading()"
+          (onClick)="confirmApprove()"
+        />
+      } @else {
+        <p-button
+          label="Rejeitar"
+          severity="danger"
+          icon="pi pi-times-circle"
+          [loading]="loading()"
+          [disabled]="rejectForm.invalid"
+          (onClick)="confirmReject()"
+        />
+      }
+    </div>
+  </ng-template>
+</p-dialog>

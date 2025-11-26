@@ -12,10 +12,6 @@ import { VerifyCodeComponent } from './pages/verify-code/verify-code.component';
 // Services
 import { AuthService } from './services/auth.service';
 
-// Guards
-import { AuthGuard } from './guards/auth.guard';
-import { NoAuthGuard } from './guards/no-auth.guard';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -27,6 +23,6 @@ import { NoAuthGuard } from './guards/no-auth.guard';
     VerifyCodeComponent,
     ResetPasswordComponent,
   ],
-  providers: [AuthService, AuthGuard, NoAuthGuard],
+  providers: [AuthService],
 })
 export class AuthModule {}

@@ -2,6 +2,13 @@
   flex: 1 1 auto;
 }
 
+:host {
+  ::ng-deep {
+    .p-toolbar {
+      background-color: #fff !important;
+    }
+  }
+}
 .user-info {
   .cursor-pointer {
     padding: 0.5rem;

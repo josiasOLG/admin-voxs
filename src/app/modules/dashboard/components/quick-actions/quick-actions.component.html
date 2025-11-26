@@ -1,0 +1,23 @@
+<p-card>
+  <ng-template pTemplate="header">
+    <div class="card-header">
+      <h3>{{ title }}</h3>
+    </div>
+  </ng-template>
+
+  <div class="quick-actions-grid">
+    @for (action of actions; track action.id) {
+      <button
+        pButton
+        type="button"
+        class="quick-action-btn p-button-outlined"
+        [disabled]="!action.enabled"
+        (click)="onActionClick(action)"
+        [style.border-color]="action.color"
+      >
+        <i [class]="'pi ' + action.icon" [style.color]="action.color"></i>
+        <span class="action-label">{{ action.label }}</span>
+      </button>
+    }
+  </div>
+</p-card>

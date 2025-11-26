@@ -3,6 +3,9 @@ import { Component, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -23,6 +26,9 @@ import { AppServiceService } from '../../services/app-service.service';
     RouterModule,
     ButtonModule,
     CardModule,
+    IconFieldModule,
+    InputIconModule,
+    InputTextModule,
     TableModule,
     TagModule,
     ToolbarModule,

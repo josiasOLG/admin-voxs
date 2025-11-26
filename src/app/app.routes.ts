@@ -1,15 +1,31 @@
 import { Routes } from '@angular/router';
-import { AuthGuard } from './modules/auth/guards/auth.guard';
-import { NoAuthGuard } from './modules/auth/guards/no-auth.guard';
+import { authGuard, noAuthGuard } from './modules/auth/guards';
 import { AuthLayoutComponent } from './shared/components/layout/auth-layout/auth-layout.component';
+import { LandingLayoutComponent } from './shared/components/layout/landing-layout/landing-layout.component';
 import { MainLayoutComponent } from './shared/components/layout/main-layout/main-layout.component';
-import { AppRoutes } from './shared/constants/app.routes';
 
 export const appRoutes: Routes = [
   {
+    path: 'home',
+    component: LandingLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('./modules/landing/landing-routing.module').then(
+            (m) => m.LandingRoutingModule
+          ),
+      },
+    ],
+    data: {
+      title: 'Bem-vindo',
+    },
+  },
+
+  {
     path: 'auth',
     component: AuthLayoutComponent,
-    canActivate: [NoAuthGuard],
+    canActivate: [noAuthGuard],
     children: [
       {
         path: '',
@@ -25,12 +41,12 @@ export const appRoutes: Routes = [
   },
 
   {
-    path: '',
+    path: 'app',
     component: MainLayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     children: [
       {
-        path: AppRoutes.DASHBOARD.slice(1), // Remove a barra inicial
+        path: 'dashboard',
         loadChildren: () =>
           import('./modules/dashboard/dashboard-routing.module').then(
             (m) => m.DashboardRoutes
@@ -40,7 +56,7 @@ export const appRoutes: Routes = [
         },
       },
       {
-        path: AppRoutes.APPOINTMENTS.slice(1), // Remove a barra inicial
+        path: 'appointment',
         loadChildren: () =>
           import('./modules/appointament/appointment-routing.module').then(
             (m) => m.AppointmentRoutes
@@ -50,7 +66,7 @@ export const appRoutes: Routes = [
         },
       },
       {
-        path: AppRoutes.USERS.slice(1), // Remove a barra inicial
+        path: 'users',
         loadChildren: () =>
           import('./modules/users/user-routing.module').then(
             (m) => m.UserRoutes
@@ -60,7 +76,7 @@ export const appRoutes: Routes = [
         },
       },
       {
-        path: AppRoutes.APP_SERVICES.slice(1), // Remove a barra inicial
+        path: 'app-services',
         loadChildren: () =>
           import('./modules/app-services/app-service-routing.module').then(
             (m) => m.AppServiceRoutes
@@ -71,12 +87,17 @@ export const appRoutes: Routes = [
       },
       {
         path: '',
-        redirectTo: AppRoutes.DASHBOARD,
+        redirectTo: 'dashboard',
         pathMatch: 'full',
       },
     ],
   },
 
+  {
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full',
+  },
   {
     path: 'login',
     redirectTo: '/auth/login',
@@ -84,6 +105,6 @@ export const appRoutes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '/auth/login',
+    redirectTo: '/home',
   },
 ];

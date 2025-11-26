@@ -1,0 +1,44 @@
+<p-card styleClass="appointment-status-timeline-card">
+  <ng-template pTemplate="header">
+    <div class="px-3 pt-3">
+      <div class="flex align-items-center gap-2">
+        <i class="pi pi-history text-xl text-primary"></i>
+        <span class="font-semibold text-lg">Histórico do Agendamento</span>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    @if (events().length > 0) {
+      <p-timeline [value]="events()" layout="vertical" align="left">
+        <ng-template pTemplate="content" let-event>
+          <div class="flex flex-column gap-2">
+            <div class="flex align-items-center gap-2">
+              <p-tag [value]="event.status" [severity]="event.color" />
+              @if (event.date) {
+                <span class="text-sm text-600">{{ formatDate(event.date) }}</span>
+              }
+            </div>
+            @if (event.message) {
+              <p class="text-sm text-700 m-0">{{ event.message }}</p>
+            }
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="marker" let-event>
+          <div
+            class="timeline-marker flex align-items-center justify-content-center border-circle"
+            [class]="'bg-' + event.color"
+          >
+            <i [class]="'pi ' + event.icon + ' text-white'"></i>
+          </div>
+        </ng-template>
+      </p-timeline>
+    } @else {
+      <div class="text-center text-600 py-4">
+        <i class="pi pi-info-circle text-2xl mb-2"></i>
+        <p>Nenhum evento no histórico</p>
+      </div>
+    }
+  </ng-template>
+</p-card>

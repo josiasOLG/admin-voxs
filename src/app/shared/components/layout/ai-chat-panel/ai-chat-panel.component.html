@@ -1,0 +1,36 @@
+<div class="ai-chat-panel" [class.minimized]="chatService.isMinimized()">
+  @if (chatService.isMinimized()) {
+  <div class="minimized-trigger" (click)="handleExpand()">
+    <button
+      class="expand-button"
+      pTooltip="Expandir Chat AI"
+      tooltipPosition="left"
+    >
+      <i class="pi pi-sparkles"></i>
+    </button>
+  </div>
+  } @else {
+  <app-ai-chat-header (minimize)="handleMinimize()" (close)="handleClose()" />
+
+  <div class="chat-body">
+    <div class="messages-container" #messagesContainer>
+      @for (message of chatService.messages(); track message.id) {
+      <app-ai-chat-message [message]="message" />
+      } @if (chatService.isTyping()) {
+      <div class="typing-indicator">
+        <div class="typing-avatar">
+          <i class="pi pi-sparkles"></i>
+        </div>
+        <div class="typing-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      }
+    </div>
+
+    <app-ai-chat-input (sendMessage)="handleSendMessage($event)" />
+  </div>
+  }
+</div>

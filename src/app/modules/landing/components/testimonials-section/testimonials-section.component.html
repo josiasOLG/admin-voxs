@@ -1,0 +1,55 @@
+<section class="testimonials-section">
+  <div class="testimonials-section__container">
+    <div class="testimonials-section__header">
+      <div class="testimonials-section__badge">
+        <i class="pi pi-star testimonials-section__badge-icon"></i>
+        <span class="testimonials-section__badge-text"
+          >Avaliações de Clientes</span
+        >
+      </div>
+
+      <h2 class="testimonials-section__title">
+        O Que Nossos Clientes
+        <span class="testimonials-section__title--highlight">Dizem</span>
+      </h2>
+
+      <p class="testimonials-section__description">
+        Milhares de profissionais já transformaram seus negócios com nossa
+        plataforma. Veja o que eles têm a dizer.
+      </p>
+    </div>
+
+    <div class="testimonials-section__carousel">
+      <app-testimonials-carousel [testimonials]="testimonials()" />
+    </div>
+
+    <div class="testimonials-section__stats">
+      <div class="testimonials-section__stat">
+        <div class="testimonials-section__stat-value">4.9</div>
+        <div class="testimonials-section__stat-stars">
+          <i class="pi pi-star-fill"></i>
+          <i class="pi pi-star-fill"></i>
+          <i class="pi pi-star-fill"></i>
+          <i class="pi pi-star-fill"></i>
+          <i class="pi pi-star-fill"></i>
+        </div>
+        <div class="testimonials-section__stat-label">Avaliação Média</div>
+      </div>
+
+      <div class="testimonials-section__stat">
+        <div class="testimonials-section__stat-value">10K+</div>
+        <div class="testimonials-section__stat-label">Clientes Satisfeitos</div>
+      </div>
+
+      <div class="testimonials-section__stat">
+        <div class="testimonials-section__stat-value">98%</div>
+        <div class="testimonials-section__stat-label">Taxa de Satisfação</div>
+      </div>
+
+      <div class="testimonials-section__stat">
+        <div class="testimonials-section__stat-value">5K+</div>
+        <div class="testimonials-section__stat-label">Avaliações Positivas</div>
+      </div>
+    </div>
+  </div>
+</section>

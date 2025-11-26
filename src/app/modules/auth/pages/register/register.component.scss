@@ -1,270 +1,456 @@
-.register-container {
+.auth-container {
   min-height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--bg-light);
+
+  @media (max-width: 968px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Left Side - Visual Area
+.auth-visual {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 1rem;
-}
-
-.register-wrapper {
-  width: 100%;
-  max-width: 500px;
-}
-
-.register-card {
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  border-radius: 16px;
-  border: none;
+  padding: 4rem 5rem;
+  background: linear-gradient(
+    135deg,
+    var(--brand-primary) 0%,
+    var(--brand-secondary) 100%
+  );
   overflow: hidden;
 
-  ::ng-deep .p-card-header {
-    padding: 2rem 2rem 1rem 2rem;
-    border-bottom: none;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  @media (max-width: 1200px) {
+    padding: 3rem;
   }
 
-  ::ng-deep .p-card-body {
+  @media (max-width: 968px) {
+    min-height: 40vh;
     padding: 2rem;
   }
 
-  ::ng-deep .p-card-content {
-    padding: 0;
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at 80% 50%,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 50%
+    );
+    pointer-events: none;
   }
-}
 
-.register-header {
-  text-align: center;
+  &__content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 600px;
+    color: var(--text-on-dark);
 
-  .logo-container {
-    margin-bottom: 1.5rem;
+    @media (max-width: 968px) {
+      text-align: center;
+    }
+  }
+
+  &__logo {
+    margin-bottom: 2rem;
 
     .logo {
       height: 60px;
       width: auto;
-    }
-  }
+      filter: brightness(0) invert(1);
 
-  .register-title {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: #2c3e50;
-  }
-
-  .register-subtitle {
-    margin: 0;
-    color: #6c757d;
-    font-size: 0.95rem;
-    font-weight: 400;
-  }
-}
-
-.register-form {
-  .form-group {
-    margin-bottom: 1.5rem;
-
-    ::ng-deep .p-float-label {
-      width: 100%;
-
-      input,
-      .p-password,
-      .p-dropdown {
-        width: 100%;
-        border-radius: 8px;
-        border: 2px solid #e9ecef;
-        transition: all 0.3s ease;
-        font-size: 1rem;
-
-        &:focus,
-        &:focus-within {
-          border-color: #667eea;
-          box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-        }
-
-        &.ng-invalid.ng-touched {
-          border-color: #dc3545;
-
-          &:focus,
-          &:focus-within {
-            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
-          }
-        }
-      }
-
-      input {
-        padding: 0.75rem 1rem;
-      }
-
-      .p-dropdown {
-        .p-dropdown-label {
-          padding: 0.75rem 1rem;
-        }
-
-        .p-dropdown-trigger {
-          width: 2.5rem;
-          color: #6c757d;
-        }
-      }
-
-      label {
-        color: #6c757d;
-        font-weight: 500;
-        transition: all 0.3s ease;
-      }
-
-      &.p-float-label-active label {
-        color: #667eea;
+      @media (max-width: 968px) {
+        height: 50px;
       }
     }
 
-    ::ng-deep .p-password {
-      .p-password-input {
-        border-radius: 8px;
-        padding: 0.75rem 1rem;
-      }
-
-      .p-password-toggle {
-        color: #6c757d;
-
-        &:hover {
-          color: #667eea;
-        }
-      }
+    // Fallback caso não tenha logo
+    &:empty::before {
+      content: "VOXS";
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--text-on-dark);
+      letter-spacing: 0.1em;
     }
   }
-}
 
-.form-actions {
-  margin-bottom: 1.5rem;
+  &__title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: var(--text-on-dark);
 
-  ::ng-deep .register-button {
-    .p-button {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border: none;
-      border-radius: 8px;
-      padding: 0.75rem 1.5rem;
+    @media (max-width: 968px) {
+      font-size: 2rem;
+    }
+
+    .gradient-text {
+      display: block;
+      background: linear-gradient(135deg, var(--brand-accent) 0%, #fff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  }
+
+  &__description {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--text-on-dark-secondary);
+    margin-bottom: 2.5rem;
+
+    @media (max-width: 968px) {
       font-size: 1rem;
-      font-weight: 600;
-      transition: all 0.3s ease;
-
-      &:enabled:hover {
-        background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
-        transform: translateY(-1px);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-      }
-
-      &:enabled:active {
-        transform: translateY(0);
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
-      }
-
-      &:disabled {
-        background: #e9ecef;
-        color: #6c757d;
-        cursor: not-allowed;
-      }
+      margin-bottom: 2rem;
     }
   }
 }
 
-::ng-deep .p-divider {
-  margin: 1.5rem 0;
+// Benefits List
+.benefits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 
-  &.p-divider-horizontal:before {
-    border-top-color: #e9ecef;
+  @media (max-width: 968px) {
+    gap: 0.75rem;
+  }
+}
+
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  color: var(--text-on-dark);
+  font-weight: 500;
+  animation: slideInFromLeft 0.6s ease-out backwards;
+
+  @for $i from 1 through 4 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.1}s;
+    }
   }
 
-  .p-divider-content {
-    background: white;
+  i {
+    font-size: 1.25rem;
+    color: var(--brand-accent);
+    flex-shrink: 0;
+  }
+
+  span {
+    font-size: 1rem;
+
+    @media (max-width: 968px) {
+      font-size: 0.95rem;
+    }
+  }
+}
+
+// Right Side - Form Area
+.auth-form-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 5rem;
+  background: var(--bg-light);
+  overflow-y: auto;
+
+  @media (max-width: 1200px) {
+    padding: 3rem;
+  }
+
+  @media (max-width: 968px) {
+    padding: 2rem 1.5rem;
+  }
+}
+
+.auth-form-container {
+  width: 100%;
+  max-width: 500px;
+}
+
+.auth-form-header {
+  margin-bottom: 2rem;
+
+  @media (max-width: 968px) {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.auth-form-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-on-light);
+  margin-bottom: 0.5rem;
+
+  @media (max-width: 968px) {
+    font-size: 1.75rem;
+  }
+}
+
+.auth-form-subtitle {
+  font-size: 1rem;
+  color: var(--text-on-light-secondary);
+  margin: 0;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-on-light);
+
+  i {
+    font-size: 1rem;
+    color: var(--brand-primary);
+  }
+}
+
+::ng-deep .auth-form {
+  input[type="email"],
+  input[type="text"] {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    border: 2px solid var(--border-dark);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: var(--bg-light);
+    color: var(--text-on-light);
+
+    &::placeholder {
+      color: var(--text-on-light-muted);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--brand-primary);
+      background: var(--bg-light);
+    }
+
+    &.error {
+      border-color: var(--status-error);
+    }
+  }
+
+  .p-password {
+    width: 100%;
+
+    .p-password-input {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      font-size: 1rem;
+      border: 2px solid var(--border-dark);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      background: var(--bg-light);
+      color: var(--text-on-light);
+
+      &::placeholder {
+        color: var(--text-on-light-muted);
+      }
+
+      &:focus {
+        outline: none;
+        border-color: var(--brand-primary);
+      }
+    }
+
+    &.error .p-password-input {
+      border-color: var(--status-error);
+    }
+  }
+
+  .p-dropdown {
+    width: 100%;
+    border: 2px solid var(--border-dark);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: var(--bg-light);
+
+    &:not(.p-disabled):hover {
+      border-color: var(--brand-primary);
+    }
+
+    &:not(.p-disabled).p-focus {
+      outline: none;
+      border-color: var(--brand-primary);
+    }
+
+    &.error {
+      border-color: var(--status-error);
+    }
+
+    .p-dropdown-label {
+      padding: 0.875rem 1rem;
+      font-size: 1rem;
+      color: var(--text-on-light);
+
+      &.p-placeholder {
+        color: var(--text-on-light-muted);
+      }
+    }
+
+    .p-dropdown-trigger {
+      color: var(--text-on-light-secondary);
+    }
+  }
+
+  app-validate-input {
+    .error-message {
+      display: block;
+      font-size: 0.875rem;
+      color: var(--status-error);
+      font-weight: 500;
+      margin-top: 0.25rem;
+    }
+  }
+}
+
+::ng-deep .auth-submit-btn {
+  margin-top: 0.5rem;
+
+  .p-button {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+
+    &:enabled:hover {
+      background: linear-gradient(
+        135deg,
+        var(--brand-primary-dark) 0%,
+        var(--brand-secondary) 100%
+      );
+      transform: translateY(-1px);
+    }
+
+    &:enabled:active {
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      background: var(--bg-light-tertiary);
+      color: var(--text-on-light-muted);
+    }
+
+    .p-button-icon {
+      font-size: 1rem;
+    }
+  }
+}
+
+.auth-divider {
+  position: relative;
+  text-align: center;
+  margin: 0.75rem 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border-dark);
+  }
+
+  span {
+    position: relative;
+    display: inline-block;
     padding: 0 1rem;
-  }
-
-  .divider-text {
-    color: #6c757d;
+    background: var(--bg-light);
+    color: var(--text-on-light-secondary);
     font-size: 0.9rem;
     font-weight: 500;
   }
 }
 
-.login-section {
+.auth-redirect {
   text-align: center;
+  font-size: 0.95rem;
+  color: var(--text-on-light-secondary);
 
-  .login-text {
+  p {
     margin: 0;
-    color: #6c757d;
-    font-size: 0.95rem;
+  }
 
-    .login-link {
-      color: #667eea;
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.3s ease;
+  .redirect-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    color: var(--brand-primary);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
 
-      &:hover {
-        color: #5a6fd8;
-        text-decoration: underline;
+    i {
+      font-size: 0.875rem;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover {
+      color: var(--brand-primary-dark);
+      text-decoration: underline;
+
+      i {
+        transform: translateX(3px);
       }
     }
   }
 }
 
-// Responsividade
-@media (max-width: 576px) {
-  .register-container {
-    padding: 0.5rem;
-  }
-
-  .register-card {
-    ::ng-deep .p-card-header {
-      padding: 1.5rem 1.5rem 1rem 1.5rem;
-    }
-
-    ::ng-deep .p-card-body {
-      padding: 1.5rem;
-    }
-  }
-
-  .register-header {
-    .register-title {
-      font-size: 1.5rem;
-    }
-
-    .logo {
-      height: 50px !important;
-    }
-  }
-
-  .register-form {
-    .form-group {
-      margin-bottom: 1.25rem;
-    }
-  }
-}
-
-// Animações
-@keyframes fadeInUp {
+// Animations
+@keyframes slideInFromLeft {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateX(-20px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 }
 
-.register-card {
-  animation: fadeInUp 0.6s ease-out;
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-// Estados de erro para validação
-::ng-deep app-validate-input {
-  .error-message {
-    display: block;
-    margin-top: 0.25rem;
-    font-size: 0.85rem;
-    color: #dc3545;
-    font-weight: 500;
-  }
+.auth-form-container {
+  animation: slideIn 0.6s ease-out;
+}
+
+.auth-visual__content {
+  animation: slideInFromLeft 0.6s ease-out;
 }

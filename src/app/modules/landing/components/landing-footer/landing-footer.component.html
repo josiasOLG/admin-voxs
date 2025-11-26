@@ -1,0 +1,84 @@
+<footer class="footer">
+  <div class="footer__container">
+    <!-- Brand e Descrição -->
+    <div class="footer__brand-section">
+      <div class="footer__brand">
+        <i class="pi pi-sparkles footer__brand-icon"></i>
+        <span class="footer__brand-text">Admin Voxs</span>
+      </div>
+      <p class="footer__description">
+        A plataforma completa de gestão para profissionais que buscam excelência
+        e eficiência no atendimento aos seus clientes.
+      </p>
+      <div class="footer__social">
+        @for (social of socialLinks; track social.label) {
+        <a
+          [href]="social.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer__social-link"
+          [attr.aria-label]="social.label"
+        >
+          <i [class]="social.icon"></i>
+        </a>
+        }
+      </div>
+    </div>
+
+    <!-- Links em Colunas -->
+    <div class="footer__links">
+      @for (section of sections; track section.title) {
+      <div class="footer__column">
+        <h3 class="footer__column-title">{{ section.title }}</h3>
+        <ul class="footer__column-list">
+          @for (link of section.links; track link.label) {
+          <li class="footer__column-item">
+            <a
+              [href]="link.url"
+              class="footer__column-link"
+              (click)="navigateTo(link.url); $event.preventDefault()"
+            >
+              {{ link.label }}
+            </a>
+          </li>
+          }
+        </ul>
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- Barra de Copyright -->
+  <div class="footer__bottom">
+    <div class="footer__bottom-container">
+      <p class="footer__copyright">
+        © {{ currentYear }} Admin Voxs. Todos os direitos reservados.
+      </p>
+      <div class="footer__bottom-links">
+        <a
+          href="#privacy"
+          class="footer__bottom-link"
+          (click)="navigateTo('#privacy'); $event.preventDefault()"
+        >
+          Política de Privacidade
+        </a>
+        <span class="footer__separator">•</span>
+        <a
+          href="#terms"
+          class="footer__bottom-link"
+          (click)="navigateTo('#terms'); $event.preventDefault()"
+        >
+          Termos de Uso
+        </a>
+        <span class="footer__separator">•</span>
+        <a
+          href="#cookies"
+          class="footer__bottom-link"
+          (click)="navigateTo('#cookies'); $event.preventDefault()"
+        >
+          Cookies
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

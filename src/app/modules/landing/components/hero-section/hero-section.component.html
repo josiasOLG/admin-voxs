@@ -1,0 +1,55 @@
+<section class="hero">
+  <div class="hero__content">
+    <div class="hero__badge">
+      <i class="pi pi-sparkles hero__badge-icon"></i>
+      <span class="hero__badge-text">Plataforma Completa de Gestão</span>
+    </div>
+
+    <h1 class="hero__title">
+      Transforme a Gestão do Seu
+      <span class="hero__title--gradient">Negócio</span>
+    </h1>
+
+    <p class="hero__description">
+      Sistema completo para gerenciar agendamentos, clientes e serviços com
+      inteligência artificial. Aumente sua produtividade e ofereça a melhor
+      experiência aos seus clientes.
+    </p>
+
+    <div class="hero__actions">
+      <button
+        pButton
+        label="Começar Agora"
+        icon="pi pi-arrow-right"
+        class="p-button-lg hero__button hero__button--primary"
+        (click)="handleRegisterClick()"
+      ></button>
+
+      <button
+        pButton
+        label="Fazer Login"
+        icon="pi pi-sign-in"
+        class="p-button-lg p-button-outlined hero__button hero__button--secondary"
+        (click)="handleLoginClick()"
+      ></button>
+    </div>
+
+    <div class="hero__stats">
+      @for (stat of stats(); track stat.label) {
+      <div class="hero__stat">
+        <div class="hero__stat-value">{{ stat.value }}</div>
+        <div class="hero__stat-label">{{ stat.label }}</div>
+      </div>
+      }
+    </div>
+  </div>
+
+  <div class="hero__visual">
+    @for (card of visualCards; track card.position) {
+    <div class="hero__card hero__card--{{ card.position }}">
+      <i [class]="card.icon + ' hero__card-icon'"></i>
+      <span class="hero__card-label">{{ card.label }}</span>
+    </div>
+    }
+  </div>
+</section>

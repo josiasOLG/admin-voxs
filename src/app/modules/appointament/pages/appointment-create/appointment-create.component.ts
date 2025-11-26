@@ -1,132 +1,75 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { CalendarModule } from 'primeng/calendar';
-import { CardModule } from 'primeng/card';
-import { CheckboxModule } from 'primeng/checkbox';
-import { DropdownModule } from 'primeng/dropdown';
-import { FloatLabelModule } from 'primeng/floatlabel';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextarea } from 'primeng/inputtextarea';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { AppRoutes } from '../../../../shared';
 import {
-  BaseResourceComponent,
-  SharedHeaderComponent,
-  ValidateInputComponent,
-} from '../../../../shared/components';
-import { initAppointmentForm } from '../../schema';
-import { AppointmentService } from '../../services';
+  Component,
+  inject,
+  OnInit,
+  signal,
+  ViewEncapsulation,
+} from '@angular/core';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
+import { MenuItem } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { MenuModule } from 'primeng/menu';
+import { PanelModule } from 'primeng/panel';
+import { ToastModule } from 'primeng/toast';
+import { SharedHeaderComponent } from '../../../../shared/components/shared-header';
 
+/**
+ * Componente para criação de agendamento com menu lateral
+ */
 @Component({
+  selector: 'app-appointment-create',
+  standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule,
+    RouterModule,
+    RouterOutlet,
+    PanelModule,
+    MenuModule,
     ButtonModule,
-    CalendarModule,
-    DropdownModule,
-    FloatLabelModule,
-    InputTextModule,
-    InputTextarea,
-    MultiSelectModule,
-    CheckboxModule,
-    CardModule,
-    ValidateInputComponent,
+    ToastModule,
     SharedHeaderComponent,
   ],
-  standalone: true,
-  selector: 'app-appointment-create',
   templateUrl: './appointment-create.component.html',
   styleUrls: ['./appointment-create.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
-export class AppointmentCreateComponent
-  extends BaseResourceComponent
-  implements OnInit
-{
-  public form = initAppointmentForm();
-  private readonly appointmentService = inject(AppointmentService);
+export class AppointmentCreateComponent implements OnInit {
+  private router = inject(Router);
 
-  public statusOptions = [
-    { label: 'Pendente', value: 'pending' },
-    { label: 'Confirmado', value: 'confirmed' },
-    { label: 'Cancelado', value: 'cancelled' },
-    { label: 'Concluído', value: 'completed' },
-  ];
-
-  public serviceOptions = [
-    { label: 'Corte de Cabelo', value: 'haircut' },
-    { label: 'Barba', value: 'beard' },
-    { label: 'Bigode', value: 'mustache' },
-    { label: 'Sobrancelha', value: 'eyebrow' },
-    { label: 'Hidratação', value: 'hydration' },
-  ];
-
-  public modalityOptions = [
-    { label: 'Presencial', value: 'presencial' },
-    { label: 'Domicílio', value: 'domicilio' },
-  ];
+  public menuItems = signal<MenuItem[]>([]);
 
   ngOnInit(): void {
-    this.setBreadcrumb([
-      { label: 'Agendamentos', url: `/${AppRoutes.APPOINTMENTS}` },
-      { label: 'Criar Agendamento' },
+    this.initializeMenu();
+  }
+
+  /**
+   * Inicializa os itens do menu
+   */
+  private initializeMenu(): void {
+    this.menuItems.set([
+      {
+        label: 'Dados do Cliente',
+        icon: 'pi pi-user',
+        routerLink: '/appointment/create/client',
+      },
+      {
+        label: 'Agendamento',
+        icon: 'pi pi-calendar',
+        routerLink: '/appointment/create/appointment',
+      },
+      {
+        label: 'Serviços',
+        icon: 'pi pi-briefcase',
+        routerLink: '/appointment/create/services',
+      },
     ]);
   }
 
-  public submit(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
-    this.startLoading();
-    const raw = this.form.getRawValue();
-
-    // Validate required fields
-    if (!raw.date) {
-      this.showError('Data é obrigatória');
-      this.stopLoading();
-      return;
-    }
-
-    const payload = {
-      userId: raw.userId || '',
-      barberId: raw.barberId || '',
-      date: raw.date,
-      service: raw.service || [],
-      status:
-        (raw.status as 'pending' | 'confirmed' | 'cancelled' | 'completed') ||
-        'pending',
-      statusPoint: raw.statusPoint || false,
-      allDay: raw.allDay || false,
-      ...(raw.idServico && { idServico: raw.idServico }),
-      ...(raw.time && { time: raw.time }),
-      ...(raw.statusAprovacao && { statusAprovacao: raw.statusAprovacao }),
-      ...(raw.statusMensage && { statusMensage: raw.statusMensage }),
-      ...(raw.notes && { notes: raw.notes }),
-      ...(raw.repete && { repete: raw.repete }),
-      ...(raw.exceptions && { exceptions: raw.exceptions }),
-      ...(raw.endRepeat && { endRepeat: raw.endRepeat }),
-      ...(raw.color && { color: raw.color }),
-      ...(raw.userNumber && { userNumber: raw.userNumber }),
-      ...(raw.modality && { modality: raw.modality }),
-    };
-    this.appointmentService.create(payload).subscribe({
-      next: (createdAppointment: any) => {
-        this.showSuccess('Agendamento criado com sucesso');
-        this.goTo([AppRoutes.APPOINTMENTS]);
-      },
-      error: (err: any) => {
-        this.showError('Erro ao criar agendamento', err?.message || '');
-      },
-      complete: () => {
-        this.stopLoading();
-      },
-    });
+  /**
+   * Cancela e volta para listagem
+   */
+  public cancel(): void {
+    this.router.navigate(['/appointment/list']);
   }
-
-  public back = () => {
-    this.backViewlink(`/${AppRoutes.APPOINTMENTS}/${AppRoutes.LIST}`);
-  };
 }

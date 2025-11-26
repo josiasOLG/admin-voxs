@@ -14,7 +14,7 @@ import {
   SharedSkeletonComponent,
 } from '../../../../shared/components';
 import { IVeiculo } from '../../schema';
-import { DashboardService } from '../../services';
+import { VeiculoService } from '../../services/veiculo.service';
 
 @Component({
   imports: [
@@ -39,7 +39,7 @@ export class DashboardTableListComponent extends BaseResourceComponent {
   @Input() public displayedColumns: string[] = [];
   @Output() public deleteItem = new EventEmitter<string>();
 
-  private dashboardService = inject(DashboardService);
+  private veiculoService = inject(VeiculoService);
   private confirmationService = inject(ConfirmationService);
   public isLoadingDelete = false;
 
@@ -54,7 +54,7 @@ export class DashboardTableListComponent extends BaseResourceComponent {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.isLoadingDelete = true;
-        this.dashboardService.delete(id).subscribe({
+        this.veiculoService.delete(id).subscribe({
           next: () => {
             this.showSuccess('Veículo excluído com sucesso');
             this.deleteItem.emit(id);

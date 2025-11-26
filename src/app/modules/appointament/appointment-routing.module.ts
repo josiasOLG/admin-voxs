@@ -2,10 +2,16 @@ import { Routes } from '@angular/router';
 import { UserRoles } from '../../shared/enums';
 import { RoleGuard } from '../../shared/guards/role.guard';
 import {
+  AppointmentListComponent,
+  AppointmentCalendarComponent,
   AppointmentCreateComponent,
   AppointmentEditComponent,
-  AppointmentListComponent,
 } from './pages';
+import {
+  AppointmentClientFormComponent,
+  AppointmentDetailsFormComponent,
+  AppointmentServicesFormComponent,
+} from './components';
 import { appointmentEditResolver } from './resolvers';
 
 export const AppointmentRoutes: Routes = [
@@ -16,7 +22,17 @@ export const AppointmentRoutes: Routes = [
     data: {
       title: 'Lista de Agendamentos',
       subtitle: 'Gerenciamento de agendamentos dos profissionais cadastrados',
-      roles: [UserRoles.BARBER, UserRoles.ADMIN], // Apenas barbeiros e admins podem ver agendamentos
+      roles: [UserRoles.BARBER, UserRoles.ADMIN],
+    },
+  },
+  {
+    path: 'calendar',
+    component: AppointmentCalendarComponent,
+    canActivate: [RoleGuard],
+    data: {
+      title: 'Calendário de Agendamentos',
+      subtitle: 'Visualização em calendário dos agendamentos',
+      roles: [UserRoles.BARBER, UserRoles.ADMIN],
     },
   },
   {
@@ -26,8 +42,27 @@ export const AppointmentRoutes: Routes = [
     data: {
       title: 'Criar Agendamento',
       subtitle: 'Agendar novo serviço',
-      roles: [UserRoles.BARBER, UserRoles.ADMIN], // Apenas barbeiros e admins podem criar agendamentos
+      roles: [UserRoles.BARBER, UserRoles.ADMIN],
     },
+    children: [
+      {
+        path: 'client',
+        component: AppointmentClientFormComponent,
+      },
+      {
+        path: 'appointment',
+        component: AppointmentDetailsFormComponent,
+      },
+      {
+        path: 'services',
+        component: AppointmentServicesFormComponent,
+      },
+      {
+        path: '',
+        redirectTo: 'client',
+        pathMatch: 'full',
+      },
+    ],
   },
   {
     path: 'edit/:id',
@@ -36,11 +71,30 @@ export const AppointmentRoutes: Routes = [
     data: {
       title: 'Editar Agendamento',
       subtitle: 'Alterar informações do agendamento',
-      roles: [UserRoles.BARBER, UserRoles.ADMIN], // Apenas barbeiros e admins podem editar agendamentos
+      roles: [UserRoles.BARBER, UserRoles.ADMIN],
     },
     resolve: {
       appointments: appointmentEditResolver,
     },
+    children: [
+      {
+        path: 'client',
+        component: AppointmentClientFormComponent,
+      },
+      {
+        path: 'appointment',
+        component: AppointmentDetailsFormComponent,
+      },
+      {
+        path: 'services',
+        component: AppointmentServicesFormComponent,
+      },
+      {
+        path: '',
+        redirectTo: 'client',
+        pathMatch: 'full',
+      },
+    ],
   },
   { path: '', redirectTo: 'list', pathMatch: 'full' },
 ];

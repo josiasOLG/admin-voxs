@@ -1,0 +1,35 @@
+/**
+ * Estilos para timeline de status do agendamento.
+ * Utiliza apenas PrimeFlex e variáveis CSS.
+ * NUNCA usa style inline.
+ */
+
+.appointment-status-timeline-card {
+  :host ::ng-deep {
+    .timeline-marker {
+      width: 2.5rem;
+      height: 2.5rem;
+      font-size: 1.25rem;
+    }
+
+    .bg-success {
+      background-color: var(--green-500);
+    }
+
+    .bg-info {
+      background-color: var(--blue-500);
+    }
+
+    .bg-warning {
+      background-color: var(--yellow-500);
+    }
+
+    .bg-danger {
+      background-color: var(--red-500);
+    }
+
+    .bg-secondary {
+      background-color: var(--surface-500);
+    }
+  }
+}

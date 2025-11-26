@@ -1,14 +1,20 @@
+@use "app/styles/utilities/fonts";
+@use "app/styles/main";
 @import "primeicons/primeicons.css";
 @import "primeflex/primeflex.css";
 
+/* ====================================
+   🔤 ROBOTO FONT CONFIGURATION
+   ==================================== */
 html,
 body {
   height: 100%;
 }
+
 body {
   font-family: "Roboto", sans-serif;
   font-optical-sizing: auto;
-  font-weight: normal;
+  font-weight: 400;
   font-style: normal;
   font-size: 0.9rem;
   font-variation-settings: "wdth" 100;
@@ -17,27 +23,57 @@ body {
   color: var(--text-color);
 }
 
+/* Aplicar Roboto em todos os elementos */
+* {
+  font-family: "Roboto", sans-serif;
+}
+
+/* Override para Landing Page - Remover background do body */
+body:has(.landing) {
+  background-color: transparent;
+  background: transparent;
+}
+
 .p-overlay {
   top: 35px !important;
   left: 0;
   width: 100%;
   z-index: 999;
 }
+.p-paginator {
+  justify-content: end !important;
+}
+.p-datatable-header {
+  padding: 0 0 20px 0 !important;
+}
+
+.p-iconfield {
+  width: 100%;
+}
+.p-iconfield .p-inputtext:not(:first-child) {
+  width: 100%;
+  height: 5dvh;
+}
+.p-datepicker .p-datepicker-panel {
+  z-index: 9999;
+}
 
 /**
  * Correção para overlays do PrimeNG
- * Garante que dropdowns, selects e outros overlays sejam exibidos corretamente
+ * Garante que dropdowns, selects, calendários e outros overlays sejam exibidos corretamente
  */
 ::ng-deep {
   .p-overlay {
     top: 40px;
     left: 0;
   }
-  // Overlay principal do PrimeNG
+
+  // Overlay principal do PrimeNG - Z-INDEX ALTO PARA FICAR POR CIMA
   .p-overlaypanel,
   .p-dropdown-panel,
   .p-multiselect-panel,
   .p-calendar-panel,
+  .p-datepicker,
   .p-autocomplete-panel,
   .p-menu-overlay,
   .p-select-overlay {
@@ -60,6 +96,29 @@ body {
     z-index: 9998 !important;
   }
 
+  // CALENDÁRIO ESPECÍFICO - PRIORIDADE MÁXIMA
+  .p-calendar {
+    position: relative;
+  }
+
+  .p-calendar-panel,
+  .p-datepicker-panel,
+  .p-calendar .p-datepicker {
+    z-index: 10000 !important;
+    position: fixed !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  // Fechar calendário ao clicar fora
+  .p-calendar-overlay {
+    z-index: 10000 !important;
+  }
+
+  // Botão de ícone do calendário
+  .p-datepicker-trigger {
+    z-index: 1;
+  }
+
   // Correção específica para problema de backdrop do Dialog
   .p-dialog-mask {
     z-index: 1100 !important;
@@ -70,10 +129,29 @@ body {
     z-index: 1101 !important;
   }
 
-  // Garante que o backdrop seja removido corretamente
+  // Sidebar e Drawer
+  .p-sidebar,
+  .p-drawer {
+    z-index: 1200 !important;
+  }
 
-  // Remove qualquer backdrop órfão
-  // .p-dialog-mask:not(.p-component-overlay) {
-  //   display: none !important;
-  // }
+  .p-sidebar-mask,
+  .p-drawer-mask {
+    z-index: 1199 !important;
+  }
+
+  // Toast notifications (devem ficar por cima de tudo)
+  .p-toast {
+    z-index: 10500 !important;
+  }
+
+  // Confirm Dialog (deve ficar por cima de tudo)
+  .p-confirm-dialog {
+    z-index: 10100 !important;
+  }
+
+  // Tooltip
+  .p-tooltip {
+    z-index: 10200 !important;
+  }
 }

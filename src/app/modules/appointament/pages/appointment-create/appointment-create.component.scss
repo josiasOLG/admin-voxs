@@ -1,1 +1,75 @@
 // Appointment Create Component Styles
+// ViewEncapsulation.None - não precisa mais de ::ng-deep
+
+.appointment-form-container {
+  .form-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 1.5rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+  .p-menu-item-link-active{
+     font-weight: bold;
+  }
+  .form-sidebar {
+    .p-panel-header {
+      display: none;
+    }
+
+    .p-panel {
+      .p-panel-content {
+        padding: 0;
+      }
+    }
+
+    .p-menu {
+      border: none;
+
+      .p-menuitem {
+        margin-bottom: 0.25rem;
+
+        .p-menuitem-link {
+          padding: 1rem;
+          transition: all 0.3s ease;
+          border-radius: 6px;
+
+          &:hover {
+            background: var(--surface-hover);
+          }
+
+          .p-menuitem-icon {
+            margin-right: 0.75rem;
+            font-size: 1.25rem;
+          }
+
+          // RouterLinkActive adiciona esta classe automaticamente
+          &.router-link-active {
+            background: var(--primary-color) !important;
+            color: var(--primary-color-text) !important;
+            font-weight: 600;
+
+            .p-menuitem-icon,
+            .p-menuitem-label {
+              color: var(--primary-color-text) !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .form-content {
+    .p-panel-header {
+      display: none;
+    }
+
+    .p-panel {
+      .p-panel-content {
+        padding: 1.5rem;
+      }
+    }
+  }
+}

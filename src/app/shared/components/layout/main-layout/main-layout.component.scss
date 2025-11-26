@@ -5,6 +5,21 @@
   overflow: visible; // Alterado para permitir overlays
 }
 
+.layout-right-sidebar {
+  flex-shrink: 0;
+  width: 80px;
+  background: var(--surface-ground);
+  z-index: 1001;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
 .layout-sidebar {
   flex-shrink: 0;
   width: 250px;
@@ -12,6 +27,22 @@
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   overflow: visible; // Adicionado para permitir overlays
+  position: fixed;
+  left: 80px; // Posicionado após o menu direito
+  top: 0;
+  height: 100vh;
+  animation: slideIn 0.3s ease-out;
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
 
   @media (max-width: 768px) {
     position: fixed;
@@ -32,6 +63,22 @@
   display: flex;
   flex-direction: column;
   min-height: 0; // Necessário para flexbox com overflow
+  margin-left: 330px; // 80px (right-nav) + 250px (side-nav)
+  margin-right: 300px; // Espaço para o AI chat
+  transition: margin 0.3s ease;
+
+  &.no-sidebar {
+    margin-left: 80px; // Apenas o right-nav
+  }
+
+  &.chat-minimized {
+    margin-right: 60px; // Espaço reduzido quando minimizado
+  }
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 
 .layout-content {
@@ -39,4 +86,25 @@
   overflow-y: auto;
   background: #f8fafc;
   position: relative; // Necessário para z-index dos overlays
+}
+
+.layout-ai-chat {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 300px;
+  height: 100vh;
+  z-index: 998;
+  background: #ffffff;
+  border-left: 1px solid #e2e8f0;
+  transition: width 0.3s ease;
+
+  &.minimized {
+    width: 60px;
+    border-left: none;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 }

@@ -14,15 +14,45 @@
   </div>
 
   <p-table
+    #dt
     [value]="categories"
+    dataKey="id"
+    [rows]="10"
+    [rowsPerPageOptions]="[5, 10, 25, 50]"
+    [paginator]="true"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+    [globalFilterFields]="['name']"
     styleClass="p-datatable-striped"
     responsiveLayout="scroll"
+    [tableStyle]="{ 'min-width': '50rem' }"
   >
+    <ng-template pTemplate="caption">
+      <div class="flex">
+        <p-iconField iconPosition="left" class="ml-auto">
+          <p-inputIcon>
+            <i class="pi pi-search"></i>
+          </p-inputIcon>
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+            placeholder="Buscar categorias..."
+          />
+        </p-iconField>
+      </div>
+    </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th>Nome</th>
-        <th>Status</th>
-        <th style="width: 8rem">Ações</th>
+        <th pSortableColumn="name" style="width: 60%">
+          Nome
+          <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="active" style="width: 25%">
+          Status
+          <p-sortIcon field="active"></p-sortIcon>
+        </th>
+        <th style="width: 15%">Ações</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-category let-i="rowIndex">

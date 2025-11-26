@@ -10,8 +10,9 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { AppRoutes } from '../../../../shared';
-import { BaseResourceComponent } from '../../../../shared/components';
+import { BaseResourceComponent, StatusBadgeComponent } from '../../../../shared/components';
 import { IAppointment } from '../../schema';
+import { FormattedAppointment } from '../../interfaces/appointment.interface';
 import { AppointmentService } from '../../services';
 
 @Component({
@@ -25,6 +26,7 @@ import { AppointmentService } from '../../services';
     ConfirmDialogModule,
     TooltipModule,
     SkeletonModule,
+    StatusBadgeComponent,
   ],
   standalone: true,
   selector: 'app-appointment-table-list',
@@ -37,6 +39,8 @@ export class AppointmentTableListComponent extends BaseResourceComponent {
   @Input() public displayedColumns: string[] = [];
   @Input() public isDataLoading = false;
   @Output() public deleteItem = new EventEmitter<string>();
+  @Output() public approveItem = new EventEmitter<FormattedAppointment>();
+  @Output() public rejectItem = new EventEmitter<FormattedAppointment>();
 
   private appointmentService = inject(AppointmentService);
   private confirmationService = inject(ConfirmationService);
@@ -44,6 +48,14 @@ export class AppointmentTableListComponent extends BaseResourceComponent {
 
   public onEdit(id: string) {
     this.goTo([`/${AppRoutes.APPOINTMENTS}/${AppRoutes.EDIT}/${id}`]);
+  }
+
+  public onApprove(appointment: IAppointment) {
+    this.approveItem.emit(appointment as FormattedAppointment);
+  }
+
+  public onReject(appointment: IAppointment) {
+    this.rejectItem.emit(appointment as FormattedAppointment);
   }
 
   public onDelete(id: string) {

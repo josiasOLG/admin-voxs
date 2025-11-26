@@ -1,0 +1,22 @@
+<div class="right-nav">
+  <div class="right-nav-header">
+    <app-right-nav-logo />
+  </div>
+
+  <div class="right-nav-body">
+    @for (item of menuItems(); track item.id) {
+    <app-right-nav-item
+      [item]="item"
+      [class.active]="selectedItemId() === item.id"
+      (itemClick)="handleItemClick($event)"
+    />
+    }
+  </div>
+
+  <div class="right-nav-footer-container">
+    <app-right-nav-footer
+      (settingsClick)="handleSettingsClick()"
+      (logoutClick)="handleLogoutClick()"
+    />
+  </div>
+</div>

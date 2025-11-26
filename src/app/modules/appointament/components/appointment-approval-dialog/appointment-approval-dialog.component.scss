@@ -1,0 +1,13 @@
+/**
+ * Estilos para diálogo de aprovação/rejeição.
+ * Utiliza apenas PrimeFlex e variáveis CSS.
+ * NUNCA usa style inline.
+ */
+
+.appointment-approval-dialog {
+  :host ::ng-deep {
+    .p-dialog-content {
+      padding: 1.5rem;
+    }
+  }
+}

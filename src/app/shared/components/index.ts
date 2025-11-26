@@ -4,3 +4,6 @@ export * from './shared-header';
 export * from './breadcrumb';
 export * from './validate-input';
 export * from './shared-skeleton';
+export * from './input-field/input-field.component';
+export * from './status-badge/status-badge.component';
+export * from './calendar/calendar.component';

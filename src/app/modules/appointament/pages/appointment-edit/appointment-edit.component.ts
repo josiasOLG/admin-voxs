@@ -1,137 +1,91 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { CalendarModule } from 'primeng/calendar';
-import { CardModule } from 'primeng/card';
-import { CheckboxModule } from 'primeng/checkbox';
-import { DropdownModule } from 'primeng/dropdown';
-import { FloatLabelModule } from 'primeng/floatlabel';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextarea } from 'primeng/inputtextarea';
-import { MultiSelectModule } from 'primeng/multiselect';
-
-import { ApiResponse, AppRoutes } from '../../../../shared';
 import {
-  BaseResourceComponent,
-  SharedHeaderComponent,
-  ValidateInputComponent,
-} from '../../../../shared/components';
-import { IAppointment, initAppointmentForm } from '../../schema';
-import { AppointmentService } from '../../services';
+  Component,
+  inject,
+  OnInit,
+  signal,
+  ViewEncapsulation,
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  Router,
+  RouterModule,
+  RouterOutlet,
+} from '@angular/router';
+import { MenuItem } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { MenuModule } from 'primeng/menu';
+import { PanelModule } from 'primeng/panel';
+import { ToastModule } from 'primeng/toast';
+import { SharedHeaderComponent } from '../../../../shared/components/shared-header';
 
+/**
+ * Componente para edição de agendamento com menu lateral
+ */
 @Component({
-  standalone: true,
   selector: 'app-appointment-edit',
-  templateUrl: './appointment-edit.component.html',
-  styleUrls: ['./appointment-edit.component.scss'],
+  standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule,
+    RouterModule,
+    RouterOutlet,
+    PanelModule,
+    MenuModule,
     ButtonModule,
-    CalendarModule,
-    DropdownModule,
-    FloatLabelModule,
-    InputTextModule,
-    InputTextarea,
-    MultiSelectModule,
-    CheckboxModule,
-    CardModule,
+    ToastModule,
     SharedHeaderComponent,
-    ValidateInputComponent,
   ],
+  templateUrl: './appointment-edit.component.html',
+  styleUrls: ['./appointment-edit.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
-export class AppointmentEditComponent
-  extends BaseResourceComponent
-  implements OnInit
-{
-  public form = initAppointmentForm();
-  private readonly appointmentService = inject(AppointmentService);
+export class AppointmentEditComponent implements OnInit {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
-  public statusOptions = [
-    { label: 'Pendente', value: 'pending' },
-    { label: 'Confirmado', value: 'confirmed' },
-    { label: 'Cancelado', value: 'cancelled' },
-    { label: 'Concluído', value: 'completed' },
-  ];
-
-  public serviceOptions = [
-    { label: 'Corte de Cabelo', value: 'haircut' },
-    { label: 'Barba', value: 'beard' },
-    { label: 'Bigode', value: 'mustache' },
-    { label: 'Sobrancelha', value: 'eyebrow' },
-    { label: 'Hidratação', value: 'hydration' },
-  ];
-
-  public modalityOptions = [
-    { label: 'Presencial', value: 'presencial' },
-    { label: 'Domicílio', value: 'domicilio' },
-  ];
+  public menuItems = signal<MenuItem[]>([]);
+  public appointmentId = signal<string | null>(null);
 
   ngOnInit(): void {
-    const appointment =
-      this.getRouteData<ApiResponse<IAppointment>>('appointments');
-    this.setBreadcrumb([
-      { label: 'Agendamentos', url: `/${AppRoutes.APPOINTMENTS}` },
-      { label: 'Editar Agendamento' },
-    ]);
-    const data = appointment?.data;
-    if (data && !Array.isArray(data)) {
-      this.form.patchValue(data);
-    }
-  }
-
-  public submit(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
-    const id = this.route.snapshot.paramMap.get('id');
-    if (!id) return;
-
-    this.startLoading();
-    const raw = this.form.getRawValue();
-
-    const payload: Partial<IAppointment> = {
-      userId: raw.userId ?? undefined,
-      barberId: raw.barberId ?? undefined,
-      idServico: raw.idServico ?? undefined,
-      date: raw.date ?? undefined,
-      time: raw.time ?? undefined,
-      status:
-        (raw.status as 'pending' | 'confirmed' | 'cancelled' | 'completed') ??
-        undefined,
-      statusAprovacao: raw.statusAprovacao ?? undefined,
-      statusMensage: raw.statusMensage ?? undefined,
-      service: raw.service ?? undefined,
-      notes: raw.notes ?? undefined,
-      statusPoint: raw.statusPoint ?? undefined,
-      repete: raw.repete ?? undefined,
-      allDay: raw.allDay ?? undefined,
-      exceptions: raw.exceptions ?? undefined,
-      endRepeat: raw.endRepeat ?? undefined,
-      color: raw.color ?? undefined,
-      userNumber: raw.userNumber ?? undefined,
-      modality: raw.modality ?? undefined,
-    };
-
-    this.appointmentService.update(id, payload).subscribe({
-      next: () => {
-        this.showSuccess('Agendamento atualizado com sucesso');
-        this.goTo([AppRoutes.APPOINTMENTS]);
-      },
-      error: (err: any) => {
-        this.showError('Erro ao atualizar agendamento', err?.message || '');
-      },
-      complete: () => {
-        this.stopLoading();
-        this.goTo(`/${AppRoutes.APPOINTMENTS}`);
-      },
+    // Captura o ID da rota
+    this.route.params.subscribe((params) => {
+      const id = params['id'];
+      if (id) {
+        this.appointmentId.set(id);
+        this.initializeMenu();
+      }
     });
   }
 
-  public back = () => {
-    this.backViewlink(`/${AppRoutes.APPOINTMENTS}/${AppRoutes.LIST}`);
-  };
+  /**
+   * Inicializa os itens do menu
+   */
+  private initializeMenu(): void {
+    const id = this.appointmentId();
+
+    this.menuItems.set([
+      {
+        label: 'Dados do Cliente',
+        icon: 'pi pi-user',
+        routerLink: `/appointment/edit/${id}/client`,
+      },
+      {
+        label: 'Agendamento',
+        icon: 'pi pi-calendar',
+        routerLink: `/appointment/edit/${id}/appointment`,
+      },
+      {
+        label: 'Serviços',
+        icon: 'pi pi-briefcase',
+        routerLink: `/appointment/edit/${id}/services`,
+      },
+    ]);
+  }
+
+  /**
+   * Cancela e volta para listagem
+   */
+  public cancel(): void {
+    this.router.navigate(['/appointment/list']);
+  }
 }

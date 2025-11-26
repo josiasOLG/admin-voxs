@@ -1,8 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../../modules/auth/services/auth.service';
+import { RightNavStateService } from '../right-nav/services';
 import { IMenuItem, MENU_ITEMS } from './menu-itens';
 
 @Component({
@@ -13,12 +21,35 @@ import { IMenuItem, MENU_ITEMS } from './menu-itens';
   styleUrls: ['./side-nav.component.scss'],
 })
 export class SideNavComponent implements OnInit, OnDestroy {
-  public menuItems: IMenuItem[] = [];
+  public menuItems = signal<IMenuItem[]>([]);
+  public isShowingRightNavContent = signal<boolean>(false);
+  public rightNavContentTitle = signal<string>('');
+
   private openDropdowns = new Set<IMenuItem>();
   private authService = inject(AuthService);
+  private rightNavStateService = inject(RightNavStateService);
   private subscription = new Subscription();
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    /**
+     * Effect para reagir às mudanças do right-nav usando signals
+     * Esta é a abordagem mais moderna do Angular 19
+     */
+    effect(() => {
+      const content = this.rightNavStateService.currentContent();
+      const isActive = this.rightNavStateService.isRightNavContentActive();
+
+      if (isActive && content) {
+        this.isShowingRightNavContent.set(true);
+        this.rightNavContentTitle.set(content.title);
+        this.menuItems.set(content.menuItems);
+      } else {
+        this.isShowingRightNavContent.set(false);
+        this.rightNavContentTitle.set('');
+        this.loadMenuItems();
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.loadMenuItems();
@@ -26,7 +57,10 @@ export class SideNavComponent implements OnInit, OnDestroy {
     // Subscribe to user changes to update menu dynamically
     this.subscription.add(
       this.authService.currentUser$.subscribe(() => {
-        this.loadMenuItems();
+        // Só recarrega se não estiver mostrando conteúdo do right-nav
+        if (!this.isShowingRightNavContent()) {
+          this.loadMenuItems();
+        }
       })
     );
   }
@@ -39,7 +73,8 @@ export class SideNavComponent implements OnInit, OnDestroy {
    * Carrega e filtra os itens do menu baseado nas roles do usuário
    */
   private loadMenuItems(): void {
-    this.menuItems = this.filterMenuItemsByRole(MENU_ITEMS);
+    const filteredItems = this.filterMenuItemsByRole(MENU_ITEMS);
+    this.menuItems.set(filteredItems);
   }
 
   /**
@@ -82,6 +117,13 @@ export class SideNavComponent implements OnInit, OnDestroy {
     }
 
     return this.authService.hasAnyRole(item.roles);
+  }
+
+  /**
+   * Volta ao menu padrão ao fechar o conteúdo do right-nav
+   */
+  public closeRightNavContent(): void {
+    this.rightNavStateService.clearSelection();
   }
 
   handleClick(item: IMenuItem): void {

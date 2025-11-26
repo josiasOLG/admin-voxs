@@ -1,20 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, effect } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
-import { InputTextModule } from 'primeng/inputtext';
-import { extractData } from '../../../../core';
-import {
-  BaseResourceComponent,
-  SharedHeaderComponent,
-} from '../../../../shared/components';
-import { DashboardTableListComponent } from '../../components/dashboard-table-list/dashboard-table-list.component';
-import { IVeiculo } from '../../schema';
-import { DashboardService } from '../../services';
+import { ButtonModule } from 'primeng/button';
+import { SkeletonModule } from 'primeng/skeleton';
+import { BaseResourceComponent } from '../../../../shared/components';
+import { DashboardService } from '../../services/dashboard.service';
+import { ProfessionalProfileService } from '../../../../core/professional-profiles';
+import { StatCardComponent, QuickActionsComponent } from '../../components';
 
+/**
+ * Página principal do Dashboard.
+ * Exibe estatísticas, gráficos e ações rápidas adaptadas ao perfil profissional.
+ */
 @Component({
   selector: 'app-dashboard-list-page',
   standalone: true,
@@ -23,75 +21,104 @@ import { DashboardService } from '../../services';
     RouterModule,
     CardModule,
     ButtonModule,
-    IconFieldModule,
-    InputIconModule,
-    InputTextModule,
-    SharedHeaderComponent,
-    DashboardTableListComponent,
+    SkeletonModule,
+    StatCardComponent,
+    QuickActionsComponent,
   ],
   templateUrl: './dashboard-list.component.html',
   styleUrls: ['./dashboard-list.component.scss'],
 })
 export class DashboardListPage extends BaseResourceComponent implements OnInit {
-  private dashboardService = inject(DashboardService);
+  private readonly dashboardService = inject(DashboardService);
+  private readonly profileService = inject(ProfessionalProfileService);
 
-  public displayedColumns = this.generateDisplayedColumns<IVeiculo>(
-    {
-      id: 0,
-      placa: '',
-      modelo: '',
-      chassi: '',
-      renavam: '',
-      ano: '',
-    },
-    {
-      exclude: ['id'],
-      includeActions: true,
-    }
-  );
-  public dataSource: IVeiculo[] = [];
-  public filteredData: IVeiculo[] = [];
-  public searchValue = '';
+  // Signals do service
+  public readonly stats = this.dashboardService.stats;
+  public override readonly isLoading = this.dashboardService.isLoading;
+  public readonly error = this.dashboardService.error;
+  public readonly quickActions = this.dashboardService.quickActions;
 
-  ngOnInit(): void {
-    this.setBreadcrumb([{ label: 'Dashboard' }, { label: 'Listar Veículos' }]);
-    this.dashboardService.getAll().subscribe({
-      next: (response: any) => {
-        this.dataSource = extractData(response);
-        this.filteredData = [...this.dataSource];
-        console.log(response);
-      },
-      error: (error: any) => {
-        console.error('Error fetching vehicles:', error);
-      },
+  // Computed signals para estatísticas individuais
+  public readonly appointments = this.dashboardService.appointments;
+  public readonly clients = this.dashboardService.clients;
+  public readonly revenue = this.dashboardService.revenue;
+  public readonly occupancy = this.dashboardService.occupancy;
+
+  // Perfil profissional
+  public readonly profile = this.profileService.currentProfile;
+  public readonly branding = this.profileService.branding;
+  public readonly terminology = this.profileService.terminology;
+
+  // ID do profissional (mock - seria obtido do usuário logado)
+  private readonly professionalId = 'current-user-id';
+
+  constructor() {
+    super();
+
+    // Effect para reagir a mudanças no perfil
+    effect(() => {
+      const currentProfile = this.profile();
+      if (currentProfile) {
+        console.log('Perfil carregado:', currentProfile.type);
+      }
     });
   }
 
-  public applyFilter(event: Event): void {
-    const value = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.searchValue = value;
-
-    if (!value) {
-      this.filteredData = [...this.dataSource];
-      return;
-    }
-
-    this.filteredData = this.dataSource.filter(
-      (veiculo) =>
-        veiculo.placa?.toLowerCase().includes(value) ||
-        veiculo.modelo?.toLowerCase().includes(value) ||
-        veiculo.chassi?.toLowerCase().includes(value) ||
-        veiculo.renavam?.toLowerCase().includes(value) ||
-        veiculo.ano?.toLowerCase().includes(value)
-    );
+  ngOnInit(): void {
+    this.setBreadcrumb([{ label: 'Dashboard' }]);
+    this.loadDashboardData();
   }
 
-  public excluir(id: string): void {
-    this.dataSource = this.dataSource.filter((v) => v.id !== parseInt(id));
-    this.filteredData = this.filteredData.filter((v) => v.id !== parseInt(id));
+  /**
+   * Carrega os dados do dashboard.
+   */
+  private loadDashboardData(): void {
+    this.dashboardService.loadDashboardData(this.professionalId).subscribe({
+      next: () => console.log('Dashboard carregado com sucesso'),
+      error: (err) => console.error('Erro ao carregar dashboard:', err),
+    });
+
+    this.dashboardService.loadChartData(this.professionalId).subscribe({
+      next: () => console.log('Gráficos carregados com sucesso'),
+      error: (err) => console.error('Erro ao carregar gráficos:', err),
+    });
   }
 
-  public goToCreate(): void {
-    this.goTo('/dashboard/create');
+  /**
+   * Força atualização dos dados.
+   */
+  public refresh(): void {
+    this.dashboardService.refresh(this.professionalId);
+  }
+
+  /**
+   * Retorna a cor primária do perfil ou cor padrão.
+   */
+  public getPrimaryColor(): string {
+    return this.branding()?.primaryColor || '#1976D2';
+  }
+
+  /**
+   * Retorna a cor secundária do perfil ou cor padrão.
+   */
+  public getSecondaryColor(): string {
+    return this.branding()?.secondaryColor || '#FFC107';
+  }
+
+  /**
+   * Formata valor monetário.
+   */
+  public formatCurrency(value: number): string {
+    return value.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    });
+  }
+
+  /**
+   * Formata percentual.
+   */
+  public formatPercent(value: number): string {
+    return `${value.toFixed(1)}%`;
   }
 }

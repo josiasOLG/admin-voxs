@@ -1,0 +1,122 @@
+<div class="appointment-details-form">
+  <form [formGroup]="appointmentForm" class="form-container">
+    <h3 class="form-title mb-4">Dados do Agendamento</h3>
+
+    <div class="grid">
+      <!-- Data -->
+      <div class="col-12">
+        <div class="flex-col gap-2">
+          <label for="date">Data *</label>
+          <p-calendar
+            id="date"
+            formControlName="date"
+            [showIcon]="true"
+            iconDisplay="input"
+            dateFormat="dd/mm/yy"
+            placeholder="Selecione uma data"
+            [minDate]="minDate"
+            [class.ng-invalid]="isFieldInvalid('date')"
+            (onSelect)="onDateSelect($event)"
+          />
+          <small class="p-error" *ngIf="isFieldInvalid('date')">
+            {{ getFieldError('date') }}
+          </small>
+        </div>
+      </div>
+
+      <!-- Campos que aparecem APENAS após selecionar data -->
+      <ng-container *ngIf="dateSelected()">
+        <!-- Horário -->
+        <div class="col-12 md:col-4">
+          <div class="flex-col gap-2">
+            <label for="time">Horário *</label>
+            <p-dropdown
+              id="time"
+              formControlName="time"
+              [options]="timeSlots()"
+              placeholder="Selecione um horário"
+              [filter]="true"
+              [loading]="loadingTimeSlots()"
+              [class.ng-invalid]="isFieldInvalid('time')"
+            />
+            <small class="p-error" *ngIf="isFieldInvalid('time')">
+              {{ getFieldError('time') }}
+            </small>
+          </div>
+        </div>
+
+        <!-- Modalidade -->
+        <div class="col-12 md:col-4">
+          <div class="flex-col gap-2">
+            <label for="modality">Modalidade *</label>
+            <p-dropdown
+              id="modality"
+              formControlName="modality"
+              [options]="modalityOptions()"
+              optionLabel="label"
+              optionValue="value"
+              placeholder="Selecione a modalidade"
+              [loading]="loadingModalities()"
+              [class.ng-invalid]="isFieldInvalid('modality')"
+            />
+            <small class="p-error" *ngIf="isFieldInvalid('modality')">
+              {{ getFieldError('modality') }}
+            </small>
+          </div>
+        </div>
+
+        <!-- Repetição -->
+        <div class="col-12 md:col-4">
+          <div class="flex-col gap-2">
+            <label for="repete">Repetir *</label>
+            <p-dropdown
+              id="repete"
+              formControlName="repete"
+              [options]="repeatOptions"
+              optionLabel="label"
+              optionValue="value"
+              placeholder="Selecione a frequência"
+              [class.ng-invalid]="isFieldInvalid('repete')"
+            />
+            <small class="p-error" *ngIf="isFieldInvalid('repete')">
+              {{ getFieldError('repete') }}
+            </small>
+          </div>
+        </div>
+
+        <!-- Observações -->
+        <div class="col-12">
+          <div class="flex-col gap-2">
+            <label for="notes">Observações</label>
+            <textarea
+              pInputTextarea
+              id="notes"
+              formControlName="notes"
+              placeholder="Digite observações sobre o agendamento"
+              rows="4"
+            ></textarea>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- Ações -->
+    <div class="form-actions mt-4 flex justify-content-between gap-2">
+      <p-button
+        label="Anterior"
+        icon="pi pi-arrow-left"
+        severity="secondary"
+        [outlined]="true"
+        (onClick)="previous()"
+      />
+      <p-button
+        label="Próximo"
+        icon="pi pi-arrow-right"
+        iconPos="right"
+        (onClick)="next()"
+        [loading]="loading()"
+        [disabled]="!dateSelected()"
+      />
+    </div>
+  </form>
+</div>

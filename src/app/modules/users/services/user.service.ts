@@ -93,4 +93,38 @@ export class UserService {
       data
     );
   }
+
+  /**
+   * Busca configuração de agenda do usuário (modalidades, horários, etc).
+   *
+   * @param userId Identificador do usuário.
+   * @returns Observable com configuração da agenda.
+   */
+  public getAgendaConfig(userId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${userId}/agenda`);
+  }
+
+  /**
+   * Busca horários disponíveis para um profissional em uma data específica.
+   *
+   * @param barberId Identificador do profissional.
+   * @param data Data no formato YYYY-MM-DD.
+   * @returns Observable com horários disponíveis.
+   */
+  public getAvailableTimeSlots(barberId: string, data: string): Observable<{ availableTimeSlots: string[]; date: string }> {
+    return this.http.post<{ availableTimeSlots: string[]; date: string }>(
+      `${this.baseUrl}/agenda/horas`,
+      { barberId, data }
+    );
+  }
+
+  /**
+   * Busca serviços oferecidos por um profissional.
+   *
+   * @param userId Identificador do profissional.
+   * @returns Observable com lista de serviços.
+   */
+  public getBarberServices(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`/barber-services/services/${userId}`);
+  }
 }

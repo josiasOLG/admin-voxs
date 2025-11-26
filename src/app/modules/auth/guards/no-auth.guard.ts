@@ -1,30 +1,19 @@
-import { Injectable, inject } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
-import { Observable, catchError, map, of } from 'rxjs';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class NoAuthGuard implements CanActivate {
-  private authService = inject(AuthService);
-  private router = inject(Router);
+/**
+ * Guard para proteger rotas de autenticação (login, register)
+ * Redireciona para o dashboard se já autenticado
+ */
+export const noAuthGuard: CanActivateFn = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
-  public canActivate(): Observable<boolean | UrlTree> {
-    if (!this.authService.isAuthenticated) {
-      return of(true);
-    }
-
-    return this.authService.checkAuthenticationStatus().pipe(
-      map((isAuthenticated) => {
-        if (isAuthenticated) {
-          return this.router.createUrlTree(['/dashboard']);
-        }
-        return true;
-      }),
-      catchError(() => {
-        return of(true);
-      })
-    );
+  if (authService.isAuthenticated()) {
+    router.navigate(['/app/dashboard']);
+    return false;
   }
-}
+
+  return true;
+};

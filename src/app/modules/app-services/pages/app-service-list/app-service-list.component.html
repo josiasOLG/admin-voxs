@@ -18,20 +18,59 @@
   </p-toolbar>
 
   <p-table
+    #dt
     [value]="appServices()"
-    styleClass="p-datatable-striped"
+    dataKey="id"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
     [loading]="isLoading()"
+    [paginator]="true"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+    [globalFilterFields]="['name', 'description', 'price', 'duration']"
+    styleClass="p-datatable-striped"
     responsiveLayout="scroll"
+    [tableStyle]="{ 'min-width': '75rem' }"
   >
+    <ng-template pTemplate="caption">
+      <div class="flex">
+        <p-iconField iconPosition="left" class="ml-auto">
+          <p-inputIcon>
+            <i class="pi pi-search"></i>
+          </p-inputIcon>
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+            placeholder="Buscar app services..."
+          />
+        </p-iconField>
+      </div>
+    </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th>Nome</th>
-        <th>Descrição</th>
-        <th>Preço</th>
-        <th>Duração</th>
+        <th pSortableColumn="name">
+          Nome
+          <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="description">
+          Descrição
+          <p-sortIcon field="description"></p-sortIcon>
+        </th>
+        <th pSortableColumn="price">
+          Preço
+          <p-sortIcon field="price"></p-sortIcon>
+        </th>
+        <th pSortableColumn="duration">
+          Duração
+          <p-sortIcon field="duration"></p-sortIcon>
+        </th>
         <th>Atividades</th>
         <th>Categorias</th>
-        <th>Status</th>
+        <th pSortableColumn="active">
+          Status
+          <p-sortIcon field="active"></p-sortIcon>
+        </th>
         <th>Ações</th>
       </tr>
     </ng-template>

@@ -1,0 +1,31 @@
+<div class="appointment-form-layout">
+  <div class="layout-header mb-4">
+    <h2 class="text-2xl font-semibold">{{ getTitle() }}</h2>
+    <p-button
+      label="Cancelar"
+      icon="pi pi-times"
+      severity="secondary"
+      [outlined]="true"
+      (onClick)="cancel()"
+    />
+  </div>
+
+  <div class="layout-container">
+    <!-- Menu Lateral -->
+    <aside class="layout-sidebar">
+      <p-panel header="Navegação">
+        <p-menu
+          [model]="menuItems()"
+          styleClass="w-full border-none"
+        />
+      </p-panel>
+    </aside>
+
+    <!-- Conteúdo do Formulário -->
+    <main class="layout-content">
+      <p-panel>
+        <router-outlet></router-outlet>
+      </p-panel>
+    </main>
+  </div>
+</div>

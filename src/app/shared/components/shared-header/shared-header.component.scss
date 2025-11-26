@@ -1,4 +1,10 @@
 :host {
+  ::ng-deep {
+    .p-toolbar {
+      border: 0 !important;
+      padding: 0 !important;
+    }
+  }
   .shared-header {
     ::ng-deep {
       .p-card-body {

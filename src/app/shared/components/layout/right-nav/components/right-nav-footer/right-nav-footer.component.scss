@@ -1,0 +1,57 @@
+:host {
+  display: block;
+  padding: 1rem 0;
+}
+
+.right-nav-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0 0.5rem;
+}
+
+.footer-button {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: var(--surface-100);
+  color: var(--text-color-secondary);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  align-self: center;
+
+  i {
+    font-size: 1.125rem;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    background-color: var(--surface-200);
+    transform: scale(1.05);
+
+    i {
+      transform: rotate(90deg);
+    }
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &.logout {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+
+    &:hover {
+      background-color: rgba(239, 68, 68, 0.2);
+
+      i {
+        transform: translateX(2px) rotate(0deg);
+      }
+    }
+  }
+}

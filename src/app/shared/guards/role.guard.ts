@@ -16,7 +16,7 @@ export class RoleGuard implements CanActivate {
     const requiredRoles = route.data['roles'] as (UserRoles | string)[];
 
     if (!requiredRoles || requiredRoles.length === 0) {
-      return true; // Se não há roles definidas, permite acesso
+      return true;
     }
 
     const user = this.authService.getCurrentUser();
@@ -33,7 +33,7 @@ export class RoleGuard implements CanActivate {
         'Acesso Negado',
         'Você não tem permissão para acessar esta página'
       );
-      this.router.navigate(['/dashboard']);
+      this.authService.logout();
       return false;
     }
 

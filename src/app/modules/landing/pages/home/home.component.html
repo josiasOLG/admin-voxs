@@ -1,0 +1,18 @@
+<div class="landing">
+  <app-hero-section
+    [stats]="stats"
+    (onRegisterClick)="goToRegister()"
+    (onLoginClick)="goToLogin()"
+  />
+
+  <app-features-section [features]="features" />
+
+  <app-testimonials-section [testimonials]="testimonials" />
+
+  <app-cta-section
+    (onRegisterClick)="goToRegister()"
+    (onLoginClick)="goToLogin()"
+  />
+
+  <app-landing-footer />
+</div>

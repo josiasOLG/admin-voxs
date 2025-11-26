@@ -1,223 +1,25 @@
-<app-shared-header
-  [showBackButton]="true"
-  [backAction]="back"
-></app-shared-header>
+<div class="appointment-form-container">
+  <p-toast />
 
-<p-card>
-  <form [formGroup]="form" (ngSubmit)="submit()" class="grid">
-    <!-- User ID -->
-    <div class="col-12 md:col-6">
-      <p-floatLabel>
-        <input pInputText id="userId" formControlName="userId" class="w-full" />
-        <label for="userId">ID do Usuário</label>
-      </p-floatLabel>
-      <app-validate-input [control]="form.get('userId')"></app-validate-input>
-    </div>
+  <app-shared-header
+    iconInput="pi pi-calendar-plus"
+    [showBackButton]="true"
+    [backAction]="cancel.bind(this)"
+  />
 
-    <!-- Barber ID -->
-    <div class="col-12 md:col-6">
-      <p-floatLabel>
-        <input
-          pInputText
-          id="barberId"
-          formControlName="barberId"
-          class="w-full"
-        />
-        <label for="barberId">ID do Barbeiro</label>
-      </p-floatLabel>
-      <app-validate-input [control]="form.get('barberId')"></app-validate-input>
-    </div>
+  <div class="form-layout">
+    <!-- Menu Lateral -->
+    <aside class="form-sidebar">
+      <p-panel [toggleable]="false">
+        <p-menu [model]="menuItems()" styleClass="w-full border-none" />
+      </p-panel>
+    </aside>
 
-    <!-- Date -->
-    <div class="col-12 md:col-6">
-      <p-floatLabel>
-        <p-calendar
-          inputId="date"
-          formControlName="date"
-          class="w-full"
-          [showIcon]="true"
-          dateFormat="dd/mm/yy"
-        >
-        </p-calendar>
-        <label for="date">Data</label>
-      </p-floatLabel>
-      <app-validate-input [control]="form.get('date')"></app-validate-input>
-    </div>
-
-    <!-- Time -->
-    <div class="col-12 md:col-6">
-      <p-floatLabel>
-        <input
-          pInputText
-          id="time"
-          formControlName="time"
-          class="w-full"
-          placeholder="HH:MM"
-        />
-        <label for="time">Horário</label>
-      </p-floatLabel>
-      <app-validate-input [control]="form.get('time')"></app-validate-input>
-    </div>
-
-    <!-- Status -->
-    <div class="col-12 md:col-6">
-      <p-floatLabel>
-        <p-dropdown
-          inputId="status"
-          formControlName="status"
-          [options]="statusOptions"
-          optionLabel="label"
-          optionValue="value"
-          class="w-full"
-          appendTo="body"
-        >
-        </p-dropdown>
-        <label for="status">Status</label>
-      </p-floatLabel>
-      <app-validate-input [control]="form.get('status')"></app-validate-input>
-    </div>
-
-    <!-- Services -->
-    <div class="col-12 md:col-6">
-      <p-floatLabel>
-        <p-multiSelect
-          inputId="service"
-          formControlName="service"
-          [options]="serviceOptions"
-          optionLabel="label"
-          optionValue="value"
-          class="w-full"
-          appendTo="body"
-        >
-        </p-multiSelect>
-        <label for="service">Serviços</label>
-      </p-floatLabel>
-      <app-validate-input [control]="form.get('service')"></app-validate-input>
-    </div>
-
-    <!-- Modality -->
-    <div class="col-12 md:col-6">
-      <p-floatLabel>
-        <p-dropdown
-          inputId="modality"
-          formControlName="modality"
-          [options]="modalityOptions"
-          optionLabel="label"
-          optionValue="value"
-          class="w-full"
-          appendTo="body"
-        >
-        </p-dropdown>
-        <label for="modality">Modalidade</label>
-      </p-floatLabel>
-      <app-validate-input [control]="form.get('modality')"></app-validate-input>
-    </div>
-
-    <!-- User Number -->
-    <div class="col-12 md:col-6">
-      <p-floatLabel>
-        <input
-          pInputText
-          id="userNumber"
-          formControlName="userNumber"
-          class="w-full"
-        />
-        <label for="userNumber">Número do Usuário</label>
-      </p-floatLabel>
-      <app-validate-input
-        [control]="form.get('userNumber')"
-      ></app-validate-input>
-    </div>
-
-    <!-- Notes -->
-    <div class="col-12">
-      <p-floatLabel>
-        <textarea
-          pInputTextarea
-          id="notes"
-          formControlName="notes"
-          class="w-full"
-          rows="3"
-        >
-        </textarea>
-        <label for="notes">Observações</label>
-      </p-floatLabel>
-      <app-validate-input [control]="form.get('notes')"></app-validate-input>
-    </div>
-
-    <!-- Status Point Checkbox -->
-    <div class="col-12 md:col-6">
-      <p-checkbox
-        inputId="statusPoint"
-        formControlName="statusPoint"
-        binary="true"
-        label="Status Point"
-      >
-      </p-checkbox>
-    </div>
-
-    <!-- All Day Checkbox -->
-    <div class="col-12 md:col-6">
-      <p-checkbox
-        inputId="allDay"
-        formControlName="allDay"
-        binary="true"
-        label="Dia Todo"
-      >
-      </p-checkbox>
-    </div>
-
-    <!-- Color -->
-    <div class="col-12 md:col-6">
-      <p-floatLabel>
-        <input
-          pInputText
-          id="color"
-          formControlName="color"
-          class="w-full"
-          type="color"
-        />
-        <label for="color">Cor</label>
-      </p-floatLabel>
-      <app-validate-input [control]="form.get('color')"></app-validate-input>
-    </div>
-
-    <!-- Repeat -->
-    <div class="col-12 md:col-6">
-      <p-floatLabel>
-        <input pInputText id="repete" formControlName="repete" class="w-full" />
-        <label for="repete">Repetir</label>
-      </p-floatLabel>
-      <app-validate-input [control]="form.get('repete')"></app-validate-input>
-    </div>
-
-    <!-- End Repeat -->
-    <div class="col-12 md:col-6">
-      <p-floatLabel>
-        <p-calendar
-          inputId="endRepeat"
-          formControlName="endRepeat"
-          class="w-full"
-          [showIcon]="true"
-          dateFormat="dd/mm/yy"
-        >
-        </p-calendar>
-        <label for="endRepeat">Fim da Repetição</label>
-      </p-floatLabel>
-      <app-validate-input
-        [control]="form.get('endRepeat')"
-      ></app-validate-input>
-    </div>
-
-    <!-- Submit Button -->
-    <div class="col-12 mt-3">
-      <p-button
-        type="submit"
-        label="Criar Agendamento"
-        icon="pi pi-plus"
-        [disabled]="!form.valid"
-      >
-      </p-button>
-    </div>
-  </form>
-</p-card>
+    <!-- Conteúdo do Formulário -->
+    <main class="form-content">
+      <p-panel [toggleable]="false">
+        <router-outlet></router-outlet>
+      </p-panel>
+    </main>
+  </div>
+</div>

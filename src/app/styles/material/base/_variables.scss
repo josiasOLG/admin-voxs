@@ -1,55 +1,104 @@
 :root {
-  --mat-sys-background: #f9f9f9;
-  --mat-sys-surface: #ffffff;
-  --mat-sys-surface-bright: #fdfdfd;
-  --mat-sys-surface-container: #f5f5f5;
-  --mat-sys-surface-container-low: #f3f3f3;
-  --mat-sys-surface-container-lowest: #ffffff;
-  --mat-sys-surface-container-high: #ededed;
-  --mat-sys-surface-container-highest: #e6e6e6;
-  --mat-sys-surface-dim: #eeeeee;
+  /* ==========================================
+     GLOBAL COLOR SYSTEM
+     Cores reutilizáveis em toda aplicação
+     ========================================== */
 
-  --mat-sys-primary: #1db954;
-  --mat-sys-on-primary: #ffffff;
-  --mat-sys-primary-container: #e7f9ef;
-  --mat-sys-on-primary-container: #104d2c;
-  --mat-sys-primary-fixed: #1db954;
-  --mat-sys-primary-fixed-dim: #168d44;
-  --mat-sys-inverse-primary: #1db954;
+  /* Brand Colors - Cores principais da marca */
+  --brand-primary: #667eea;
+  --brand-primary-dark: #5e3a8a;
+  --brand-secondary: #764ba2;
+  --brand-accent: #ffd89b;
+  --brand-accent-dark: #19547b;
 
-  --mat-sys-secondary: #cccccc;
-  --mat-sys-on-secondary: #212121;
-  --mat-sys-secondary-container: #eaeaea;
-  --mat-sys-on-secondary-container: #141414;
+  /* Background Colors - Backgrounds globais */
+  --bg-dark: #0f172a;
+  --bg-dark-secondary: #1e293b;
+  --bg-dark-tertiary: #334155;
+  --bg-light: #ffffff;
+  --bg-light-secondary: #f8fafc;
+  --bg-light-tertiary: #f1f5f9;
 
-  --mat-sys-tertiary: #bdbdbd;
-  --mat-sys-on-tertiary: #1f1f1f;
-  --mat-sys-tertiary-container: #f0f0f0;
-  --mat-sys-on-tertiary-container: #101010;
+  /* Text Colors - Cores de texto globais */
+  --text-on-dark: #ffffff;
+  --text-on-dark-secondary: rgba(255, 255, 255, 0.9);
+  --text-on-dark-muted: rgba(255, 255, 255, 0.7);
+  --text-on-light: #1a1a1a;
+  --text-on-light-secondary: #475569;
+  --text-on-light-muted: #64748b;
 
-  --mat-sys-error: #ef4444;
-  --mat-sys-on-error: #ffffff;
-  --mat-sys-error-container: #fee2e2;
-  --mat-sys-on-error-container: #7f1d1d;
+  /* Border Colors - Bordas globais */
+  --border-primary: rgba(102, 126, 234, 0.2);
+  --border-primary-hover: rgba(102, 126, 234, 0.5);
+  --border-primary-active: rgba(102, 126, 234, 0.6);
+  --border-light: rgba(255, 255, 255, 0.1);
+  --border-light-hover: rgba(255, 255, 255, 0.2);
+  --border-dark: rgba(0, 0, 0, 0.1);
+  --border-dark-hover: rgba(0, 0, 0, 0.2);
 
-  --mat-sys-outline: #bdbdbd;
-  --mat-sys-outline-variant: #dcdcdc;
+  /* Overlay Colors - Sobreposições com transparência */
+  --overlay-dark: rgba(15, 23, 42, 0.8);
+  --overlay-dark-strong: rgba(15, 23, 42, 0.95);
+  --overlay-light: rgba(255, 255, 255, 0.05);
+  --overlay-light-strong: rgba(255, 255, 255, 0.1);
+  --overlay-card-dark: rgba(30, 41, 59, 0.8);
+  --overlay-card-light: rgba(255, 255, 255, 0.9);
 
-  --mat-sys-inverse-surface: #1a1a1a;
-  --mat-sys-inverse-on-surface: #ffffff;
+  /* Shadow Colors - Sombras globais */
+  --shadow-primary: rgba(102, 126, 234, 0.3);
+  --shadow-primary-hover: rgba(102, 126, 234, 0.4);
+  --shadow-primary-strong: rgba(102, 126, 234, 0.6);
+  --shadow-dark: rgba(0, 0, 0, 0.1);
+  --shadow-dark-medium: rgba(0, 0, 0, 0.2);
+  --shadow-dark-strong: rgba(0, 0, 0, 0.3);
 
-  --mat-sys-shadow: rgba(0, 0, 0, 0.12);
-  --mat-sys-scrim: rgba(0, 0, 0, 0.2);
+  /* Status Colors - Cores de estado */
+  --status-success: #4ade80;
+  --status-success-dark: #22c55e;
+  --status-success-light: #86efac;
+  --status-error: #ef4444;
+  --status-error-dark: #dc2626;
+  --status-error-light: #fca5a5;
+  --status-warning: #fbbf24;
+  --status-warning-dark: #f59e0b;
+  --status-warning-light: #fcd34d;
+  --status-info: #3b82f6;
+  --status-info-dark: #2563eb;
+  --status-info-light: #60a5fa;
 
-  --mat-sys-on-background: #1a1a1a;
-  --mat-sys-on-surface: #1a1a1a;
-  --mat-sys-on-surface-variant: #3d3d3d;
+  /* Gradient Presets - Gradientes prontos para usar */
+  --gradient-primary: linear-gradient(
+    135deg,
+    var(--brand-primary) 0%,
+    var(--brand-secondary) 100%
+  );
+  --gradient-accent: linear-gradient(
+    135deg,
+    var(--brand-accent) 0%,
+    var(--brand-accent-dark) 100%
+  );
+  --gradient-success: linear-gradient(
+    135deg,
+    var(--status-success) 0%,
+    var(--status-success-dark) 100%
+  );
+  --gradient-info: linear-gradient(
+    135deg,
+    var(--status-info) 0%,
+    var(--status-info-dark) 100%
+  );
+  --gradient-warning: linear-gradient(
+    135deg,
+    var(--status-warning) 0%,
+    var(--status-warning-dark) 100%
+  );
+  --gradient-dark: linear-gradient(
+    135deg,
+    var(--bg-dark) 0%,
+    var(--bg-dark-secondary) 100%
+  );
 
-  --mat-sys-surface-tint: #1db954;
-
-  --mdc-filled-text-field-container-color: #f7f7f7;
-  --mat-sys-surface-variant: #f7f7f7;
-
+  /* Spacing System - Sistema de espaçamento */
   --size-0: 0rem;
   --size-1: 0.25rem; /* 4px */
   --size-2: 0.5rem; /* 8px */
@@ -75,6 +124,50 @@
   --size-xl: var(--size-8);
   --size-2xl: var(--size-10);
   --size-3xl: var(--size-16);
+
+  /* ==========================================
+     LANDING PAGE ALIASES
+     Aliases simplificados para a landing page
+     ========================================== */
+
+  /* Landing Backgrounds */
+  --landing-bg-primary: var(--bg-dark);
+  --landing-bg-secondary: var(--bg-dark-secondary);
+
+  /* Landing Text */
+  --landing-text-primary: var(--text-on-dark);
+  --landing-text-secondary: var(--text-on-dark-secondary);
+  --landing-text-muted: var(--text-on-dark-muted);
+
+  /* Landing Gradients */
+  --landing-gradient-primary-start: var(--brand-primary);
+  --landing-gradient-primary-end: var(--brand-secondary);
+  --landing-gradient-accent-start: var(--brand-accent);
+  --landing-gradient-accent-end: var(--brand-accent-dark);
+
+  /* Landing Borders */
+  --landing-border-primary: var(--border-primary);
+  --landing-border-primary-hover: var(--border-primary-hover);
+  --landing-border-primary-active: var(--border-primary-active);
+  --landing-border-primary-light: rgba(102, 126, 234, 0.3);
+
+  /* Landing Overlays */
+  --landing-overlay-dark: var(--overlay-dark);
+  --landing-overlay-darker: var(--overlay-dark-strong);
+  --landing-overlay-card: var(--overlay-card-dark);
+  --landing-overlay-card-hover: rgba(30, 41, 59, 0.95);
+  --landing-overlay-light: var(--overlay-light);
+
+  /* Landing Shadows */
+  --landing-shadow-primary: var(--shadow-primary);
+  --landing-shadow-primary-hover: var(--shadow-primary-hover);
+  --landing-shadow-primary-strong: var(--shadow-primary-strong);
+  --landing-shadow-dark: var(--shadow-dark-strong);
+
+  /* Landing Accents */
+  --landing-accent-success: var(--status-success);
+  --landing-accent-info: var(--status-info);
+  --landing-accent-warning: var(--brand-accent-dark);
 }
 
 h2 {

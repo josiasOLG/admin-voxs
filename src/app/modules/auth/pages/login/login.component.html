@@ -1,86 +1,124 @@
-<div class="login-container">
-  <div class="login-wrapper">
-    <p-card class="login-card">
-      <ng-template pTemplate="header">
-        <div class="login-header">
-          <div class="logo-container">
-            <img src="assets/logo.png" alt="Logo" class="logo" />
-          </div>
-          <h2 class="login-title">Bem-vindo de volta</h2>
-          <p class="login-subtitle">Faça login para acessar sua conta</p>
-        </div>
-      </ng-template>
+<div class="auth-container">
+  <!-- Left Side - Visual -->
+  <div class="auth-visual">
+    <div class="auth-visual__overlay"></div>
+    <div class="auth-visual__content">
+      <div class="auth-visual__logo">
+        <img
+          src="assets/logo.png"
+          alt="Logo"
+          class="logo"
+          onerror="this.style.display='none'"
+        />
+      </div>
+      <h1 class="auth-visual__title">
+        Bem-vindo ao
+        <span class="gradient-text">Sistema VOXS</span>
+      </h1>
+      <p class="auth-visual__description">
+        Gerencie seus agendamentos e serviços de forma simples e eficiente.
+        Acesse sua conta e aproveite todos os recursos.
+      </p>
 
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
-        <div class="form-group">
-          <p-floatlabel>
-            <input
-              pInputText
-              id="email"
-              formControlName="email"
-              type="email"
-              [class.ng-invalid]="hasFieldError('email')"
-              class="w-full"
-              autocomplete="email"
-            />
-            <label for="email">Email</label>
-          </p-floatlabel>
+      <!-- Floating Cards -->
+      <div class="floating-cards">
+        <div class="floating-card floating-card--1">
+          <i class="pi pi-calendar"></i>
+          <span>Agendamentos</span>
+        </div>
+        <div class="floating-card floating-card--2">
+          <i class="pi pi-users"></i>
+          <span>Usuários</span>
+        </div>
+        <div class="floating-card floating-card--3">
+          <i class="pi pi-chart-line"></i>
+          <span>Dashboard</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side - Form -->
+  <div class="auth-form-wrapper">
+    <div class="auth-form-container">
+      <div class="auth-form-header">
+        <h2 class="auth-form-title">Entrar na sua conta</h2>
+        <p class="auth-form-subtitle">Digite seus dados para acessar</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+        <div class="form-field">
+          <label for="email" class="form-label">
+            <i class="pi pi-envelope"></i>
+            Email
+          </label>
+          <input
+            pInputText
+            id="email"
+            formControlName="email"
+            type="email"
+            [class.error]="hasFieldError('email')"
+            placeholder="seu@email.com"
+            autocomplete="email"
+          />
           <app-validate-input
             [control]="loginForm.get('email')!"
             [error]="getFieldError('email')"
           ></app-validate-input>
         </div>
 
-        <div class="form-group">
-          <p-floatlabel>
-            <p-password
-              formControlName="password"
-              inputId="password"
-              [feedback]="false"
-              [toggleMask]="true"
-              [class.ng-invalid]="hasFieldError('password')"
-              styleClass="w-full"
-              inputStyleClass="w-full"
-              autocomplete="current-password"
-            ></p-password>
-            <label for="password">Senha</label>
-          </p-floatlabel>
+        <div class="form-field">
+          <label for="password" class="form-label">
+            <i class="pi pi-lock"></i>
+            Senha
+          </label>
+          <p-password
+            formControlName="password"
+            inputId="password"
+            [feedback]="false"
+            [toggleMask]="true"
+            [class.error]="hasFieldError('password')"
+            styleClass="w-full"
+            inputStyleClass="w-full"
+            placeholder="Digite sua senha"
+            autocomplete="current-password"
+          ></p-password>
           <app-validate-input
             [control]="loginForm.get('password')!"
             [error]="getFieldError('password')"
           ></app-validate-input>
         </div>
 
-        <div class="form-actions">
-          <div class="forgot-password">
-            <a routerLink="/auth/forgot-password" class="forgot-link">
-              Esqueceu a senha?
-            </a>
-          </div>
-
-          <p-button
-            type="submit"
-            label="Entrar"
-            styleClass="w-full login-button"
-            [loading]="loading$ | async"
-            [disabled]="loading$ | async"
-          ></p-button>
+        <div class="form-options">
+          <a routerLink="/auth/forgot-password" class="forgot-link">
+            <i class="pi pi-question-circle"></i>
+            Esqueceu a senha?
+          </a>
         </div>
 
-        <p-divider align="center">
-          <span class="divider-text">ou</span>
-        </p-divider>
+        <p-button
+          type="submit"
+          label="Entrar"
+          icon="pi pi-sign-in"
+          styleClass="w-full auth-submit-btn"
+          [loading]="loading$ | async"
+          [disabled]="loading$ | async"
+        ></p-button>
 
-        <div class="register-section">
-          <p class="register-text">
+        <div class="auth-divider">
+          <span>ou</span>
+        </div>
+
+        <div class="auth-redirect">
+          <p>
             Não tem uma conta?
-            <a routerLink="/auth/register" class="register-link">
-              Criar conta
+            <a routerLink="/auth/register" class="redirect-link">
+              Criar conta gratuita
+              <i class="pi pi-arrow-right"></i>
             </a>
           </p>
         </div>
       </form>
-    </p-card>
+    </div>
   </div>
 </div>
-

@@ -1,0 +1,135 @@
+<p-sidebar
+  [(visible)]="visible"
+  position="right"
+  [style]="{ width: '400px' }"
+  [modal]="true"
+  styleClass="appointment-filters-sidebar"
+>
+  <ng-template pTemplate="header">
+    <div class="flex align-items-center gap-2">
+      <i class="pi pi-filter text-xl"></i>
+      <span class="font-semibold text-xl">Filtros de {{ terminology()?.appointment?.plural || 'Agendamentos' }}</span>
+    </div>
+  </ng-template>
+
+  <form [formGroup]="filterForm" class="flex flex-column gap-4">
+    <!-- Busca rápida -->
+    <div class="field">
+      <label for="search" class="block mb-2 font-medium">Buscar</label>
+      <span class="p-input-icon-left w-full">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          id="search"
+          formControlName="search"
+          placeholder="Buscar por nome, CPF..."
+          class="w-full"
+        />
+      </span>
+    </div>
+
+    <!-- Filtros rápidos -->
+    <div class="field">
+      <label class="block mb-2 font-medium">Período</label>
+      <div class="flex gap-2">
+        @for (option of quickFilterOptions; track option.value) {
+          <p-button
+            [label]="option.label"
+            [outlined]="filterForm.value.filter !== option.value"
+            severity="secondary"
+            size="small"
+            (onClick)="applyQuickFilter(option.value)"
+          />
+        }
+      </div>
+    </div>
+
+    <!-- Data De/Até -->
+    <div class="grid">
+      <div class="col-6">
+        <label for="dateFrom" class="block mb-2 font-medium">Data Início</label>
+        <p-calendar
+          inputId="dateFrom"
+          formControlName="dateFrom"
+          [showIcon]="true"
+          dateFormat="dd/mm/yy"
+          placeholder="De"
+          styleClass="w-full"
+        />
+      </div>
+      <div class="col-6">
+        <label for="dateTo" class="block mb-2 font-medium">Data Fim</label>
+        <p-calendar
+          inputId="dateTo"
+          formControlName="dateTo"
+          [showIcon]="true"
+          dateFormat="dd/mm/yy"
+          placeholder="Até"
+          styleClass="w-full"
+        />
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="field">
+      <label for="status" class="block mb-2 font-medium">Status</label>
+      <p-multiSelect
+        inputId="status"
+        formControlName="status"
+        [options]="statusOptions"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Selecione os status"
+        [showHeader]="false"
+        styleClass="w-full"
+      />
+    </div>
+
+    <!-- Status de Aprovação -->
+    <div class="field">
+      <label for="statusAprovacao" class="block mb-2 font-medium">Status de Aprovação</label>
+      <p-multiSelect
+        inputId="statusAprovacao"
+        formControlName="statusAprovacao"
+        [options]="approvalStatusOptions"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Selecione os status"
+        [showHeader]="false"
+        styleClass="w-full"
+      />
+    </div>
+
+    <!-- Modalidade -->
+    <div class="field">
+      <label for="modality" class="block mb-2 font-medium">Modalidade</label>
+      <p-dropdown
+        inputId="modality"
+        formControlName="modality"
+        [options]="modalityOptions"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Selecione a modalidade"
+        [showClear]="true"
+        styleClass="w-full"
+      />
+    </div>
+  </form>
+
+  <ng-template pTemplate="footer">
+    <div class="flex gap-2 justify-content-end">
+      <p-button
+        label="Limpar"
+        severity="secondary"
+        [outlined]="true"
+        icon="pi pi-times"
+        (onClick)="clearFilters()"
+      />
+      <p-button
+        label="Aplicar"
+        icon="pi pi-check"
+        (onClick)="applyFilters()"
+      />
+    </div>
+  </ng-template>
+</p-sidebar>

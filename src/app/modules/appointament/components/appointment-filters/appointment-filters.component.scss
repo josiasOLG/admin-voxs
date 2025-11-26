@@ -1,0 +1,17 @@
+/**
+ * Estilos para componente de filtros de agendamentos.
+ * Utiliza apenas PrimeFlex e variáveis CSS.
+ * NUNCA usa style inline.
+ */
+
+.appointment-filters-sidebar {
+  :host ::ng-deep {
+    .p-sidebar-content {
+      padding: 1.5rem;
+    }
+
+    .field {
+      margin-bottom: 0;
+    }
+  }
+}

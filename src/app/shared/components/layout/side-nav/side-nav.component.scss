@@ -10,6 +10,7 @@
   .__logo {
     padding-top: 10px;
     padding-left: 0;
+
     h2 {
       font-size: 16px;
       font-weight: 900;
@@ -32,6 +33,34 @@
       i {
         color: #333;
         font-size: 1.25rem;
+      }
+    }
+
+    .back-button {
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background-color: var(--surface-100);
+      color: var(--text-color-secondary);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      i {
+        font-size: 1.125rem;
+      }
+
+      &:hover {
+        background-color: var(--primary-color);
+        color: #fff;
+        transform: translateX(-2px);
+      }
+
+      &:active {
+        transform: scale(0.95);
       }
     }
   }

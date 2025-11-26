@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NoAuthGuard } from './guards/no-auth.guard';
+import { noAuthGuard } from './guards';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
@@ -16,31 +16,31 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    canActivate: [NoAuthGuard],
+    canActivate: [noAuthGuard],
     title: 'Login - Admin Barbearia',
   },
   {
     path: 'register',
     component: RegisterComponent,
-    canActivate: [NoAuthGuard],
+    canActivate: [noAuthGuard],
     title: 'Criar Conta - Admin Barbearia',
   },
   {
     path: 'forgot-password',
     component: ForgotPasswordComponent,
-    canActivate: [NoAuthGuard],
+    canActivate: [noAuthGuard],
     title: 'Esqueci a Senha - Admin Barbearia',
   },
   {
     path: 'verify-code',
     component: VerifyCodeComponent,
-    canActivate: [NoAuthGuard],
+    canActivate: [noAuthGuard],
     title: 'Verificar Código - Admin Barbearia',
   },
   {
     path: 'reset-password',
     component: ResetPasswordComponent,
-    canActivate: [NoAuthGuard],
+    canActivate: [noAuthGuard],
     title: 'Redefinir Senha - Admin Barbearia',
   },
 ];

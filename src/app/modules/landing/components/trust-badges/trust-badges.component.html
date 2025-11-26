@@ -1,0 +1,17 @@
+<div class="trust-badges">
+  @for (badge of badges; track badge.label; let idx = $index) {
+  <div class="trust-badges__card trust-badges__card--{{ idx + 1 }}">
+    <div class="trust-badges__icon-wrapper">
+      <i [class]="badge.icon + ' trust-badges__icon'"></i>
+      <div class="trust-badges__glow"></div>
+    </div>
+    <div class="trust-badges__content">
+      <h4 class="trust-badges__label">{{ badge.label }}</h4>
+      <p class="trust-badges__description">{{ badge.description }}</p>
+    </div>
+    <div class="trust-badges__check">
+      <i class="pi pi-check"></i>
+    </div>
+  </div>
+  }
+</div>

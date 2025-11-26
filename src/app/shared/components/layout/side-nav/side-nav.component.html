@@ -1,47 +1,67 @@
 <div class="flex flex-column h-full p-1 sidenav">
   <div class="text-left mb-4 __logo">
+    @if (isShowingRightNavContent()) {
+    <div class="flex align-items-center gap-2">
+      <button
+        class="back-button"
+        (click)="closeRightNavContent()"
+        title="Voltar ao menu principal"
+      >
+        <i class="pi pi-arrow-left"></i>
+      </button>
+      <h2 class="m-0 flex-1">{{ rightNavContentTitle() }}</h2>
+    </div>
+    } @else {
     <div class="flex align-items-center gap-2">
       <div class="logo-icon">
         <i class="pi pi-chart-line"></i>
       </div>
       <h2 class="m-0">Dashboard</h2>
     </div>
+    }
   </div>
 
   <div class="navigation-section flex-1 overflow-auto">
     <nav class="menu-nav">
-      <ng-container *ngFor="let item of menuItems">
-        <div *ngIf="item.section" class="menu-section-header">
-          {{ item.section }}
+      @for (item of menuItems(); track $index) { @if (item.section) {
+      <div class="menu-section-header">
+        {{ item.section }}
+      </div>
+      } @else {
+      <div
+        class="menu-item"
+        [class.has-children]="item.children"
+        (click)="handleClick(item)"
+      >
+        <div class="menu-item-content">
+          @if (item.icon) {
+          <i [class]="item.icon + ' menu-icon'"></i>
+          }
+          <span class="menu-label">{{ item.label }}</span>
+          @if (item.children) {
+          <i
+            class="pi pi-chevron-down menu-arrow"
+            [class.rotated]="isDropdownOpen(item)"
+          ></i>
+          }
         </div>
-
-        <div
-          *ngIf="!item.section"
-          class="menu-item"
-          [class.has-children]="item.children"
-          (click)="handleClick(item)"
-        >
-          <div class="menu-item-content">
-            <i *ngIf="item.icon" [class]="item.icon + ' menu-icon'"></i>
-            <span class="menu-label">{{ item.label }}</span>
-            <i
-              *ngIf="item.children"
-              class="pi pi-chevron-down menu-arrow"
-              [class.rotated]="isDropdownOpen(item)"
-            ></i>
+        @if (item.children && isDropdownOpen(item)) {
+        <div class="submenu">
+          @for (child of item.children; track $index) {
+          <div
+            class="submenu-item"
+            (click)="$event.stopPropagation(); handleClick(child)"
+          >
+            @if (child.icon) {
+            <i [class]="child.icon + ' submenu-icon'"></i>
+            }
+            <span>{{ child.label }}</span>
           </div>
-          <div *ngIf="item.children && isDropdownOpen(item)" class="submenu">
-            <div
-              *ngFor="let child of item.children"
-              class="submenu-item"
-              (click)="$event.stopPropagation(); handleClick(child)"
-            >
-              <i *ngIf="child.icon" [class]="child.icon + ' submenu-icon'"></i>
-              <span>{{ child.label }}</span>
-            </div>
-          </div>
+          }
         </div>
-      </ng-container>
+        }
+      </div>
+      } }
     </nav>
   </div>
 </div>

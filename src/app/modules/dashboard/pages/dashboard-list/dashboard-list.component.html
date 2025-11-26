@@ -1,45 +1,223 @@
-<app-shared-header></app-shared-header>
-
-<p-card styleClass="mt-3">
-  <div class="grid">
-    <div class="col-12 md:col-8">
-      <div class="field">
-        <label for="search" class="block text-900 font-medium mb-2"
-          >Buscar</label
-        >
-        <p-iconField iconPosition="left" class="w-full">
-          <p-inputIcon styleClass="pi pi-search"></p-inputIcon>
-          <input
-            pInputText
-            id="search"
-            placeholder="Digite para buscar..."
-            class="w-full"
-            (input)="applyFilter($event)"
-            [value]="searchValue"
-          />
-        </p-iconField>
-      </div>
+<div class="dashboard-container">
+  <!-- Header -->
+  <div class="dashboard-header">
+    <div class="header-content">
+      <h1 class="dashboard-title">
+        Dashboard
+        @if (terminology()) {
+          <span class="profile-badge" [style.background-color]="getPrimaryColor()">
+            {{ terminology()!.professional }}
+          </span>
+        }
+      </h1>
+      <p class="dashboard-subtitle">Visão geral do seu negócio</p>
     </div>
-    <div class="col-12 md:col-4">
-      <div class="flex justify-content-end align-items-end h-full">
-        <p-button
-          label="Novo Veículo"
-          icon="pi pi-plus"
-          (onClick)="goToCreate()"
-          styleClass="w-full md:w-auto"
-        >
-        </p-button>
-      </div>
-    </div>
+    <button
+      pButton
+      type="button"
+      icon="pi pi-refresh"
+      label="Atualizar"
+      class="p-button-outlined"
+      [disabled]="isLoading()"
+      (click)="refresh()"
+    ></button>
   </div>
 
-  <div class="mt-4">
-    <app-dashboard-table-list
-      [dataSource]="filteredData"
-      [displayedColumns]="displayedColumns"
-      (deleteItem)="excluir($event)"
-    >
-    </app-dashboard-table-list>
-  </div>
-</p-card>
+  <!-- Error Message -->
+  @if (error()) {
+    <div class="error-message">
+      <i class="pi pi-exclamation-circle"></i>
+      <span>{{ error() }}</span>
+    </div>
+  }
 
+  <!-- Stats Grid -->
+  <div class="stats-grid">
+    <!-- Agendamentos -->
+    @if (appointments()) {
+      <app-stat-card
+        [title]="(terminology()?.appointment?.plural) || 'Agendamentos'"
+        [value]="appointments()!.today"
+        [subtitle]="'Hoje'"
+        icon="pi-calendar"
+        [color]="getPrimaryColor()"
+        [trend]="appointments()!.attendanceRate"
+        [loading]="isLoading()"
+        route="/appointments"
+        actionLabel="Ver todos"
+      ></app-stat-card>
+
+      <app-stat-card
+        title="Esta Semana"
+        [value]="appointments()!.thisWeek"
+        [subtitle]="(terminology()?.appointment?.plural) || 'Agendamentos'"
+        icon="pi-calendar-plus"
+        color="#4CAF50"
+        [loading]="isLoading()"
+      ></app-stat-card>
+
+      <app-stat-card
+        title="Este Mês"
+        [value]="appointments()!.thisMonth"
+        [subtitle]="(terminology()?.appointment?.plural) || 'Agendamentos'"
+        icon="pi-calendar-times"
+        color="#2196F3"
+        [loading]="isLoading()"
+      ></app-stat-card>
+
+      <app-stat-card
+        title="Taxa de Comparecimento"
+        [value]="formatPercent(appointments()!.attendanceRate || 0)"
+        subtitle="Média do período"
+        icon="pi-check-circle"
+        color="#8BC34A"
+        [loading]="isLoading()"
+      ></app-stat-card>
+    }
+
+    <!-- Clientes -->
+    @if (clients()) {
+      <app-stat-card
+        [title]="(terminology()?.client?.plural) || 'Clientes'"
+        [value]="clients()!.total"
+        subtitle="Total"
+        icon="pi-users"
+        [color]="getSecondaryColor()"
+        [loading]="isLoading()"
+        route="/clients"
+        actionLabel="Gerenciar"
+      ></app-stat-card>
+
+      <app-stat-card
+        title="Novos Este Mês"
+        [value]="clients()!.newThisMonth"
+        [subtitle]="(terminology()?.client?.plural) || 'Clientes'"
+        icon="pi-user-plus"
+        color="#FF9800"
+        [trend]="clients()!.retentionRate"
+        [loading]="isLoading()"
+      ></app-stat-card>
+
+      <app-stat-card
+        title="Recorrentes"
+        [value]="clients()!.recurring"
+        [subtitle]="(terminology()?.client?.plural) || 'Clientes'"
+        icon="pi-replay"
+        color="#9C27B0"
+        [loading]="isLoading()"
+      ></app-stat-card>
+
+      <app-stat-card
+        title="Taxa de Retenção"
+        [value]="formatPercent(clients()!.retentionRate || 0)"
+        subtitle="Média do período"
+        icon="pi-chart-line"
+        color="#00BCD4"
+        [loading]="isLoading()"
+      ></app-stat-card>
+    }
+
+    <!-- Receita -->
+    @if (revenue()) {
+      <app-stat-card
+        title="Receita Hoje"
+        [value]="formatCurrency(revenue()!.today)"
+        subtitle="Confirmado"
+        icon="pi-dollar"
+        color="#4CAF50"
+        [loading]="isLoading()"
+      ></app-stat-card>
+
+      <app-stat-card
+        title="Receita do Mês"
+        [value]="formatCurrency(revenue()!.thisMonth)"
+        subtitle="Confirmado"
+        icon="pi-money-bill"
+        color="#2196F3"
+        [trend]="revenue()!.growthRate"
+        [loading]="isLoading()"
+        route="/reports/revenue"
+        actionLabel="Ver relatório"
+      ></app-stat-card>
+
+      <app-stat-card
+        title="Receita Estimada"
+        [value]="formatCurrency(revenue()!.estimated)"
+        subtitle="Agendado"
+        icon="pi-clock"
+        color="#FF9800"
+        [loading]="isLoading()"
+      ></app-stat-card>
+
+      <app-stat-card
+        title="Ticket Médio"
+        [value]="formatCurrency(revenue()!.averageTicket)"
+        subtitle="Por atendimento"
+        icon="pi-chart-bar"
+        color="#9C27B0"
+        [loading]="isLoading()"
+      ></app-stat-card>
+    }
+
+    <!-- Ocupação -->
+    @if (occupancy()) {
+      <app-stat-card
+        title="Ocupação Hoje"
+        [value]="formatPercent(occupancy()!.today)"
+        [subtitle]="occupancy()!.availableSlotsToday + ' horários disponíveis'"
+        icon="pi-clock"
+        color="#FF5722"
+        [loading]="isLoading()"
+      ></app-stat-card>
+
+      <app-stat-card
+        title="Ocupação Semanal"
+        [value]="formatPercent(occupancy()!.thisWeek)"
+        subtitle="Esta semana"
+        icon="pi-calendar"
+        color="#673AB7"
+        [loading]="isLoading()"
+      ></app-stat-card>
+
+      <app-stat-card
+        title="Ocupação Mensal"
+        [value]="formatPercent(occupancy()!.thisMonth)"
+        subtitle="Este mês"
+        icon="pi-calendar-times"
+        color="#3F51B5"
+        [loading]="isLoading()"
+      ></app-stat-card>
+
+      <app-stat-card
+        title="Horários Disponíveis"
+        [value]="occupancy()!.availableSlotsToday + ' / ' + occupancy()!.totalSlotsToday"
+        subtitle="Hoje"
+        icon="pi-check-square"
+        color="#009688"
+        [loading]="isLoading()"
+      ></app-stat-card>
+    }
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions-container">
+    <app-quick-actions
+      [actions]="quickActions()"
+      [title]="'Ações Rápidas'"
+    ></app-quick-actions>
+  </div>
+
+  <!-- Charts Section (Future Implementation) -->
+  <!--
+  <div class="charts-section">
+    <div class="chart-card">
+      <h3>Agendamentos por Dia</h3>
+      <div class="chart-placeholder">Gráfico será implementado em breve</div>
+    </div>
+    <div class="chart-card">
+      <h3>Receita por Período</h3>
+      <div class="chart-placeholder">Gráfico será implementado em breve</div>
+    </div>
+  </div>
+  -->
+</div>

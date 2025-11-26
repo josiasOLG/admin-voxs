@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
@@ -9,7 +12,16 @@ import { ICategory } from '../../interfaces/app-service.interface';
 @Component({
   selector: 'app-category-table',
   standalone: true,
-  imports: [CommonModule, ButtonModule, TableModule, TagModule, TooltipModule],
+  imports: [
+    CommonModule,
+    ButtonModule,
+    IconFieldModule,
+    InputIconModule,
+    InputTextModule,
+    TableModule,
+    TagModule,
+    TooltipModule,
+  ],
   templateUrl: './category-table.component.html',
   styleUrls: ['./category-table.component.scss'],
 })

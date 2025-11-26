@@ -1,0 +1,27 @@
+<div class="testimonials">
+  <p-carousel
+    [value]="testimonials()"
+    [numVisible]="3"
+    [numScroll]="1"
+    [circular]="true"
+    [autoplayInterval]="5000"
+    [responsiveOptions]="responsiveOptions"
+  >
+    <ng-template let-testimonial pTemplate="item">
+      <div class="testimonials__card">
+        <div class="testimonials__stars">
+          @for (star of stars; track star) {
+          <i class="pi pi-star-fill testimonials__star"></i>
+          }
+        </div>
+        <p class="testimonials__text">"{{ testimonial.text }}"</p>
+        <div class="testimonials__author">
+          <strong class="testimonials__author-name">{{
+            testimonial.author
+          }}</strong>
+          <span class="testimonials__author-role">{{ testimonial.role }}</span>
+        </div>
+      </div>
+    </ng-template>
+  </p-carousel>
+</div>

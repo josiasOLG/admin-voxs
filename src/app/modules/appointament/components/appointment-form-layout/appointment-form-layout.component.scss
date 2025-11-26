@@ -1,0 +1,70 @@
+.appointment-form-layout {
+  padding: 1rem;
+
+  .layout-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .layout-container {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 1.5rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .layout-sidebar {
+    ::ng-deep {
+      .p-panel {
+        .p-panel-content {
+          padding: 0;
+        }
+      }
+
+      .p-menu {
+        border: none;
+
+        .p-menuitem {
+          .p-menuitem-link {
+            padding: 1rem;
+            transition: all 0.3s ease;
+
+            &:hover {
+              background: var(--surface-hover);
+            }
+
+            &.active-menu-item {
+              background: var(--primary-color);
+              color: var(--primary-color-text);
+              font-weight: 600;
+
+              .p-menuitem-icon {
+                color: var(--primary-color-text);
+              }
+            }
+
+            .p-menuitem-icon {
+              margin-right: 0.75rem;
+              font-size: 1.25rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .layout-content {
+    ::ng-deep {
+      .p-panel {
+        .p-panel-content {
+          padding: 1.5rem;
+        }
+      }
+    }
+  }
+}

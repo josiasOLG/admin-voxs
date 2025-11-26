@@ -1,0 +1,44 @@
+<p-card [style]="{ 'border-top': '4px solid ' + color }" styleClass="stat-card">
+  <div class="stat-card-header">
+    <div class="stat-icon" [ngClass]="iconClass" [style.background-color]="color + '20'">
+      <i [class]="'pi ' + icon" [style.color]="color"></i>
+    </div>
+    <div class="stat-info">
+      <span class="stat-title">{{ title }}</span>
+      @if (subtitle) {
+        <span class="stat-subtitle">{{ subtitle }}</span>
+      }
+    </div>
+  </div>
+
+  <div class="stat-card-body">
+    @if (loading) {
+      <div class="loading-skeleton">
+        <p-skeleton width="60%" height="2rem"></p-skeleton>
+        <p-skeleton width="40%" height="1.25rem" styleClass="mt-2"></p-skeleton>
+      </div>
+    } @else {
+      <div class="stat-value">{{ formattedValue }}</div>
+
+      @if (trend !== undefined && trend !== null) {
+        <div class="stat-trend" [ngClass]="trendClass()">
+          <i [class]="'pi ' + trendIcon()"></i>
+          <span>{{ trendText() }}</span>
+        </div>
+      }
+    }
+  </div>
+
+  @if (route) {
+    <div class="stat-card-footer">
+      <button
+        pButton
+        type="button"
+        [label]="actionLabel"
+        [icon]="'pi pi-' + actionIcon"
+        class="p-button-text p-button-sm"
+        (click)="onAction()"
+      ></button>
+    </div>
+  }
+</p-card>

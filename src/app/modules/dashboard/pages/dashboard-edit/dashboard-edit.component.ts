@@ -14,7 +14,7 @@ import {
   ValidateInputComponent,
 } from '../../../../shared/components';
 import { initVeiculoForm, IVeiculo } from '../../schema';
-import { DashboardService } from '../../services';
+import { VeiculoService } from '../../services/veiculo.service';
 
 @Component({
   standalone: true,
@@ -38,7 +38,7 @@ export class DashboardEditComponent
   implements OnInit
 {
   public form = initVeiculoForm();
-  private readonly dashboardService = inject(DashboardService);
+  private readonly veiculoService = inject(VeiculoService);
 
   ngOnInit(): void {
     const vehicle = this.getRouteData<ApiResponse<IVeiculo>>('dashboard');
@@ -72,7 +72,7 @@ export class DashboardEditComponent
       ano: raw.ano ?? undefined,
     };
 
-    this.dashboardService.update(id, payload).subscribe({
+    this.veiculoService.update(id, payload).subscribe({
       next: () => {
         this.showSuccess('Veículo atualizado com sucesso');
         this.goTo([AppRoutes.DASHBOARD]);

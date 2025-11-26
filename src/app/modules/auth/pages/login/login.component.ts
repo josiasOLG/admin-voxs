@@ -3,9 +3,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
-import { DividerModule } from 'primeng/divider';
-import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
@@ -23,9 +20,6 @@ import { AuthService } from '../../services/auth.service';
     ButtonModule,
     InputTextModule,
     PasswordModule,
-    FloatLabelModule,
-    CardModule,
-    DividerModule,
     ProgressSpinnerModule,
     ValidateInputComponent,
   ],

@@ -1,0 +1,154 @@
+<div class="appointment-client-form">
+  <form [formGroup]="clientForm" class="form-container">
+    <h3 class="form-title">Dados do Cliente</h3>
+
+    <div class="grid">
+      <!-- Nome -->
+      <div class="col-12 md:col-6">
+        <div class="flex-col gap-2">
+          <label for="userName">Nome Completo *</label>
+          <input
+            pInputText
+            id="userName"
+            formControlName="userName"
+            placeholder="Digite o nome completo"
+            [class.ng-invalid]="isFieldInvalid('userName')"
+          />
+          <small class="p-error" *ngIf="isFieldInvalid('userName')">
+            {{ getFieldError('userName') }}
+          </small>
+        </div>
+      </div>
+
+      <!-- Telefone -->
+      <div class="col-12 md:col-6">
+        <div class="flex-col gap-2">
+          <label for="userNumber">Telefone *</label>
+          <p-inputMask
+            id="userNumber"
+            formControlName="userNumber"
+            mask="(99) 99999-9999"
+            placeholder="(00) 00000-0000"
+            [class.ng-invalid]="isFieldInvalid('userNumber')"
+          />
+          <small class="p-error" *ngIf="isFieldInvalid('userNumber')">
+            {{ getFieldError('userNumber') }}
+          </small>
+        </div>
+      </div>
+
+      <!-- E-mail -->
+      <div class="col-12 md:col-6">
+        <div class="flex-col gap-2">
+          <label for="userEmail">E-mail *</label>
+          <input
+            pInputText
+            id="userEmail"
+            formControlName="userEmail"
+            type="email"
+            placeholder="exemplo@email.com"
+            [class.ng-invalid]="isFieldInvalid('userEmail')"
+          />
+          <small class="p-error" *ngIf="isFieldInvalid('userEmail')">
+            {{ getFieldError('userEmail') }}
+          </small>
+        </div>
+      </div>
+
+      <!-- CPF -->
+      <div class="col-12 md:col-6">
+        <div class="flex-col gap-2">
+          <label for="userCpf">CPF</label>
+          <p-inputMask
+            id="userCpf"
+            formControlName="userCpf"
+            mask="999.999.999-99"
+            placeholder="000.000.000-00"
+          />
+        </div>
+      </div>
+
+      <!-- Endereço (Opcional) -->
+      <div class="col-12">
+        <h4 class="text-lg font-semibold mt-3 mb-2">Endereço (Opcional)</h4>
+      </div>
+
+      <!-- CEP -->
+      <div class="col-12 md:col-3">
+        <div class="flex-col gap-2">
+          <label for="zipCode">CEP</label>
+          <p-inputMask
+            id="zipCode"
+            formControlName="zipCode"
+            mask="99999-999"
+            placeholder="00000-000"
+          />
+        </div>
+      </div>
+
+      <!-- Endereço -->
+      <div class="col-12 md:col-9">
+        <div class="flex-col gap-2">
+          <label for="street">Endereço</label>
+          <input
+            pInputText
+            id="street"
+            formControlName="street"
+            placeholder="Rua, número"
+          />
+        </div>
+      </div>
+
+      <!-- Bairro -->
+      <div class="col-12 md:col-4">
+        <div class="flex-col gap-2">
+          <label for="neighborhood">Bairro</label>
+          <input
+            pInputText
+            id="neighborhood"
+            formControlName="neighborhood"
+            placeholder="Nome do bairro"
+          />
+        </div>
+      </div>
+
+      <!-- Cidade -->
+      <div class="col-12 md:col-4">
+        <div class="flex-col gap-2">
+          <label for="city">Cidade</label>
+          <input
+            pInputText
+            id="city"
+            formControlName="city"
+            placeholder="Nome da cidade"
+          />
+        </div>
+      </div>
+
+      <!-- Estado -->
+      <div class="col-12 md:col-4">
+        <div class="flex-col gap-2">
+          <label for="state">Estado</label>
+          <input
+            pInputText
+            id="state"
+            formControlName="state"
+            placeholder="UF"
+            maxlength="2"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Ações -->
+    <div class="form-actions mt-4 flex justify-content-end gap-2">
+      <p-button
+        label="Próximo"
+        icon="pi pi-arrow-right"
+        iconPos="right"
+        (onClick)="next()"
+        [loading]="loading()"
+      />
+    </div>
+  </form>
+</div>

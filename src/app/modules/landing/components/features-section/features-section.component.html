@@ -1,0 +1,20 @@
+<section class="features">
+  <div class="features__header">
+    <h2 class="features__title">Recursos Poderosos</h2>
+    <p class="features__description">
+      Tudo que você precisa para gerenciar seu negócio de forma profissional
+    </p>
+  </div>
+
+  <div class="features__grid">
+    @for (feature of features(); track feature.title) {
+    <div class="features__card">
+      <div class="features__icon">
+        <i [class]="feature.icon"></i>
+      </div>
+      <h3 class="features__card-title">{{ feature.title }}</h3>
+      <p class="features__card-description">{{ feature.description }}</p>
+    </div>
+    }
+  </div>
+</section>
